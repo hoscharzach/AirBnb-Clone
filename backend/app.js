@@ -6,7 +6,7 @@ const cors = require('cors')
 const csurf = require('csurf')
 const helmet = require('helmet')
 const cookieParser = require('cookie-parser')
-
+const { ValidationError } = require('sequelize')
 const { environment } = require('./config')
 // creates a variable that will resolve to true if the environment is in production
 const isProduction = environment === 'production'
@@ -51,5 +51,21 @@ app.use(csurf({
 const routes = require('./routes')
 app.use(routes)
 
+
+app.use((req, res, next) => {
+    const err = new Error("The requested resource could not be found")
+    err.title = "Resource Not Found"
+    err.errors = ["The requested resource couldn't be found"]
+    err.status = 404
+    next(err)
+})
+
+app.use((err, req, res, next) => {
+    if(err instanceof ValidationError) {
+        err.errors = err.errors.map((e) => e.message)
+        err.title = 'Validation error'
+    }
+    next(err)
+})
 
 module.exports = app
