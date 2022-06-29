@@ -1,16 +1,29 @@
 const router = require('express').Router()
-const { setTokenCookie } = require('../../utils/auth.js')
-const { User } = require('../../db/models')
+const sessionRouter = require('./session.js')
+const usersRouter = require('./users.js')
 const { restoreUser } = require('../../utils/auth.js')
-const { requireAuth } = require('../../utils/auth.js')
+
+// IMPORTS FOR TESTING
+
+// const { setTokenCookie } = require('../../utils/auth.js')
+// const { User } = require('../../db/models')
+// const { requireAuth } = require('../../utils/auth.js')
+
 
 // if current user session is valid, req.user is the user in the database
 // if the current sessions is not valid, set req.user to null
 router.use(restoreUser)
 
+router.use('/session', sessionRouter)
+
+router.use('users', usersRouter)
+
+router.post('/test/', (req, res) => {
+    res.json({requestBody: req.body})
+})
 
 
-
+module.exports = router
 
 
 
@@ -40,4 +53,3 @@ router.use(restoreUser)
 // router.post('/test', (req, res) => {
 //     res.json({requestBody: req.body})
 // })
-module.exports = router
