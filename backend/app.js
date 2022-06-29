@@ -51,7 +51,7 @@ app.use(csurf({
 const routes = require('./routes')
 app.use(routes)
 
-
+// if we get to the end of the app with no route handlers, then make it 404 and say the resource couldn't be found
 app.use((req, res, next) => {
     const err = new Error("The requested resource could not be found")
     err.title = "Resource Not Found"
@@ -60,12 +60,27 @@ app.use((req, res, next) => {
     next(err)
 })
 
+// if it's a sequelize error, it's a database validation error, so map through all the errors and change the titles to validation errors
 app.use((err, req, res, next) => {
     if(err instanceof ValidationError) {
         err.errors = err.errors.map((e) => e.message)
         err.title = 'Validation error'
     }
     next(err)
+})
+
+// format the errors that have accumulated through the request
+app.use((err, req, res, next) => {
+    // set the status to the error's status, otherwise default to server failure
+    res.status(err.status || 500)
+    console.log(err)
+    res.json({
+        title: err.title || 'Server Error',
+        message: err.message,
+        errors: err.errors,
+        // check if we're in production - if we are, don't show error details, otherwise we're in development and can print the error stack
+        stack: isProduction ? null : err.stack
+    })
 })
 
 module.exports = app
