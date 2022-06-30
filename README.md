@@ -1,4 +1,6 @@
-# `<name of application here>`
+# `AirBnb Clone`
+
+![DB Schema](dbSchema.png)
 
 ## Database Schema Design
 
@@ -387,7 +389,7 @@ Creates and returns a new spot.
       "description": "Place where web developers are created",
       "price": 123,
       "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-19 20:39:36" 
+      "updatedAt": "2021-11-19 20:39:36"
     }
     ```
 
@@ -462,7 +464,7 @@ Updates and returns an existing spot.
       "description": "Place where web developers are created",
       "price": 123,
       "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-20 10:06:40" 
+      "updatedAt": "2021-11-20 10:06:40"
     }
     ```
 
@@ -523,7 +525,7 @@ Deletes an existing spot.
     ```json
     {
       "message": "Successfully deleted",
-      "statusCode": 200 
+      "statusCode": 200
     }
     ```
 
@@ -678,7 +680,7 @@ Create and return a new review for a spot specified by id.
       "review": "This was an awesome spot!",
       "stars": 5,
       "createdAt": "2021-11-19 20:39:36",
-      "updatedAt": "2021-11-19 20:39:36" 
+      "updatedAt": "2021-11-19 20:39:36"
     }
     ```
 
@@ -813,7 +815,7 @@ Delete an existing review.
     ```json
     {
       "message": "Successfully deleted",
-      "statusCode": 200 
+      "statusCode": 200
     }
     ```
 
