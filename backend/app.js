@@ -73,7 +73,7 @@ app.use((err, req, res, next) => {
 app.use((err, req, res, next) => {
     // set the status to the error's status, otherwise default to server failure
     res.status(err.status || 500)
-    console.log(err)
+    // console.log(err)
     res.json({
         title: err.title || 'Server Error',
         message: err.message,
