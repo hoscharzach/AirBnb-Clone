@@ -38,7 +38,21 @@ module.exports = (sequelize, DataTypes) => {
       return await User.findByPk(user.id)
     }
     static associate(models) {
-      // define association here
+      User.hasMany(models.Review, {
+        foreignKey: 'userId', hooks:true
+      })
+
+      User.hasMany(models.Spot, {
+        foreignKey: 'ownerId', onDelete: 'CASCADE', hooks: true
+      })
+
+      User.belongsToMany(models.Spot, {
+        through: models.Booking
+      })
+
+      User.hasMany(models.Image, {
+        foreignKey: 'userId'
+      })
     }
   }
   User.init({
