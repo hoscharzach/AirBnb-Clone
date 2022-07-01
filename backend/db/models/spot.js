@@ -15,7 +15,8 @@ module.exports = (sequelize, DataTypes) => {
       })
 
       Spot.belongsTo(models.User, {
-        foreignKey: 'ownerId'
+        foreignKey: 'ownerId',
+        as: 'Owner'
       })
 
       Spot.hasMany(models.Review, {
@@ -23,7 +24,8 @@ module.exports = (sequelize, DataTypes) => {
       })
 
       Spot.hasMany(models.Image, {
-        foreignKey: 'spotId'
+        foreignKey: 'spotId',
+        as: 'Pics'
       })
     }
   }
@@ -72,13 +74,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT,
       allowNull: false
     },
+    previewImage: {
+      type: DataTypes.STRING,
+    },
     ownerId: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: {
-        model: 'Users',
-        key: 'id'
-      }
     },
   }, {
     sequelize,
