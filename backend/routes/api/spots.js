@@ -21,7 +21,6 @@ router.get('/:spotId', async (req, res, next) => {
         include: [
             'Owner',
             'Pics',
-            'Reviews'
         ],
         attributes: {
             exclude: ['ownerId']
@@ -39,7 +38,10 @@ router.get('/:spotId', async (req, res, next) => {
         // }
 
     })
-    const reviews = spot.Reviews
+    const spotReviews = await Spot.findByPk(id, {
+        include: 'Reviews'
+    })
+    const reviews = spotReviews.Reviews
     let total = 0
     reviews.forEach(el => {
         total += el.stars
