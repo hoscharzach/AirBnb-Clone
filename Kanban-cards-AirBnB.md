@@ -1,34 +1,34 @@
 # Kanban Project Board Cards
 
-The following cards will guide the implementation of the AirBnB API. Each 
-section should be copied into it's own card on the Kanban project board. 
-Each feature's progress should be tracked by checking off requirements as they 
-are met and progressing the cards from the `Backlog`, `Next Tasks`, 
+The following cards will guide the implementation of the AirBnB API. Each
+section should be copied into it's own card on the Kanban project board.
+Each feature's progress should be tracked by checking off requirements as they
+are met and progressing the cards from the `Backlog`, `Next Tasks`,
 `In Progress`, `In Review`, and `Accepted` columns.
 
 
 ## Kanban Cards
 
-Copy each of the following sections into its own card on a Kanban board for the 
-project. GitHub Kanban boards use markdown formatting, allowing these sections 
+Copy each of the following sections into its own card on a Kanban board for the
+project. GitHub Kanban boards use markdown formatting, allowing these sections
 to be copied directly:
 
 
 ### Authentication Required
 
-All endpoints that require a current user to be logged in receive a standard 
+All endpoints that require a current user to be logged in receive a standard
 authentication response.
 
-- [ ] Authentication middleware responds with error status 401 when 
+- [ ] Authentication middleware responds with error status 401 when
   authentication is not provided
 
 
 ### Authorization Required
 
-All endpoints that require a current user to have the correct role(s) or 
+All endpoints that require a current user to have the correct role(s) or
 permission(s) receive a standard authorization response.
 
-- [ ] Authorization middleware responds with error status 403 when 
+- [ ] Authorization middleware responds with error status 403 when
   an authenticated user does not have the correct role(s) or permission(s)
 
 
@@ -38,11 +38,11 @@ Creates a new user, logs them in as the current user, and returns the current
 user's information.
 
 - [ ] New user exists in the database after request
-- [ ] Successful response includes newly created `id`, `firstName`, `lastName`, 
+- [ ] Successful response includes newly created `id`, `firstName`, `lastName`,
   `email`, and `token`
-- [ ] Error response with status 403 is given when the specified email already 
+- [ ] Error response with status 403 is given when the specified email already
 exists
-- [ ] Error response with status 400 is given when body validations for the 
+- [ ] Error response with status 400 is given when body validations for the
   `email`, `firstName`, or `lastName` are violated
 
 
@@ -51,10 +51,10 @@ exists
 Logs in a current user with valid credentials and returns the current user's
 information.
 
-- [ ] Successful response includes the user's `id`, `firstName`, `lastName`, 
+- [ ] Successful response includes the user's `id`, `firstName`, `lastName`,
   `email`, and `token`
 - [ ] Error response with status 401 is given when invalid credentials are given
-- [ ] Error response with status 400 is given when body validations for the 
+- [ ] Error response with status 400 is given when body validations for the
   `email`, `firstName`, or `lastName` are violated
 
 
@@ -63,7 +63,7 @@ information.
 Returns the information about the current user that is logged in.
 
 - [ ] An authenticated user is required for a successful response
-- [ ] Successful response includes the user's `id`, `firstName`, `lastName`, 
+- [ ] Successful response includes the user's `id`, `firstName`, `lastName`,
   `email`, and `token`
 
 
@@ -73,7 +73,7 @@ Returns all the spots.
 
 - [ ] Seed data exists in the database for spots to be returned.
 - [ ] Successful response includes each spot in the database.
-- [ ] Spot data returned includes the `id`, `ownerId`, `address`, `city`, 
+- [ ] Spot data returned includes the `id`, `ownerId`, `address`, `city`,
   `state`, `country`, `lat`, `lng`, `name`, `description`, `price`, `createdAt`,
   `updatedAt`, and `previewImage`
 
@@ -84,7 +84,7 @@ Returns all the spots owned (created) by the current user.
 
 - [ ] An authenticated user is required for a successful response
 - [ ] Successful response includes only spots created by the current user
-- [ ] Spot data returned includes the `id`, `ownerId`, `address`, `city`, 
+- [ ] Spot data returned includes the `id`, `ownerId`, `address`, `city`,
   `state`, `country`, `lat`, `lng`, `name`, `description`, `price`, `createdAt`,
   `updatedAt`, and `previewImage`
 
@@ -94,14 +94,14 @@ Returns all the spots owned (created) by the current user.
 Returns the details of a spot specified by its id.
 
 - [ ] Successful response includes data only for the specified spot
-- [ ] Spot data returned includes the `id`, `ownerId`, `address`, `city`, 
+- [ ] Spot data returned includes the `id`, `ownerId`, `address`, `city`,
   `state`, `country`, `lat`, `lng`, `name`, `description`, `price`, `createdAt`,
   and `updatedAt`
 - [ ] Spot data returns aggregate data for `numReviews` and `avgStarRating`
 - [ ] Spot data returns associated data for `images`, an array of image urls
 - [ ] Spot data returns associated data for `Owner`, including the `id`,
   `firstName`, and `lastName`
-- [ ] Error response with status 404 is given when a spot does not exist with 
+- [ ] Error response with status 404 is given when a spot does not exist with
   the provided `id`
 
 
@@ -111,10 +111,10 @@ Creates and returns a new spot.
 
 - [ ] An authenticated user is required for a successful response
 - [ ] New spot exists in the database after request
-- [ ] Spot data returned includes the `id`, `ownerId`, `address`, `city`, 
+- [ ] Spot data returned includes the `id`, `ownerId`, `address`, `city`,
   `state`, `country`, `lat`, `lng`, `name`, `description`, `price`, `createdAt`,
   and `updatedAt`
-- [ ] Error response with status 400 is given when body validations for the 
+- [ ] Error response with status 400 is given when body validations for the
   `address`, `city`, `state`, `country`, `lat`, `lng`, `name`, `description`, or `price` are violated
 
 
@@ -125,12 +125,12 @@ Updates and returns an existing spot.
 - [ ] An authenticated user is required for a successful response
 - [ ] Only the owner of the spot is authorized to edit
 - [ ] Spot record is updated in the database after request
-- [ ] Spot data returned includes the `id`, `ownerId`, `address`, `city`, 
+- [ ] Spot data returned includes the `id`, `ownerId`, `address`, `city`,
   `state`, `country`, `lat`, `lng`, `name`, `description`, `price`, `createdAt`,
   and `updatedAt`
-- [ ] Error response with status 400 is given when body validations for the 
+- [ ] Error response with status 400 is given when body validations for the
   `address`, `city`, `state`, `country`, `lat`, `lng`, `name`, `description`, or `price` are violated
-- [ ] Error response with status 404 is given when a spot does not exist with 
+- [ ] Error response with status 404 is given when a spot does not exist with
   the provided `id`
 
 
@@ -142,7 +142,7 @@ Deletes an existing spot.
 - [ ] Only the owner of the spot is authorized to delete
 - [ ] Spot record is removed from the database after request
 - [ ] Success response includes a `message` indicating a successful deletion
-- [ ] Error response with status 404 is given when a spot does not exist with 
+- [ ] Error response with status 404 is given when a spot does not exist with
   the provided `id`
 
 
@@ -152,12 +152,12 @@ Returns all the reviews written by the current user.
 
 - [ ] An authenticated user is required for a successful response
 - [ ] Successful response includes only reviews created by the current user
-- [ ] Review data returned includes the `id`, `userId`, `spotId`, `review`, 
+- [ ] Review data returned includes the `id`, `userId`, `spotId`, `review`,
   `stars`, `createdAt`, and `updatedAt`
 - [ ] Review data returns associated data for `User`, including the `id`,
   `firstName`, and `lastName`
 - [ ] Review data returns associated data for `Spot`, including the `id`,
-  `ownderId`, `address`, `city`, `state`, `country`, `lat`, `lng`, `name`, and 
+  `ownderId`, `address`, `city`, `state`, `country`, `lat`, `lng`, `name`, and
   `price`
 - [ ] Review data returns associated data for `images`, an array of image urls
 
@@ -168,12 +168,12 @@ Returns all the reviews that belong to a spot specified by id.
 
 - [ ] Seed data exists in the database for reviews to be returned.
 - [ ] Successful response includes only reviews for the specified spot
-- [ ] Review data returned includes the `id`, `userId`, `spotId`, `review`, 
+- [ ] Review data returned includes the `id`, `userId`, `spotId`, `review`,
   `stars`, `createdAt`, and `updatedAt`
 - [ ] Review data returns associated data for `User`, including the `id`,
   `firstName`, and `lastName`
 - [ ] Review data returns associated data for `images`, an array of image urls
-- [ ] Error response with status 404 is given when a spot does not exist with 
+- [ ] Error response with status 404 is given when a spot does not exist with
   the provided `id`
 
 
@@ -183,13 +183,13 @@ Create and return a new review for a spot specified by id.
 
 - [ ] An authenticated user is required for a successful response
 - [ ] New review exists in the database after request
-- [ ] Review data returned includes the `id`, `userId`, `spotId`, `review`, 
+- [ ] Review data returned includes the `id`, `userId`, `spotId`, `review`,
   `stars`, `createdAt`, and `updatedAt`
-- [ ] Error response with status 400 is given when body validations for the 
+- [ ] Error response with status 400 is given when body validations for the
   `review` or `stars` are violated
-- [ ] Error response with status 404 is given when a spot does not exist with 
+- [ ] Error response with status 404 is given when a spot does not exist with
   the provided `id`
-- [ ] Error response with status 403 is given when a review already exists for 
+- [ ] Error response with status 403 is given when a review already exists for
   the spot from the current user
 
 
@@ -200,11 +200,11 @@ Update and return an existing review.
 - [ ] An authenticated user is required for a successful response
 - [ ] Only the owner of the review is authorized to edit
 - [ ] Review record is updated in the database after request
-- [ ] Review data returned includes the `id`, `userId`, `spotId`, `review`, 
+- [ ] Review data returned includes the `id`, `userId`, `spotId`, `review`,
   `stars`, `createdAt`, and `updatedAt`
-- [ ] Error response with status 400 is given when body validations for the 
+- [ ] Error response with status 400 is given when body validations for the
   `review`, or `stars` are violated
-- [ ] Error response with status 404 is given when a review does not exist with 
+- [ ] Error response with status 404 is given when a review does not exist with
   the provided `id`
 
 
@@ -216,7 +216,7 @@ Delete an existing review.
 - [ ] Only the owner of the review is authorized to delete
 - [ ] Review record is removed from the database after request
 - [ ] Success response includes a `message` indicating a successful deletion
-- [ ] Error response with status 404 is given when a spot does not exist with 
+- [ ] Error response with status 404 is given when a spot does not exist with
   the provided `id`
 
 
@@ -226,10 +226,10 @@ Return all the bookings that the current user has made.
 
 - [ ] An authenticated user is required for a successful response
 - [ ] Successful response includes only bookings created by the current user
-- [ ] Booking data returned includes the `id`, `spotId`, `userId`, `startDate`, 
+- [ ] Booking data returned includes the `id`, `spotId`, `userId`, `startDate`,
   `endDate`, `createdAt`, and `updatedAt`
 - [ ] Booking data returns associated data for `Spot`, including the `id`,
-  `ownerId`, `address`, `city`, `state`, `country`, `lat`, `lng`, `name`, 
+  `ownerId`, `address`, `city`, `state`, `country`, `lat`, `lng`, `name`,
   `price` and `previewImage`
 
 
@@ -240,14 +240,14 @@ Return all the bookings for a spot specified by id.
 - [ ] An authenticated user is required for a successful response
 - [ ] Seed data exists in the database for bookings to be returned.
 - [ ] Successful response includes only bookings for the specified spot
-- [ ] If you are NOT the owner of the spot, booking data returned includes the 
+- [ ] If you are NOT the owner of the spot, booking data returned includes the
   `spotId`, `startDate`, and `endDate` for each booking
 - [ ] If you ARE the owner of the spot, booking data returned includes the `id`
-  `spotId`, `userId`, `startDate`, `endDate`, `createdAt`, and `updatedAt` for 
+  `spotId`, `userId`, `startDate`, `endDate`, `createdAt`, and `updatedAt` for
   each booking
-- [ ] If you ARE the owner of the spot, booking data returns associated data for 
+- [ ] If you ARE the owner of the spot, booking data returns associated data for
   `User`, including the `id`, `firstName`, and `lastName`
-- [ ] Error response with status 404 is given when a spot does not exist with 
+- [ ] Error response with status 404 is given when a spot does not exist with
   the provided `id`
 
 
@@ -258,11 +258,11 @@ Create and return a new booking from a spot specified by id.
 - [ ] An authenticated user is required for a successful response
 - [ ] A user is only authorized to create a booking if they do NOT own the spot
 - [ ] New booking exists in the database after request
-- [ ] Booking data returned includes the `id`, `userId`, `spotId`, `startDate`, 
+- [ ] Booking data returned includes the `id`, `userId`, `spotId`, `startDate`,
   `endDate`, `createdAt`, and `updatedAt`
-- [ ] Error response with status 404 is given when a spot does not exist with 
+- [ ] Error response with status 404 is given when a spot does not exist with
   the provided `id`
-- [ ] Error response with status 403 is given when a booking already exists for 
+- [ ] Error response with status 403 is given when a booking already exists for
   the spot on the specified dates
 
 
@@ -273,13 +273,13 @@ Update and return an existing booking.
 - [ ] An authenticated user is required for a successful response
 - [ ] Only the owner of the booking is authorized to edit
 - [ ] Booking record is updated in the database after request
-- [ ] Booking data returned includes the `id`, `userId`, `spotId`, `startDate`, 
+- [ ] Booking data returned includes the `id`, `userId`, `spotId`, `startDate`,
   `endDate`, `createdAt`, and `updatedAt`
-- [ ] Error response with status 404 is given when a booking does not exist with 
+- [ ] Error response with status 404 is given when a booking does not exist with
   the provided `id`
-- [ ] Error response with status 400 is given when it is past the booking's 
+- [ ] Error response with status 400 is given when it is past the booking's
   `endDate` (no editing of past bookings)
-- [ ] Error response with status 403 is given when a booking already exists for 
+- [ ] Error response with status 403 is given when a booking already exists for
   the spot on the specified dates
 
 
@@ -288,13 +288,13 @@ Update and return an existing booking.
 Delete an existing booking.
 
 - [ ] An authenticated user is required for a successful response
-- [ ] Only the owner of the booking or the owner of the spot is authorized to 
+- [ ] Only the owner of the booking or the owner of the spot is authorized to
   delete the booking
 - [ ] Booking record is removed from the database after request
 - [ ] Success response includes a `message` indicating a successful deletion
-- [ ] Error response with status 404 is given when a spot does not exist with 
+- [ ] Error response with status 404 is given when a spot does not exist with
   the provided `id`
-- [ ] Error response with status 400 is given when it is past the booking's 
+- [ ] Error response with status 400 is given when it is past the booking's
   `startDate` (no deleting of current or past bookings)
 
 
@@ -305,9 +305,9 @@ Create and return a new image for a spot specified by id.
 - [ ] An authenticated user is required for a successful response
 - [ ] Only the owner of the spot is authorized to add an image
 - [ ] New image exists in the database after request
-- [ ] Image data returned includes the `id`, `imageableId`, `imageableType`, and 
+- [ ] Image data returned includes the `id`, `imageableId`, `imageableType`, and
   `url`
-- [ ] Error response with status 404 is given when a spot does not exist with 
+- [ ] Error response with status 404 is given when a spot does not exist with
   the provided `id`
 
 
@@ -318,11 +318,11 @@ Create and return a new image for a review specified by id.
 - [ ] An authenticated user is required for a successful response
 - [ ] Only the owner of the review is authorized to add an image
 - [ ] New image exists in the database after request
-- [ ] Image data returned includes the `id`, `imageableId`, `imageableType`, and 
+- [ ] Image data returned includes the `id`, `imageableId`, `imageableType`, and
   `url`
-- [ ] Error response with status 404 is given when a review does not exist with 
+- [ ] Error response with status 404 is given when a review does not exist with
   the provided `id`
-- [ ] Error response with status 400 is given when the maximum number of images 
+- [ ] Error response with status 400 is given when the maximum number of images
   have been added for the review
 
 
@@ -334,7 +334,7 @@ Delete an existing image.
 - [ ] Only the owner of the image is authorized to delete
 - [ ] Image record is removed from the database after request
 - [ ] Success response includes a `message` indicating a successful deletion
-- [ ] Error response with status 404 is given when an image does not exist with 
+- [ ] Error response with status 404 is given when an image does not exist with
   the provided `id`
 
 
@@ -342,15 +342,15 @@ Delete an existing image.
 
 Return spots filtered by query parameters.
 
-- [ ] Query parameters are accepted for `page`, `size`, `minLat`, `maxLat`, 
+- [ ] Query parameters are accepted for `page`, `size`, `minLat`, `maxLat`,
   `minLng`, `maxLng`, `minPrice`, and `maxPrice`
 - [ ] Default values are provided for the `page` and `size` parameters
-- [ ] Successful response includes only spots in the database that meet the 
+- [ ] Successful response includes only spots in the database that meet the
   specified query parameters criteria.
-- [ ] Spot data returned includes the `id`, `ownerId`, `address`, `city`, 
+- [ ] Spot data returned includes the `id`, `ownerId`, `address`, `city`,
   `state`, `country`, `lat`, `lng`, `name`, `description`, `price`, `createdAt`,
   `updatedAt`, and `previewImage` for each spot
 - [ ] Successful response includes the `page` and `size` of the returned payload
-- [ ] Error response with status 400 is given when query parameter validations 
-  for the `page`, `size`, `minLat`, `maxLat`, `minLng`, `maxLng`, `minPrice`, or 
+- [ ] Error response with status 400 is given when query parameter validations
+  for the `page`, `size`, `minLat`, `maxLat`, `minLng`, `maxLng`, `minPrice`, or
   `maxPrice` are violated
