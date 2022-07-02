@@ -22,9 +22,10 @@ router.get('/:spotId', async (req, res, next) => {
             'Owner',
             'Pics',
         ],
-        attributes: {
-            exclude: ['ownerId']
-        }
+        // attributes: {
+        //     exclude: ['ownerId'],
+        //         // [sequelize.fn("AVG", sequelize.col("Reviews.stars")), "avgStarRating"],
+        // }
 
         // POTENTIALLY INCLUDE AGGREGATES IN THE SAME QUERY
 
