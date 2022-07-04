@@ -1,6 +1,6 @@
 # `AirBnb Clone`
 
-![DB Schema](dbSchema.png)
+![DB Schema](AirBnb-clone-diagram.png)
 
 ## Database Schema Design
 

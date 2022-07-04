@@ -13,6 +13,7 @@ router.get('/', restoreUser, async (req, res, next) => {
     if (user) {
         return res.json({
             user: user.toSafeObject()
+
         })
     } else return res.json({})
 })
@@ -41,10 +42,10 @@ router.post('/', validateLogin, async (req, res, next) => {
         return next(err)
     }
 
-    await setTokenCookie(res, user)
-
+    const token = await setTokenCookie(res, user)
     return res.json({
-        user
+        user,
+        token
     })
 })
 
