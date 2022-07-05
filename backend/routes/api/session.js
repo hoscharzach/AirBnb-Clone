@@ -15,7 +15,7 @@ router.get('/', restoreUser, async (req, res, next) => {
             user: user.toSafeObject()
 
         })
-    } else return res.json({})
+    } else return res.json({message: "You are not logged in."})
 })
 
 const validateLogin = [
