@@ -14,6 +14,7 @@ const isProduction = environment === 'production'
 
 // intialize the express app by calling the express method in a variable
 const app = express()
+app.set("json spaces", 2)
 
 // logging information about requests and responses
 app.use(morgan('dev'))

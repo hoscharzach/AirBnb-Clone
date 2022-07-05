@@ -15,8 +15,6 @@ module.exports = {
         name: "App Academy",
         description: "Place where web developers are created",
         price: 123,
-        // numReviews: 1060,
-        // avgStarRating: 4.67,
         previewImage: "http://tinyurl.com/y56knttz"
       },
       {
@@ -31,12 +29,8 @@ module.exports = {
         name: "Walt Disney World Resort",
         description: "Mickey Mouse lives here or something",
         price: 1000000,
-        // numReviews: null,
-        // avgStarRating: null,
         previewImage: "https://d23.com/app/uploads/2016/09/1180-x-600-092916_wdw-45th-45-photos-gallery.jpg"
-        // createdAt: "2021-11-19 20:39:36",
-        // updatedAt: "2021-11-19 20:39:36",
-        // previewImage: "image url"
+
       },
     ])
 

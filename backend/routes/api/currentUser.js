@@ -5,12 +5,40 @@ const { check } = require('express-validator')
 const { handleValidationErrors } = require('../../utils/validation')
 const router = express.Router()
 
-// const validateSpot = [
-//     check('ownerId')
-//       .exists({ checkFalsy: true })
-//       .withMessage('Please provide a valid email.'),
-//     handleValidationErrors
-//   ];
+const validateSpot = [
+    check('address')
+      .exists({checkFalsy: true})
+      .withMessage('Street address is required'),
+    check('city')
+      .exists({checkFalsy:true})
+      .withMessage('City is required'),
+    check('state')
+      .exists({checkFalsy: true})
+      .withMessage('State is required'),
+    check('country')
+      .exists({checkFalsy: true})
+      .withMessage('State is required'),
+    check('lat')
+      .exists({checkFalsy: true})
+      .isFloat()
+      .withMessage('Latitude is not valid'),
+    check('lng')
+      .exists({checkFalsy: true})
+      .isFloat()
+      .withMessage('Longitude is not valid'),
+    check('name')
+      .exists({checkFalsy: true})
+      .isLength({ max: 50})
+      .withMessage('Name must be less than 50 characters'),
+    check('description')
+      .exists({checkFalsy:true})
+      .withMessage('Description is required'),
+    check('price')
+      .exists({checkFalsy:true})
+      .isFloat()
+      .withMessage('Price per day is required'),
+    handleValidationErrors
+  ];
 
 router.get('/spots', [restoreUser, requireAuth], async (req, res, next) => {
     if (req.user) {
@@ -19,10 +47,6 @@ router.get('/spots', [restoreUser, requireAuth], async (req, res, next) => {
             where: {
                 ownerId: id
             },
-            attributes: {
-                exclude: ['numReviews', 'avgStarRating']
-            }
-
         })
         return res.json(spots)
 
@@ -33,22 +57,23 @@ router.get('/spots', [restoreUser, requireAuth], async (req, res, next) => {
     }
 })
 
-router.post('/spots', [restoreUser, requireAuth], async (req, res, next) => {
+router.post('/spots', [restoreUser, requireAuth, validateSpot], async (req, res, next) => {
+  const { address, city ,state, country, lat, lng, name, description, price } = req.body
 
-    const { address, city, state, country, lat, lng, name, description, price } = req.body
+  // const newSpot = await Spot.create({
+  //   address,
+  //   city,
+  //   state,
+  //   country,
+  //   lat,
+  //   lng,
+  //   name,
+  //   description,
+  //   price
+  // })
 
-    requiredFields.forEach(el => {
+  return res.json(req.body)
 
-      if (req.body[el] === undefined) {
-        return res.json({
-          yo: req.body
-        })
-      }
-    })
-
-    if (req.user) {
-      res.json({yo: "hello"})
-    }
 })
 
 
