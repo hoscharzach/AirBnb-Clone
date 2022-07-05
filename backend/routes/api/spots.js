@@ -13,7 +13,7 @@ router.get('/', async (req,res) => {
 })
 
 // searching for specific spot
-router.get('/:spotId', requireAuth, async (req, res, next) => {
+router.get('/:spotId', async (req, res, next) => {
     const id = req.params.spotId
     const spot = await Spot.findByPk(id, {
         include: [
