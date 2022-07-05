@@ -3,6 +3,7 @@ const { User, Spot } = require('../../db/models')
 const { requireAuth, restoreUser } = require('../../utils/auth')
 const { check } = require('express-validator')
 const { handleValidationErrors } = require('../../utils/validation')
+const spot = require('../../db/models/spot')
 const router = express.Router()
 
 const validateSpot = [
@@ -70,6 +71,36 @@ router.post('/spots', [requireAuth, validateSpot], async (req, res, next) => {
   })
 
   return res.json(newSpot)
+
+})
+
+router.put('/spots/:spotId', [requireAuth, validateSpot], async (req, res, next) => {
+  const currUserId = req.user.id
+  const editSpot = await Spot.findByPk(req.params.spotId)
+  console.log(currUserId)
+  console.log(editSpot)
+
+  if (!editSpot) return res.json({ message: "Spot couldn't be found", statusCode: 404})
+
+  const { address, city ,state, country, lat, lng, name, description, price } = req.body
+
+  if (currUserId === editSpot.ownerId) {
+    editSpot.address = address
+    editSpot.city = city
+    editSpot.state = state
+    editSpot.country = country
+    editSpot.lat = lat
+    editSpot.lng = lng
+    editSpot.name = name
+    editSpot.description = description
+    editSpot.price = price
+
+    await editSpot.save()
+    return res.json(editSpot)
+
+  } else {
+    return res.status(401).json({ stausCode: 401, message: "You cannot edit other user's spots."})
+  }
 
 })
 
