@@ -49,6 +49,8 @@ router.get('/spots', [requireAuth], async (req, res, next) => {
                 ownerId: id
             },
         })
+
+        if (spots.length === 0) return res.json({message: "You have no spots."})
         if (spots) return res.json(spots)
         else return res.json({ message: "You have no spots."})
     }
@@ -72,6 +74,17 @@ router.post('/spots', [requireAuth, validateSpot], async (req, res, next) => {
 
   return res.json(newSpot)
 
+})
+
+router.delete('/spots/:spotId', requireAuth, async (req, res, next) => {
+  const spot = await Spot.findByPk(req.params.spotId)
+
+  if (spot) {
+    if (req.user.id === spot.ownerId) {
+      await spot.destroy()
+      return res.json({ message: "Spot successfully deleted."})
+    } else return res.json( {statusCode: 401, message: "You are not authorized to delete this spot."} )
+  } else return res.status(404).json({message: "This spot could not be found."})
 })
 
 router.put('/spots/:spotId', [requireAuth, validateSpot], async (req, res, next) => {
