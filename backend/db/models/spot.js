@@ -66,14 +66,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT,
       allowNull: false
     },
-    numReviews: {
-      type: DataTypes.FLOAT,
-      allowNull: false
-    },
-    avgStarRating: {
-      type: DataTypes.FLOAT,
-      allowNull: false
-    },
     previewImage: {
       type: DataTypes.STRING,
     },

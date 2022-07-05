@@ -40,7 +40,7 @@ const validateSpot = [
     handleValidationErrors
   ];
 
-router.get('/spots', [restoreUser, requireAuth], async (req, res, next) => {
+router.get('/spots', [requireAuth], async (req, res, next) => {
     if (req.user) {
         id = req.user.id
         const spots = await Spot.findAll({
@@ -48,31 +48,28 @@ router.get('/spots', [restoreUser, requireAuth], async (req, res, next) => {
                 ownerId: id
             },
         })
-        return res.json(spots)
-
-    } else {
-        const err = new Error ("User not found")
-        res.status = 404
-        return res.json(err)
+        if (spots) return res.json(spots)
+        else return res.json({ message: "You have no spots."})
     }
 })
 
-router.post('/spots', [restoreUser, requireAuth, validateSpot], async (req, res, next) => {
+router.post('/spots', [requireAuth, validateSpot], async (req, res, next) => {
   const { address, city ,state, country, lat, lng, name, description, price } = req.body
+  const id = req.user.id
+  const newSpot = await Spot.create({
+    address,
+    city,
+    state,
+    country,
+    lat,
+    lng,
+    name,
+    description,
+    price,
+    ownerId: id
+  })
 
-  // const newSpot = await Spot.create({
-  //   address,
-  //   city,
-  //   state,
-  //   country,
-  //   lat,
-  //   lng,
-  //   name,
-  //   description,
-  //   price
-  // })
-
-  return res.json(req.body)
+  return res.json(newSpot)
 
 })
 

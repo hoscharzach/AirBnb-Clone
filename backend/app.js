@@ -65,7 +65,7 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
     if(err instanceof ValidationError) {
         err.errors = err.errors.map((e) => e.message)
-        err.title = 'Validation error'
+        err.title = 'Validation Error'
     }
     next(err)
 })

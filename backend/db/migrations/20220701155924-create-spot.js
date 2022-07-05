@@ -44,12 +44,6 @@ module.exports = {
         type: Sequelize.FLOAT,
         allowNull: false
       },
-      numReviews: {
-        type: Sequelize.FLOAT
-      },
-      avgStarRating: {
-        type: Sequelize.FLOAT
-      },
       ownerId: {
         type: Sequelize.INTEGER,
         allowNull: false,
