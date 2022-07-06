@@ -21,6 +21,12 @@ module.exports = {
         userId: 2,
         spotId: 2,
       },
+      {
+        content: "Went to Disney World to see Donald Duck, he wasn't there because he had food poisoning or something. The food was overpriced, but at least they had chicken.",
+        stars: 3,
+        userId: 3,
+        spotId: 2,
+      },
     ])
   },
 
