@@ -49,7 +49,7 @@ router.get('/reviews', requireAuth, async (req, res, next) => {
       include: [
         {model: Image},
         {model: Spot},
-        {model: User, exclude: ['username']}
+        {model: User, attributes: ['id', 'firstName', 'lastName']}
       ],
       where: {
         userId: id
@@ -59,7 +59,7 @@ router.get('/reviews', requireAuth, async (req, res, next) => {
 
 })
 
-
+// find all spots belonging to current user
 router.get('/spots', [requireAuth], async (req, res, next) => {
     if (req.user) {
         id = req.user.id

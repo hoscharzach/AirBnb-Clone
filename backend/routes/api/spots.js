@@ -41,6 +41,29 @@ router.get('/', async (req,res) => {
 //     }
 // })
 
+// reviews by spot id
+router.get('/:spotId/reviews', async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId)
+
+    if (spot) {
+        const reviews = await Review.findAll({
+            where: {
+                spotId: req.params.spotId
+            },
+            include: [
+                { model: Image },
+                { model: User, attributes: [ 'id', 'firstName', 'lastName' ] }
+
+            ],
+            attributes: {
+                include: ['createdAt', 'updatedAt']
+            }
+        })
+
+        return res.json(reviews)
+    } else return res.json({ message: "Spot doesn't exist." })
+})
+
 // searching for specific spot
 router.get('/:spotId', async (req, res, next) => {
     const id = req.params.spotId
