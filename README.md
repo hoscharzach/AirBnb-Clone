@@ -735,7 +735,7 @@ Update and return an existing review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: PUT
-  * URL: /spots/:spotId/reviews/:reviewId
+  * URL: /currentUser/reviews/:reviewId
   * Headers:
     * Content-Type: application/json
   * Body:

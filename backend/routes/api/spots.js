@@ -3,11 +3,9 @@ const { Spot, User, Image, Review } = require('../../db/models')
 const sequelize = require('sequelize')
 const {check} = require('express-validator')
 const { requireAuth } = require('../../utils/auth')
-const { handleValidationErrors } = require('../../utils/validation')
-
+const { handleValidationErrors} = require('../../utils/validation')
 
 const router = express.Router()
-
 const validateReview = [
     check('review')
       .exists({checkFalsy: true})
@@ -25,9 +23,6 @@ router.get('/', async (req,res) => {
     res.json(spots)
 })
 
-// edit a review
-router.put('/:spotId/reviews/:reviewId', [requireAuth, validateReview], async (req, res, next) => {
-})
 
 // post a new review to a spot
 router.post('/:spotId/reviews', [requireAuth, validateReview], async (req, res, next) => {

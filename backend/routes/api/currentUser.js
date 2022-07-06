@@ -2,7 +2,7 @@ const express = require('express')
 const { User, Spot, Review, Image } = require('../../db/models')
 const { requireAuth, restoreUser } = require('../../utils/auth')
 const { check } = require('express-validator')
-const { handleValidationErrors } = require('../../utils/validation')
+const { handleValidationErrors} = require('../../utils/validation')
 const router = express.Router()
 
 const validateSpot = [
@@ -40,6 +40,35 @@ const validateSpot = [
     handleValidationErrors
   ];
 
+  const validateReview = [
+    check('review')
+      .exists({checkFalsy: true})
+      .isLength({ min: 10 })
+      .withMessage('Review text must be at least 10 characters'),
+    check('stars')
+      .exists({checkFalsy:true})
+      .isFloat({min: 1, max: 5})
+      .withMessage('Stars must be a number between 1-5'),
+    handleValidationErrors
+  ];
+
+// edit a review
+router.put('/reviews/:reviewId', [requireAuth, validateReview], async (req, res, next) => {
+    // grab the info from body of request
+    const { review, stars } = req.body
+    // find the review
+    const editReview = await Review.findByPk(req.params.reviewId)
+
+    if (editReview) {
+      editReview.content = review
+      editReview.stars = stars
+      await editReview.save()
+      return res.json(editReview)
+    } else return res.json({
+      message: "Review couldn't be found",
+      statusCode: 404
+    })
+})
 // get all review for current user with associated images
 router.get('/reviews', requireAuth, async (req, res, next) => {
 
