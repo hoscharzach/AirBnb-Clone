@@ -67,7 +67,7 @@ router.put('/reviews/:reviewId', [requireAuth, validateReview], async (req, res,
         await editReview.save()
         return res.json(editReview)
       } else return res.json({
-        message: "You are not authorized to edit this message",
+        message: "You are not authorized to edit this review",
         statusCode: 401
       })
     } else return res.json({
