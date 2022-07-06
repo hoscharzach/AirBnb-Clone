@@ -20,7 +20,7 @@ const validateReview = [
 // router.use(requireAuth)
 router.get('/', async (req,res) => {
     const spots = await Spot.findAll()
-    res.json(spots)
+    return res.json(spots)
 })
 
 

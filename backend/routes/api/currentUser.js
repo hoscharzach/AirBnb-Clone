@@ -52,6 +52,21 @@ const validateSpot = [
     handleValidationErrors
   ];
 
+
+// delete a review
+router.delete('/reviews/:reviewId', [requireAuth], async (req, res, next) => {
+  const review = await Review.findByPk(req.params.reviewId)
+  if (review && req.user.id === review.userId) {
+    await review.destroy()
+    return res.json({message: "Review successfully deleted."})
+  } else if (review && req.user.id !== review.userId) {
+    return res.json({message: "You are not authorized to delete this review", statusCode: 401})
+  } else {
+    return res.json({message: "Review could not be found", statusCode: 404})
+  }
+
+
+})
 // edit a review
 router.put('/reviews/:reviewId', [requireAuth, validateReview], async (req, res, next) => {
     // grab the info from body of request
