@@ -16,11 +16,13 @@ module.exports = (sequelize, DataTypes) => {
 
       Spot.belongsTo(models.User, {
         foreignKey: 'ownerId',
-        as: 'Owner'
+        as: 'Owner',
+        onDelete: 'CASCADE'
       })
 
       Spot.hasMany(models.Review, {
-        foreignKey: 'spotId'
+        foreignKey: 'spotId',
+        onDelete: 'CASCADE'
       })
 
       Spot.hasMany(models.Image, {
@@ -66,14 +68,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT,
       allowNull: false
     },
-    numReviews: {
-      type: DataTypes.FLOAT,
-      allowNull: false
-    },
-    avgStarRating: {
-      type: DataTypes.FLOAT,
-      allowNull: false
-    },
     previewImage: {
       type: DataTypes.STRING,
     },
@@ -84,6 +78,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Spot',
+    // defaultScope: {
+    //   // attributes: {
+    //   //   exclude: ['numReviews', 'avgStarRating']
+    //   // }
+    // }
   });
   return Spot;
 };

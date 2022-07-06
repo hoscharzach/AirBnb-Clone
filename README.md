@@ -1,6 +1,6 @@
 # `AirBnb Clone`
 
-![DB Schema](dbSchema.png)
+![DB Schema](AirBnb-clone-diagram.png)
 
 ## Database Schema Design
 
@@ -78,7 +78,7 @@ information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: /login
+  * URL: /session
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -144,7 +144,7 @@ user's information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: /signup
+  * URL: /session
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -254,7 +254,7 @@ Returns all the spots owned (created) by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /users/:userId/spots
+  * URL: /currentUser/spots
   * Body: none
 
 * Successful Response
@@ -350,7 +350,7 @@ Creates and returns a new spot.
 * Require Authentication: true
 * Request
   * Method: POST
-  * URL: users/:userId/spots
+  * URL: /currentUser/spots
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -425,7 +425,7 @@ Updates and returns an existing spot.
 * Require proper authorization: Spot must belong to the current user
 * Request
   * Method: PUT
-  * URL: /users/:userId/spots/:spotId
+  * URL: /currentUser/spots/:spotId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -513,7 +513,7 @@ Deletes an existing spot.
 * Require proper authorization: Spot must belong to the current user
 * Request
   * Method: DELETE
-  * URL: /spots/:spotId
+  * URL: /currentUser/spots/:spotId
   * Body: none
 
 * Successful Response
@@ -549,7 +549,7 @@ Returns all the reviews written by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /user/:userId/reviews
+  * URL: /currentUser/reviews
   * Body: none
 
 * Successful Response
@@ -735,7 +735,7 @@ Update and return an existing review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: PUT
-  * URL: /spots/:spotId/reviews/:reviewId
+  * URL: /currentUser/reviews/:reviewId
   * Headers:
     * Content-Type: application/json
   * Body:

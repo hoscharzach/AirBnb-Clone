@@ -10,6 +10,8 @@ fetch('/api/users', {
   },
   body: JSON.stringify({
     email: 'name@email.com',
+    lastName: 'lastnametest',
+    firstName: 'firstnametest',
     username: 'NewName',
     password: 'NewPassword'
   })
@@ -24,7 +26,7 @@ fetch('/api/session', {
     "Content-Type": "application/json",
     "XSRF-TOKEN": `<value of XSRF-TOKEN cookie>`
   },
-  body: JSON.stringify({ credential: 'name@email.com', password: 'NewPassword' })
+  body: JSON.stringify({ credential: 'Demo-lition', password: 'password' })
 }).then(res => res.json()).then(data => console.log(data));
 ```
 

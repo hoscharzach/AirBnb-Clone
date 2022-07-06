@@ -14,24 +14,24 @@ module.exports = {
       },
       {
         type: 'spot',
-        imageUrl: 'http://tinyurl.com/yekxv88f',
+        imageUrl: 'http://tinyurl.com/yekxv88fa',
         spotId: 2,
         reviewId: null,
         userId: 1
       },
       {
         type: 'spot',
-        imageUrl: 'http://tinyurl.com/yekxv88f',
+        imageUrl: 'http://tinyurl.com/yekxv88fasd',
         spotId: 2,
         reviewId: null,
         userId: 1
       },
       {
         type: 'spot',
-        imageUrl: 'http://tinyurl.com/yekxv88f',
+        imageUrl: 'http://tinyurl.com/yekxv88fasd',
         spotId: 2,
         reviewId: null,
-        userId: 1
+        userId: 2
       },
     ])
   },

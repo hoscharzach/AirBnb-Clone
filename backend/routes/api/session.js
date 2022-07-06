@@ -13,8 +13,9 @@ router.get('/', restoreUser, async (req, res, next) => {
     if (user) {
         return res.json({
             user: user.toSafeObject()
+
         })
-    } else return res.json({})
+    } else return res.json({message: "You are not logged in."})
 })
 
 const validateLogin = [
@@ -32,6 +33,7 @@ router.post('/', validateLogin, async (req, res, next) => {
     const { credential, password } = req.body
 
     const user = await User.login({credential, password})
+    const safeUser = user.toSafeObject()
 
     if (!user) {
         const err = new Error('Login failed')
@@ -41,10 +43,10 @@ router.post('/', validateLogin, async (req, res, next) => {
         return next(err)
     }
 
-    await setTokenCookie(res, user)
-
+    const token = await setTokenCookie(res, user)
     return res.json({
-        user
+        safeUser,
+        token
     })
 })
 
