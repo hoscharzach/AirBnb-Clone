@@ -11,7 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Spot.belongsToMany(models.User, {
-        through: models.Booking
+        through: models.Booking,
+        hooks: true
       })
 
       Spot.belongsTo(models.User, {

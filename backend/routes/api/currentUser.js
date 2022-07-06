@@ -128,8 +128,15 @@ router.get('/spots', [requireAuth], async (req, res, next) => {
 router.get('/bookings', requireAuth, async (req, res, next) => {
   if (req.user) {
     const currUser = req.user.id
-
-
+    const bookings = await Booking.findAll({
+      where: {
+        userId: currUser
+      },
+      include: {
+        model: Spot
+      }
+    })
+    res.json(bookings)
   }
 
 
