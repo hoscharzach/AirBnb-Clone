@@ -25,6 +25,10 @@ router.get('/', async (req,res) => {
     res.json(spots)
 })
 
+// edit a review
+router.put('/:spotId/reviews/:reviewId', [requireAuth, validateReview], async (req, res, next) => {
+})
+
 // post a new review to a spot
 router.post('/:spotId/reviews', [requireAuth, validateReview], async (req, res, next) => {
     const userId = req.user.id
@@ -32,13 +36,27 @@ router.post('/:spotId/reviews', [requireAuth, validateReview], async (req, res, 
     const { review, stars } = req.body
 
     if (spot) {
-        const newReview = await Review.create({
-            userId: userId,
-            spotId: req.params.spotId,
-            content: review,
-            stars})
+        // check if review already exists
+        const reviewCheck = await Review.findOne({
+            where: {
+                userId: userId,
+                spotId: req.params.spotId
+            }
+        })
+        // if there is no review, create the review
+        if (!reviewCheck) {
+            const newReview = await Review.create({
+                userId: userId,
+                spotId: req.params.spotId,
+                content: review,
+                stars})
 
-       return res.json(newReview)
+           return res.json(newReview)
+        // if there is a review, return an error
+        } else return res.json({
+            message: "User already has a review for this spot",
+            statusCode: 403
+        })
     } else {
         res.json({
             message: "Spot couldn't be found",
