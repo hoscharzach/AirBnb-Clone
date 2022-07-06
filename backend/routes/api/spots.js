@@ -1,11 +1,24 @@
 const express = require('express')
 const { Spot, User, Image, Review } = require('../../db/models')
 const sequelize = require('sequelize')
-const review = require('../../db/models/review')
+const {check} = require('express-validator')
 const { requireAuth } = require('../../utils/auth')
+const { handleValidationErrors } = require('../../utils/validation')
 
 
 const router = express.Router()
+
+const validateReview = [
+    check('review')
+      .exists({checkFalsy: true})
+      .isLength({ min: 10 })
+      .withMessage('Review text is required'),
+    check('stars')
+      .exists({checkFalsy:true})
+      .isFloat({min: 1, max: 5})
+      .withMessage('Stars must be a number between 1-5'),
+    handleValidationErrors
+  ];
 // router.use(requireAuth)
 router.get('/', async (req,res) => {
     const spots = await Spot.findAll()
@@ -13,7 +26,28 @@ router.get('/', async (req,res) => {
 })
 
 
+// post a new review to a spot
+router.post('/:spotId/reviews', [requireAuth, validateReview], async (req, res, next) => {
+    const userId = req.user.id
+    const spot = await Spot.findByPk(req.params.spotId)
+    const { review, stars } = req.body
 
+    if (spot) {
+        const newReview = await Review.create({
+            userId: userId,
+            spotId: req.params.spotId,
+            content: review,
+            stars})
+
+       return res.json(newReview)
+    } else {
+        res.json({
+            message: "Spot couldn't be found",
+            statusCode: 404
+        })
+    }
+
+})
 // reviews by spot id
 router.get('/:spotId/reviews', async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId)
