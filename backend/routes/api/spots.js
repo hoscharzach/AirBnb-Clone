@@ -12,34 +12,7 @@ router.get('/', async (req,res) => {
     res.json(spots)
 })
 
-// router.get('/:spotId', async (req, res, next) => {
-//     const result = await Spot.findByPk(req.params.spotId,
-//         {
-//             include: [
-//                 { model: Review, attributes: [] },
-//                 { model: Image, as: 'Pics', attributes: ['imageUrl'] },
-//                 { model: User, as: 'Owner', attributes: ['id', 'firstName', 'lastName'] },
-//             ],
-//             attributes: {
-//                 include: [
-//                     //if you comment out images this will return the corrected count
-//                     // [sequelize.fn('COUNT', sequelize.col('reviews.id')), 'countReviews'],
-//                     //there are duplicated being return by adding images, using
-//                     //DISTINCT will also return the corrected count of 2
-//                     [sequelize.literal('COUNT(DISTINCT(reviews.id))'), 'numReviews'],
-//                     // [sequelize.fn('AVG', sequelize.col('stars')), 'avgStarRating'],
-//                 ],
-//             },
-//         })
-//     res.json(result)
 
-//     if (!result) {
-//         res.status(404).json({
-//             message: "Spot couldn't be found",
-//             statusCode: 404
-//           })
-//     }
-// })
 
 // reviews by spot id
 router.get('/:spotId/reviews', async (req, res, next) => {
@@ -69,7 +42,7 @@ router.get('/:spotId', async (req, res, next) => {
     const id = req.params.spotId
     const spot = await Spot.findByPk(id, {
         include: [
-            'Owner',
+            {model: User, as: 'Owner', attributes: ['id', 'firstName', 'lastName']},
             'Pics',
         ],
     })
@@ -86,10 +59,9 @@ router.get('/:spotId', async (req, res, next) => {
     reviews.forEach(el => {
         total += el.stars
     })
-
     // add the data to the query's response
-    spot.numReviews = reviews.length
-    spot.avgStarRating = total / reviews.length
+    spot.numReviews = reviews.length || 0
+    spot.avgStarRating = total / reviews.length || 0
 
     if (spot) return res.json(spot)
     else {
@@ -97,3 +69,38 @@ router.get('/:spotId', async (req, res, next) => {
     }
 })
 module.exports = router
+
+
+
+
+
+
+
+// router.get('/:spotId', async (req, res, next) => {
+//     const result = await Spot.findByPk(req.params.spotId,
+//         {
+//             include: [
+//                 { model: Review, attributes: [] },
+//                 { model: Image, as: 'Pics', attributes: ['imageUrl'] },
+//                 { model: User, as: 'Owner', attributes: ['id', 'firstName', 'lastName'] },
+//             ],
+//             attributes: {
+//                 include: [
+//                     //if you comment out images this will return the corrected count
+//                     // [sequelize.fn('COUNT', sequelize.col('reviews.id')), 'countReviews'],
+//                     //there are duplicated being return by adding images, using
+//                     //DISTINCT will also return the corrected count of 2
+//                     [sequelize.literal('COUNT(DISTINCT(reviews.id))'), 'numReviews'],
+//                     // [sequelize.fn('AVG', sequelize.col('stars')), 'avgStarRating'],
+//                 ],
+//             },
+//         })
+//     res.json(result)
+
+//     if (!result) {
+//         res.status(404).json({
+//             message: "Spot couldn't be found",
+//             statusCode: 404
+//           })
+//     }
+// })

@@ -66,6 +66,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT,
       allowNull: false
     },
+    numReviews: {
+      type: DataTypes.FLOAT,
+    },
+    avgStarRating: {
+      type: DataTypes.FLOAT,
+    },
     previewImage: {
       type: DataTypes.STRING,
     },
@@ -76,6 +82,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Spot',
+    defaultScope: {
+      attributes: {
+        exclude: ['numReviews', 'avgStarRating']
+      }
+    }
   });
   return Spot;
 };
