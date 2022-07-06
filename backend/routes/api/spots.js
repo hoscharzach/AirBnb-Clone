@@ -88,7 +88,9 @@ router.get('/:spotId', async (req, res, next) => {
     const id = req.params.spotId
     const spot = await Spot.findByPk(id, {
         include: [
-            {model: User, as: 'Owner', attributes: ['id', 'firstName', 'lastName']},
+            {
+                model: User, as: 'Owner', attributes: ['id', 'firstName', 'lastName']
+            },
             'Pics',
         ],
     })
@@ -99,19 +101,21 @@ router.get('/:spotId', async (req, res, next) => {
             spotId: id
         }
     })
+    if (spot) {
+        const jsonSpot = spot.toJSON()
+        // add up all the stars from reviews of this spot
+        let total = 0
+        reviews.forEach(el => {
+            total += el.stars
+        })
+        // add the data to the query's response
+        jsonSpot.numReviews = reviews.length || 0
+        jsonSpot.avgStarRating = total / reviews.length || 0
 
-    // add up all the stars from reviews of this spot
-    let total = 0
-    reviews.forEach(el => {
-        total += el.stars
-    })
-    // add the data to the query's response
-    spot.numReviews = reviews.length || 0
-    spot.avgStarRating = total / reviews.length || 0
-
-    if (spot) return res.json(spot)
+        return res.json(jsonSpot)
+    }
     else {
-        res.status(404).json({ Error: "Spot does not exist."})
+        res.status(404).json({ Message: "Spot does not exist.", statusCode: 404})
     }
 })
 module.exports = router
