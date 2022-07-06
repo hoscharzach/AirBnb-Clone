@@ -60,10 +60,16 @@ router.put('/reviews/:reviewId', [requireAuth, validateReview], async (req, res,
     const editReview = await Review.findByPk(req.params.reviewId)
 
     if (editReview) {
-      editReview.content = review
-      editReview.stars = stars
-      await editReview.save()
-      return res.json(editReview)
+
+      if (editReview.userId === req.user.id) {
+        editReview.content = review
+        editReview.stars = stars
+        await editReview.save()
+        return res.json(editReview)
+      } else return res.json({
+        message: "You are not authorized to edit this message",
+        statusCode: 401
+      })
     } else return res.json({
       message: "Review couldn't be found",
       statusCode: 404
