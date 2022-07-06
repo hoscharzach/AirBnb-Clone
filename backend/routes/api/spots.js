@@ -12,7 +12,7 @@ const validateReview = [
     check('review')
       .exists({checkFalsy: true})
       .isLength({ min: 10 })
-      .withMessage('Review text is required'),
+      .withMessage('Review text must be at least 10 characters'),
     check('stars')
       .exists({checkFalsy:true})
       .isFloat({min: 1, max: 5})
@@ -24,7 +24,6 @@ router.get('/', async (req,res) => {
     const spots = await Spot.findAll()
     res.json(spots)
 })
-
 
 // post a new review to a spot
 router.post('/:spotId/reviews', [requireAuth, validateReview], async (req, res, next) => {
