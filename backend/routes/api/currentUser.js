@@ -132,11 +132,16 @@ router.get('/bookings', requireAuth, async (req, res, next) => {
       where: {
         userId: currUser
       },
-      include: {
-        model: Spot
+      include: [
+        {model: Spot},
+        {model: User}
+      ],
+      attributes: {
+        include: ['id']
       }
+
     })
-    res.json(bookings)
+    res.json({Bookings: bookings})
   }
 
 
