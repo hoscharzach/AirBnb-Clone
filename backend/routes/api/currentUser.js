@@ -1,9 +1,8 @@
 const express = require('express')
-const { User, Spot } = require('../../db/models')
+const { User, Spot, Review, Image } = require('../../db/models')
 const { requireAuth, restoreUser } = require('../../utils/auth')
 const { check } = require('express-validator')
 const { handleValidationErrors } = require('../../utils/validation')
-const spot = require('../../db/models/spot')
 const router = express.Router()
 
 const validateSpot = [
@@ -40,6 +39,26 @@ const validateSpot = [
       .withMessage('Price per day is required'),
     handleValidationErrors
   ];
+
+// get all review for current user with associated images
+router.get('/reviews', requireAuth, async (req, res, next) => {
+
+    const id = req.user.id
+    console.log(req.user)
+    const reviews = await Review.findAll({
+      include: [
+        {model: Image},
+        {model: Spot},
+        {model: User, exclude: ['username']}
+      ],
+      where: {
+        userId: id
+      }
+    })
+    return res.json(reviews)
+
+})
+
 
 router.get('/spots', [requireAuth], async (req, res, next) => {
     if (req.user) {
