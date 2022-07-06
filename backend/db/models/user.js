@@ -49,7 +49,9 @@ module.exports = (sequelize, DataTypes) => {
       })
 
       User.belongsToMany(models.Spot, {
-        through: models.Booking
+        through: models.Booking,
+        // onDelete: 'CASCADE',
+        // hooks: true
       })
 
       User.hasMany(models.Image, {
