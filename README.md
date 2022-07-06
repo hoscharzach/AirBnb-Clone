@@ -803,7 +803,7 @@ Delete an existing review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: DELETE
-  * URL: /users/:userId/reviews/:reviewId
+  * URL: /currentUser/reviews/:reviewId
   * Body: none
 
 * Successful Response
