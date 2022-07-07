@@ -137,7 +137,8 @@ router.get('/bookings', requireAuth, async (req, res, next) => {
         {model: User}
       ],
       attributes: {
-        include: ['id']
+        include: ['id'],
+        exclude: ['SpotId']
       }
 
     })
