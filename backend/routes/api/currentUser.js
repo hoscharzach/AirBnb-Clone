@@ -133,7 +133,7 @@ router.get('/bookings', requireAuth, async (req, res, next) => {
         userId: currUser
       },
       include: [
-        {model: Spot},
+        {model: Spot, attributes: {exclude: ['createdAt', 'updatedAt']}},
       ],
 
     })
