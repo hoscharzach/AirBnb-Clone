@@ -1,9 +1,10 @@
 const express = require('express')
-const { Spot, User, Image, Review } = require('../../db/models')
+const { Spot, User, Image, Review, Booking } = require('../../db/models')
 const sequelize = require('sequelize')
 const {check} = require('express-validator')
 const { requireAuth } = require('../../utils/auth')
 const { handleValidationErrors} = require('../../utils/validation')
+const booking = require('../../db/models/booking')
 
 const router = express.Router()
 const validateReview = [
@@ -23,6 +24,30 @@ router.get('/', async (req,res) => {
     return res.json(spots)
 })
 
+// get all bookings for spot based on spot id
+
+router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
+    const id = req.user.id
+    const spot = await Spot.findByPk(req.params.spotId)
+
+    if (spot) {
+        if (spot.ownerId === id) {
+            const bookings = await spot.getBookings({
+            include: {
+                model: User
+            }})
+            return res.json(bookings)
+
+        } else {
+            const bookings = await spot.getBookings({
+                attributes: {
+                    exclude: ['userId', 'createdAt', 'updatedAt']
+                }
+            })
+            return res.json(bookings)
+        }
+    } else return res.json({message: "Spot not found.", statusCode: 404})
+})
 
 // post a new review to a spot
 router.post('/:spotId/reviews', [requireAuth, validateReview], async (req, res, next) => {
