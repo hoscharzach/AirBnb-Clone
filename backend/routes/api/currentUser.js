@@ -180,10 +180,10 @@ router.put('/bookings/:bookingId', [validateBooking, requireAuth], async (req, r
       }
 
       if (start <= reservation.startDate && end >= reservation.endDate) {
-        response.errors.Partial = "Part of your booking overlaps another."
+        response.errors.partial = "Part of your booking overlaps another."
       }
     }
-      if (response.errors.startDate || response.errors.endDate) {
+      if (response.errors.startDate || response.errors.endDate || response.errors.partial) {
         return res.json(response)
       } else {
         booking.startDate = start

@@ -68,8 +68,11 @@ router.post('/:spotId/bookings', [requireAuth, validateBooking], async(req, res,
             if (reservation.startDate <= end && reservation.endDate >= end) {
                   response.errors.endDate = "End date conflicts with an existing booking."
             }
+            if (start <= reservation.startDate && end >= reservation.endDate) {
+                response.errors.partial = "Part of your booking overlaps another."
+              }
         }
-            if (response.errors.startDate || response.errors.endDate) {
+            if (response.errors.startDate || response.errors.endDate || response.errors.partial) {
                 return res.json(response)
             } else {
                 const newBooking = await Booking.create({
