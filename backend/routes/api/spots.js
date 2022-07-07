@@ -24,8 +24,13 @@ router.get('/', async (req,res) => {
     return res.json(spots)
 })
 
-// get all bookings for spot based on spot id
 
+// create new booking
+router.post('/:spotId/bookings', requireAuth, async(req, res, next) => {
+
+})
+
+// get all bookings for spot based on spot id
 router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
     const id = req.user.id
     const spot = await Spot.findByPk(req.params.spotId)
