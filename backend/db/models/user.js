@@ -52,12 +52,12 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'ownerId', onDelete: 'CASCADE', hooks: true
       })
 
-      User.belongsToMany(models.Spot, {
-        through: models.Booking,
-        hooks: true
+      // User.belongsToMany(models.Spot, {
+      //   through: models.Booking,
+      //   hooks: true
         // onDelete: 'CASCADE',
         // hooks: true
-      })
+      // })
 
       User.hasMany(models.Image, {
         foreignKey: 'userId'
