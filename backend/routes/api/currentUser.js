@@ -3,7 +3,30 @@ const { User, Spot, Review, Image, Booking } = require('../../db/models')
 const { requireAuth, restoreUser } = require('../../utils/auth')
 const { check } = require('express-validator')
 const { handleValidationErrors} = require('../../utils/validation')
+const {Op} = require('sequelize')
 const router = express.Router()
+
+const validateBooking = [
+  check('startDate')
+    .exists({checkFalsy: true})
+    .withMessage("Must provide a start date.")
+    .isDate()
+    .withMessage("Date must be in format YYYY-MM-DD")
+    .isAfter()
+    .withMessage("Date must be in the future."),
+  check('endDate')
+    .exists({checkFalsy:true})
+    .withMessage("Must provide an end date.")
+    .isDate()
+    .withMessage("Date must be in format YYYY-MM-DD")
+    .isAfter()
+    .withMessage('Past bookings cannot be created or modified')
+    .custom(async function(endDate, { req }) {
+      if (endDate < req.body.startDate) throw new Error
+    })
+    .withMessage("End date must be after start date"),
+  handleValidationErrors
+];
 
 const validateSpot = [
     check('address')
@@ -124,6 +147,48 @@ router.get('/spots', [requireAuth], async (req, res, next) => {
         else return res.json({ message: "You have no spots."})
     }
 })
+// edit booking
+router.put('/bookings/:bookingId', [validateBooking, requireAuth], async (req, res, next) => {
+  const { startDate:start, endDate:end } = req.body
+  const userId = req.user.id
+  const booking = await Booking.findByPk(req.params.bookingId)
+
+  if (!booking)
+  return res.json({message: "Booking couldn't be found", statusCode:404})
+
+  if(userId !== booking.userId)
+  return res.json({message: "You are not authorized to edit this booking"})
+
+    const spotId = booking.spotId
+    const spot = await Spot.findByPk(spotId)
+
+    const conflictCheck = await spot.getBookings({
+      where: {
+        id: {
+          [Op.notIn]: [req.params.bookingId]
+        }
+      }
+    })
+
+    const response = {message: "Sorry, this spot is already booked for the specified dates.", errors: {}}
+    for (reservation of conflictCheck) {
+      if (reservation.startDate <= start && reservation.endDate >= start) {
+          response.errors.startDate = "Start date conflicts with an existing booking."
+        }
+      if (reservation.startDate <= end && reservation.endDate >= end) {
+        response.errors.endDate = "End date conflicts with an existing booking."
+      }
+    }
+      if (response.errors.startDate || response.errors.endDate) {
+        return res.json(response)
+      } else {
+        booking.startDate = start
+        booking.endDate = end
+        await booking.save()
+        return res.json(booking)
+      }
+})
+
 
 router.get('/bookings', requireAuth, async (req, res, next) => {
   if (req.user) {
