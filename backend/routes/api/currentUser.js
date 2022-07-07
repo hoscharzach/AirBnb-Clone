@@ -134,14 +134,10 @@ router.get('/bookings', requireAuth, async (req, res, next) => {
       },
       include: [
         {model: Spot},
-        {model: User}
       ],
-      attributes: {
-        // include: ['id'],
-      }
 
     })
-    res.json(bookings)
+    res.json({Bookings: bookings})
   }
 
 
