@@ -153,8 +153,11 @@ router.put('/bookings/:bookingId', [validateBooking, requireAuth], async (req, r
   const userId = req.user.id
   const booking = await Booking.findByPk(req.params.bookingId)
 
-  if (!booking) return res.json({message: "Booking couldn't be found", statusCode:404})
-  if(!userId === booking.userId) return res.json({message: "You are not authorized to edit this booking"})
+  if (!booking)
+  return res.json({message: "Booking couldn't be found", statusCode:404})
+
+  if(userId !== booking.userId)
+  return res.json({message: "You are not authorized to edit this booking"})
 
     const spotId = booking.spotId
     const spot = await Spot.findByPk(spotId)
@@ -184,8 +187,6 @@ router.put('/bookings/:bookingId', [validateBooking, requireAuth], async (req, r
         await booking.save()
         return res.json(booking)
       }
-
-
 })
 
 

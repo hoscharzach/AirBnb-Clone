@@ -20,20 +20,24 @@ const validateReview = [
   ];
 const validateBooking = [
     check('startDate')
-      .exists({checkFalsy: true})
-      .withMessage("Must provide a start date.")
-      .isDate()
-      .withMessage("Date must be in format YYYY-MM-DD")
-      .isAfter()
-      .withMessage("Date must be in the future."),
-    check('endDate')
-      .exists({checkFalsy:true})
-      .withMessage("Must provide an end date.")
-      .isDate()
-      .withMessage("Date must be in format YYYY-MM-DD")
-      .isAfter()
-      .withMessage('Date must be in the future.'),
-    handleValidationErrors
+    .exists({checkFalsy: true})
+    .withMessage("Must provide a start date.")
+    .isDate()
+    .withMessage("Date must be in format YYYY-MM-DD")
+    .isAfter()
+    .withMessage("Date must be in the future."),
+  check('endDate')
+    .exists({checkFalsy:true})
+    .withMessage("Must provide an end date.")
+    .isDate()
+    .withMessage("Date must be in format YYYY-MM-DD")
+    .isAfter()
+    .withMessage('Past bookings cannot be created or modified')
+    .custom(async function(endDate, { req }) {
+      if (endDate < req.body.startDate) throw new Error
+    })
+    .withMessage("End date must be after start date"),
+  handleValidationErrors
   ];
 
 
@@ -53,41 +57,32 @@ router.post('/:spotId/bookings', [requireAuth, validateBooking], async(req, res,
     // if the current user does not own the spot
     if (spot.ownerId !== req.user.id) {
         // and the start date is before the end date
-        if (start < end) {
             // find all bookings that have dates between the requested start and end
             const conflictCheck = await spot.getBookings({
-                where: {
-                    [Op.or]: {
-                        startDate: {
-                            [Op.and]: {
-                                [Op.gte]: start,
-                                [Op.lte]: end
-                            }
-                        },
-                        endDate: {
-                            [Op.and]: {
-                                [Op.gte]: start,
-                                [Op.lte]: end
-                            }
-                        }
-                    }
-                }
-            })
-            // if there are none (array of bookings is 0 length), add the booking
-            if (conflictCheck.length === 0) {
-                const newBooking = await Booking.create({
-                    userId: req.user.id,
-                    spotId: req.params.spotId,
-                    startDate: start,
-                    endDate: end
-                })
-                res.json(newBooking)
-            // otherwise respond with booking conflict error message
-            } else res.json({message: "Sorry, this spot is already booked for these dates", statusCode: 403})
+              })
 
-        } else {
-            res.json({message: "End date must be after start date."})
-        }
+              const response = {message: "Sorry, this spot is already booked for the specified dates.", errors: {}}
+              for (reservation of conflictCheck) {
+                if (reservation.startDate <= start && reservation.endDate >= start) {
+                    response.errors.startDate = "Start date conflicts with an existing booking."
+                  }
+                if (reservation.startDate <= end && reservation.endDate >= end) {
+                  response.errors.endDate = "End date conflicts with an existing booking."
+                }
+              }
+                if (response.errors.startDate || response.errors.endDate) {
+                  return res.json(response)
+                } else {
+                  const newBooking = await Booking.create({
+                    startDate: start,
+                    endDate: end,
+                    userId: req.user.id,
+                    spotId: req.params.spotId
+                })
+                return res.json(newBooking)
+
+                }
+
 
 
     } else return res.json({message: "Can't make booking on your own property.", statusCode: 401})
