@@ -137,12 +137,11 @@ router.get('/bookings', requireAuth, async (req, res, next) => {
         {model: User}
       ],
       attributes: {
-        include: ['id'],
-        exclude: ['SpotId']
+        // include: ['id'],
       }
 
     })
-    res.json({Bookings: bookings})
+    res.json(bookings)
   }
 
 
