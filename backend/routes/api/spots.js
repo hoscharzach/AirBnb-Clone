@@ -42,8 +42,6 @@ router.get('/', async (req,res) => {
     const spots = await Spot.findAll()
     return res.json(spots)
 })
-
-
 // create new booking
 router.post('/:spotId/bookings', [requireAuth, validateBooking], async(req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId)
@@ -215,38 +213,3 @@ router.get('/:spotId', async (req, res, next) => {
     }
 })
 module.exports = router
-
-
-
-
-
-
-
-// router.get('/:spotId', async (req, res, next) => {
-//     const result = await Spot.findByPk(req.params.spotId,
-//         {
-//             include: [
-//                 { model: Review, attributes: [] },
-//                 { model: Image, as: 'Pics', attributes: ['imageUrl'] },
-//                 { model: User, as: 'Owner', attributes: ['id', 'firstName', 'lastName'] },
-//             ],
-//             attributes: {
-//                 include: [
-//                     //if you comment out images this will return the corrected count
-//                     // [sequelize.fn('COUNT', sequelize.col('reviews.id')), 'countReviews'],
-//                     //there are duplicated being return by adding images, using
-//                     //DISTINCT will also return the corrected count of 2
-//                     [sequelize.literal('COUNT(DISTINCT(reviews.id))'), 'numReviews'],
-//                     // [sequelize.fn('AVG', sequelize.col('stars')), 'avgStarRating'],
-//                 ],
-//             },
-//         })
-//     res.json(result)
-
-//     if (!result) {
-//         res.status(404).json({
-//             message: "Spot couldn't be found",
-//             statusCode: 404
-//           })
-//     }
-// })
