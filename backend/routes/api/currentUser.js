@@ -218,10 +218,6 @@ router.put('/bookings/:bookingId', [validateBooking, requireAuth], async (req, r
       }
 })
 
-router.get('/test', async (req, res, next) => {
-  console.log(new Date().toISOString().slice(0, 10))
-})
-
 router.get('/bookings', requireAuth, async (req, res, next) => {
   if (req.user) {
     const currUser = req.user.id
