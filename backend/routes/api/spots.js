@@ -4,7 +4,7 @@ const sequelize = require('sequelize')
 const {check} = require('express-validator')
 const { requireAuth } = require('../../utils/auth')
 const { handleValidationErrors} = require('../../utils/validation')
-const booking = require('../../db/models/booking')
+const {Op} = require('sequelize')
 
 const router = express.Router()
 const validateReview = [
@@ -18,6 +18,25 @@ const validateReview = [
       .withMessage('Stars must be a number between 1-5'),
     handleValidationErrors
   ];
+const validateBooking = [
+    check('startDate')
+      .exists({checkFalsy: true})
+      .withMessage("Must provide a start date.")
+      .isDate()
+      .withMessage("Date must be in format YYYY-MM-DD")
+      .isAfter()
+      .withMessage("Date must be in the future."),
+    check('endDate')
+      .exists({checkFalsy:true})
+      .withMessage("Must provide an end date.")
+      .isDate()
+      .withMessage("Date must be in format YYYY-MM-DD")
+      .isAfter()
+      .withMessage('Date must be in the future.'),
+    handleValidationErrors
+  ];
+
+
 
 router.get('/', async (req,res) => {
     const spots = await Spot.findAll()
@@ -26,7 +45,54 @@ router.get('/', async (req,res) => {
 
 
 // create new booking
-router.post('/:spotId/bookings', requireAuth, async(req, res, next) => {
+router.post('/:spotId/bookings', [requireAuth, validateBooking], async(req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId)
+    if (!spot) return res.json({message: "Spot couldn't be found", statusCode: 404})
+
+    // grab the startDate and endDate from the body and alias them
+    const { startDate:start, endDate:end } = req.body
+
+    // if the current user does not own the spot
+    if (spot.ownerId !== req.user.id) {
+        // and the start date is before the end date
+        if (start < end) {
+            // find all bookings that have dates between the requested start and end
+            const conflictCheck = await spot.getBookings({
+                where: {
+                    [Op.or]: {
+                        startDate: {
+                            [Op.and]: {
+                                [Op.gte]: start,
+                                [Op.lte]: end
+                            }
+                        },
+                        endDate: {
+                            [Op.and]: {
+                                [Op.gte]: start,
+                                [Op.lte]: end
+                            }
+                        }
+                    }
+                }
+            })
+            // if there are none (array of bookings is 0 length), add the booking
+            if (conflictCheck.length === 0) {
+                const newBooking = await Booking.create({
+                    userId: req.user.id,
+                    spotId: req.params.spotId,
+                    startDate: start,
+                    endDate: end
+                })
+                res.json(newBooking)
+            // otherwise respond with booking conflict error message
+            } else res.json({message: "Sorry, this spot is already booked for these dates", statusCode: 403})
+
+        } else {
+            res.json({message: "End date must be after start date."})
+        }
+
+
+    } else return res.json({message: "Can't make booking on your own property.", statusCode: 401})
 
 })
 
