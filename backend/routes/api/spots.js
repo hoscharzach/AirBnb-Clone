@@ -55,38 +55,32 @@ router.post('/:spotId/bookings', [requireAuth, validateBooking], async(req, res,
     const { startDate:start, endDate:end } = req.body
 
     // if the current user does not own the spot
-    if (spot.ownerId !== req.user.id) {
+    if (spot.ownerId === req.user.id)
+    return res.json({message: "Can't make booking on your own property.", statusCode: 401})
         // and the start date is before the end date
             // find all bookings that have dates between the requested start and end
-            const conflictCheck = await spot.getBookings({
-              })
-
-              const response = {message: "Sorry, this spot is already booked for the specified dates.", errors: {}}
-              for (reservation of conflictCheck) {
-                if (reservation.startDate <= start && reservation.endDate >= start) {
-                    response.errors.startDate = "Start date conflicts with an existing booking."
-                  }
-                if (reservation.startDate <= end && reservation.endDate >= end) {
+    const conflictCheck = await spot.getBookings()
+    const response = {message: "Sorry, this spot is already booked for the specified dates.", errors: {}}
+        for (reservation of conflictCheck) {
+            if (reservation.startDate <= start && reservation.endDate >= start) {
+                response.errors.startDate = "Start date conflicts with an existing booking."
+            }
+            if (reservation.startDate <= end && reservation.endDate >= end) {
                   response.errors.endDate = "End date conflicts with an existing booking."
-                }
-              }
-                if (response.errors.startDate || response.errors.endDate) {
-                  return res.json(response)
-                } else {
-                  const newBooking = await Booking.create({
+            }
+        }
+            if (response.errors.startDate || response.errors.endDate) {
+                return res.json(response)
+            } else {
+                const newBooking = await Booking.create({
                     startDate: start,
                     endDate: end,
                     userId: req.user.id,
                     spotId: req.params.spotId
                 })
+
                 return res.json(newBooking)
-
                 }
-
-
-
-    } else return res.json({message: "Can't make booking on your own property.", statusCode: 401})
-
 })
 
 // get all bookings for spot based on spot id
