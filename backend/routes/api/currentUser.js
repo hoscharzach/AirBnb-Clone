@@ -4,6 +4,7 @@ const { requireAuth, restoreUser } = require('../../utils/auth')
 const { check } = require('express-validator')
 const { handleValidationErrors} = require('../../utils/validation')
 const {Op} = require('sequelize')
+const { response } = require('express')
 const router = express.Router()
 
 const validateBooking = [
@@ -147,6 +148,27 @@ router.get('/spots', [requireAuth], async (req, res, next) => {
         else return res.json({ message: "You have no spots."})
     }
 })
+
+router.delete('/bookings/:bookingId', requireAuth, async (req, res, next) => {
+  const booking = await Booking.findByPk(req.params.bookingId)
+
+  if (!booking)
+  return res.json({message: "Booking not found", statusCode: 404})
+
+  const spot = await Spot.findByPk(booking.spotId)
+
+  if ((req.user.id !== booking.userId) && (spot.ownerId !== req.user.id))
+  return res.json({message: "You are not authorized to delete this"})
+
+  const today = new Date().toISOString().slice(0, 10)
+
+  if (booking.startDate < today)
+  return res.json({message: "Cannot delete bookings that are in progress or completed", statusCode: 400})
+
+  await booking.destroy()
+  return res.json({message: "Successfully deleted", statusCode: 200})
+
+})
 // edit booking
 router.put('/bookings/:bookingId', [validateBooking, requireAuth], async (req, res, next) => {
   const { startDate:start, endDate:end } = req.body
@@ -158,6 +180,9 @@ router.put('/bookings/:bookingId', [validateBooking, requireAuth], async (req, r
 
   if(userId !== booking.userId)
   return res.json({message: "You are not authorized to edit this booking"})
+
+  if(booking.endDate < new Date().toISOString().slice(0, 10))
+  return res.json({message: "Past bookings can't be modified", statusCode: 400})
 
     const spotId = booking.spotId
     const spot = await Spot.findByPk(spotId)
@@ -193,6 +218,9 @@ router.put('/bookings/:bookingId', [validateBooking, requireAuth], async (req, r
       }
 })
 
+router.get('/test', async (req, res, next) => {
+  console.log(new Date().toISOString().slice(0, 10))
+})
 
 router.get('/bookings', requireAuth, async (req, res, next) => {
   if (req.user) {
