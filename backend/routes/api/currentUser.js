@@ -1,5 +1,5 @@
 const express = require('express')
-const { User, Spot, Review, Image } = require('../../db/models')
+const { User, Spot, Review, Image, Booking } = require('../../db/models')
 const { requireAuth, restoreUser } = require('../../utils/auth')
 const { check } = require('express-validator')
 const { handleValidationErrors} = require('../../utils/validation')
@@ -123,6 +123,28 @@ router.get('/spots', [requireAuth], async (req, res, next) => {
         if (spots) return res.json(spots)
         else return res.json({ message: "You have no spots."})
     }
+})
+
+router.get('/bookings', requireAuth, async (req, res, next) => {
+  if (req.user) {
+    const currUser = req.user.id
+    const bookings = await Booking.findAll({
+      where: {
+        userId: currUser
+      },
+      include: [
+        {model: Spot},
+        {model: User}
+      ],
+      attributes: {
+        include: ['id']
+      }
+
+    })
+    res.json({Bookings: bookings})
+  }
+
+
 })
 
 router.post('/spots', [requireAuth, validateSpot], async (req, res, next) => {

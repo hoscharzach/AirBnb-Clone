@@ -17,7 +17,7 @@ const validateReview = [
       .withMessage('Stars must be a number between 1-5'),
     handleValidationErrors
   ];
-// router.use(requireAuth)
+
 router.get('/', async (req,res) => {
     const spots = await Spot.findAll()
     return res.json(spots)
