@@ -4,7 +4,7 @@ const sequelize = require('sequelize')
 const {check, query} = require('express-validator')
 const { requireAuth } = require('../../utils/auth')
 const { handleValidationErrors} = require('../../utils/validation')
-const {Op, where} = require('sequelize')
+const {Op} = require('sequelize')
 
 const router = express.Router()
 const validateReview = [
@@ -65,8 +65,7 @@ const validateBooking = [
 router.get('/', validateQuery, async (req,res) => {
     const { page, size, maxLat, minLat, minLng, maxLng, minPrice, maxPrice } = req.query
     const where = {}
-    const errorResult = {error: {}}
-    console.log(req.query)
+    const errorResult = {message: "Validation error", statusCode: 400, error: {}}
 
     if (minLat || maxLat) {
         if (minLat >= -90 && minLat <= 90 && maxLat >= -90 && maxLat <= 90) where.lat = {[Op.and]: {
@@ -118,8 +117,6 @@ router.get('/', validateQuery, async (req,res) => {
         else errorResult.error.price = "Price queries must be greater than 0"
     }
 
-    console.log(where)
-
     const spots = await Spot.findAll({
         where,
         limit: size,
@@ -128,10 +125,8 @@ router.get('/', validateQuery, async (req,res) => {
 
 
     if (Object.keys(errorResult.error).length === 0) return res.json(spots)
-    else {
-        errorResult.statusCode = 400
-        return res.json(errorResult)
-    }
+    else return res.json(errorResult)
+
 })
 
 // add image to spot
