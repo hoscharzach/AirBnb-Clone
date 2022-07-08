@@ -1,7 +1,7 @@
 const express = require('express')
 const { Spot, User, Image, Review, Booking } = require('../../db/models')
 const sequelize = require('sequelize')
-const {check} = require('express-validator')
+const {check, query} = require('express-validator')
 const { requireAuth } = require('../../utils/auth')
 const { handleValidationErrors} = require('../../utils/validation')
 const {Op} = require('sequelize')
@@ -47,10 +47,25 @@ const validateBooking = [
     handleValidationErrors
   ]
 
+  const validateQuery = [
+    query('page')
+    .customSanitizer(page => parseInt(page) || 0)
+    .isInt({min: 0, max: 10})
+    .withMessage("Page must be between 0 and 10."),
+    query('size')
+    .customSanitizer(size => parseInt(size) || 20)
+    .isInt({min: 0, max: 20})
+    .withMessage("Size must be between 0 and 20."),
+    query('minLat')
+    .isDecimal()
+    .withMessage("minLat must be a decimal."),
+    handleValidationErrors
+  ]
 
 
-router.get('/', async (req,res) => {
+router.get('/', validateQuery, async (req,res) => {
     const spots = await Spot.findAll()
+    console.log(req.query)
     return res.json(spots)
 })
 
