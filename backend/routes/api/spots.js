@@ -4,7 +4,7 @@ const sequelize = require('sequelize')
 const {check, query} = require('express-validator')
 const { requireAuth } = require('../../utils/auth')
 const { handleValidationErrors} = require('../../utils/validation')
-const {Op} = require('sequelize')
+const {Op, where} = require('sequelize')
 
 const router = express.Router()
 const validateReview = [
@@ -56,15 +56,40 @@ const validateBooking = [
     .customSanitizer(size => parseInt(size) || 20)
     .isInt({min: 1, max: 20})
     .withMessage("Size must be between 1 and 20."),
+    query(['minLat', 'maxLat', 'minLng', 'maxLng', 'minPrice', 'maxPrice'])
+    .customSanitizer(val => parseFloat(val)),
     handleValidationErrors
   ]
 
 
 router.get('/', validateQuery, async (req,res) => {
     const { page, size, maxLat, minLat, minLng, maxLng, minPrice, maxPrice } = req.query
-
-
     const where = {}
+    const errors = {error: {}}
+    console.log(req.query)
+
+    if (minLat || maxLat) {
+        if (minLat >= -90 && minLat <= 90 && maxLat >= -90 && maxLat <= 90) where.lat = {[Op.and]: {
+            [Op.gte]: minLat,
+            [Op.lte]: maxLat
+        }}
+        else if (maxLat >= -90 && maxLat <= 90) where.lat = {[Op.lte]: maxLat}
+        else if (minLat >= -90 && minLat <= 90) where.lat = {[Op.gte]: minLat}
+        else errors.error.lat = "Lat queries must be a decimal between -90 and 90."
+    }
+
+    if (minLng || minLng) {
+        if (minLng >= -180 && minLng <= 180 && maxLng >= -180 && maxLng <= 180) where.lng = {[Op.and]: {
+            [Op.gte]: minLng,
+            [Op.lte]: maxLng
+        }}
+        else if (maxLng >= -180 && maxLng <= 180) where.lng = {[Op.lte]: maxLng}
+        else if (minLng >= -180 && minLng <= 180) where.lng = {[Op.gte]: minLng}
+        else errors.error.lng = "Lng queries must be a decimal between -180 and 180."
+    }
+
+    console.log(where)
+
     const spots = await Spot.findAll({
         where,
         limit: size,
@@ -72,7 +97,8 @@ router.get('/', validateQuery, async (req,res) => {
     })
 
 
-    return res.json(spots)
+    if (Object.keys(errors.error).length === 0) return res.json(spots)
+    else return res.json(errors)
 })
 
 // add image to spot
