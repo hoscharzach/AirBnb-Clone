@@ -65,7 +65,7 @@ const validateBooking = [
 router.get('/', validateQuery, async (req,res) => {
     const { page, size, maxLat, minLat, minLng, maxLng, minPrice, maxPrice } = req.query
     const where = {}
-    const errors = {error: {}}
+    const errorResult = {error: {}}
     console.log(req.query)
 
     if (minLat || maxLat) {
@@ -73,9 +73,16 @@ router.get('/', validateQuery, async (req,res) => {
             [Op.gte]: minLat,
             [Op.lte]: maxLat
         }}
-        else if (maxLat >= -90 && maxLat <= 90) where.lat = {[Op.lte]: maxLat}
-        else if (minLat >= -90 && minLat <= 90) where.lat = {[Op.gte]: minLat}
-        else errors.error.lat = "Lat queries must be a decimal between -90 and 90."
+        else if (maxLat >= -90 && maxLat <= 90) {
+            where.lat = {[Op.lte]: maxLat}
+            if (minLat) errorResult.error.minLat = "Minimum latitude is invalid"
+        }
+        else if (minLat >= -90 && minLat <= 90) {
+            where.lat = {[Op.gte]: minLat}
+            if (maxLat) errorResult.error.maxLat = "Maximum latitude is invalid."
+
+        }
+        else errorResult.error.lat = "Lat queries must be a decimal between -90 and 90."
     }
 
     if (minLng || minLng) {
@@ -83,9 +90,32 @@ router.get('/', validateQuery, async (req,res) => {
             [Op.gte]: minLng,
             [Op.lte]: maxLng
         }}
-        else if (maxLng >= -180 && maxLng <= 180) where.lng = {[Op.lte]: maxLng}
-        else if (minLng >= -180 && minLng <= 180) where.lng = {[Op.gte]: minLng}
-        else errors.error.lng = "Lng queries must be a decimal between -180 and 180."
+        else if (maxLng >= -180 && maxLng <= 180) {
+            where.lng = {[Op.lte]: maxLng}
+            if (minLng) errorResult.error.minLng = "Minimum longitude is invalid"
+        }
+        else if (minLng >= -180 && minLng <= 180) {
+            where.lng = {[Op.gte]: minLng}
+            if (maxLng) errorResult.error.maxLng = "Maximum longitude is invalid"
+        }
+        else errorResult.error.lng = "Lng queries must be a decimal between -180 and 180."
+    }
+
+    if (minPrice || maxPrice) {
+        if (minPrice > 0 && maxPrice > 0) where.price = {
+            [Op.and]: {
+                [Op.gte]: minPrice,
+                [Op.lte]: maxPrice
+            }}
+        else if (minPrice > 0) {
+            where.price = {[Op.gte]: minPrice}
+            if (maxPrice) errorResult.error.maxPrice = "Maximum price must be greater than 0"
+        }
+        else if (maxPrice > 0) {
+            where.price = {[Op.lte]: maxPrice}
+            if (minPrice) errorResult.error.minPrice = "Minimum price must be greater than 0"
+        }
+        else errorResult.error.price = "Price queries must be greater than 0"
     }
 
     console.log(where)
@@ -97,8 +127,11 @@ router.get('/', validateQuery, async (req,res) => {
     })
 
 
-    if (Object.keys(errors.error).length === 0) return res.json(spots)
-    else return res.json(errors)
+    if (Object.keys(errorResult.error).length === 0) return res.json(spots)
+    else {
+        errorResult.statusCode = 400
+        return res.json(errorResult)
+    }
 })
 
 // add image to spot
