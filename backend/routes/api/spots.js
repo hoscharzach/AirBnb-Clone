@@ -49,24 +49,89 @@ const validateBooking = [
 
   const validateQuery = [
     query('page')
-    .customSanitizer(page => parseInt(page) || 0)
-    .isInt({min: 0, max: 10})
-    .withMessage("Page must be between 0 and 10."),
+    .customSanitizer(page => parseInt(page) || 1)
+    .isInt({min: 1, max: 10})
+    .withMessage("Page must be between 1 and 10."),
     query('size')
     .customSanitizer(size => parseInt(size) || 20)
-    .isInt({min: 0, max: 20})
-    .withMessage("Size must be between 0 and 20."),
+    .isInt({min: 1, max: 20})
+    .withMessage("Size must be between 1 and 20."),
+    query(['minLat', 'maxLat', 'minLng', 'maxLng', 'minPrice', 'maxPrice'])
+    .customSanitizer(val => parseFloat(val)),
     handleValidationErrors
   ]
 
 
-router.get('/', async (req,res) => {
+router.get('/', validateQuery, async (req,res) => {
+    const { page, size, maxLat, minLat, minLng, maxLng, minPrice, maxPrice } = req.query
+    const where = {}
+    const errorResult = {message: "Validation error", statusCode: 400, error: {}}
 
+    if (minLat || maxLat) {
+        if (minLat >= -90 && minLat <= 90 && maxLat >= -90 && maxLat <= 90) where.lat = {[Op.and]: {
+            [Op.gte]: minLat,
+            [Op.lte]: maxLat
+        }}
+        else if (maxLat >= -90 && maxLat <= 90) {
+            where.lat = {[Op.lte]: maxLat}
+            if (minLat) errorResult.error.minLat = "Minimum latitude is invalid"
+        }
+        else if (minLat >= -90 && minLat <= 90) {
+            where.lat = {[Op.gte]: minLat}
+            if (maxLat) errorResult.error.maxLat = "Maximum latitude is invalid."
 
-    const spots = await Spot.findAll()
+        }
+        else errorResult.error.lat = "Lat queries must be a decimal between -90 and 90."
+    }
 
+    if (minLng || minLng) {
+        if (minLng >= -180 && minLng <= 180 && maxLng >= -180 && maxLng <= 180) where.lng = {[Op.and]: {
+            [Op.gte]: minLng,
+            [Op.lte]: maxLng
+        }}
+        else if (maxLng >= -180 && maxLng <= 180) {
+            where.lng = {[Op.lte]: maxLng}
+            if (minLng) errorResult.error.minLng = "Minimum longitude is invalid"
+        }
+        else if (minLng >= -180 && minLng <= 180) {
+            where.lng = {[Op.gte]: minLng}
+            if (maxLng) errorResult.error.maxLng = "Maximum longitude is invalid"
+        }
+        else errorResult.error.lng = "Lng queries must be a decimal between -180 and 180."
+    }
 
-    return res.json(spots)
+    if (minPrice || maxPrice) {
+        if (minPrice > 0 && maxPrice > 0) where.price = {
+            [Op.and]: {
+                [Op.gte]: minPrice,
+                [Op.lte]: maxPrice
+            }}
+        else if (minPrice > 0) {
+            where.price = {[Op.gte]: minPrice}
+            if (maxPrice) errorResult.error.maxPrice = "Maximum price must be greater than 0"
+        }
+        else if (maxPrice > 0) {
+            where.price = {[Op.lte]: maxPrice}
+            if (minPrice) errorResult.error.minPrice = "Minimum price must be greater than 0"
+        }
+        else errorResult.error.price = "Price queries must be greater than 0"
+    }
+
+    const result = {}
+    result.spots = await Spot.findAll({
+        where,
+        limit: size,
+        offset: (page - 1 ) * size,
+        raw: true,
+    })
+
+    if (Object.keys(errorResult.error).length === 0) {
+        result.page = page
+        result.size = size
+        return res.json(result)
+    }
+    else return res.json(errorResult)
+
 })
 
 // add image to spot
@@ -224,23 +289,20 @@ router.get('/:spotId', async (req, res, next) => {
     })
 
     // find all reviews related to the spot
-    const reviews = await Review.findAll( {
-        where: {
-            spotId: id
-        }
-    })
+    const result = {}
+    const reviews = await spot.getReviews()
     if (spot) {
-        const jsonSpot = spot.toJSON()
         // add up all the stars from reviews of this spot
         let total = 0
         reviews.forEach(el => {
             total += el.stars
         })
         // add the data to the query's response
-        jsonSpot.numReviews = reviews.length || 0
-        jsonSpot.avgStarRating = total / reviews.length || 0
+        result.spot = spot
+        result.numReviews = reviews.length || 0
+        result.avgStarRating = total / reviews.length || 0
 
-        return res.json(jsonSpot)
+        return res.json(result)
     }
     else {
         res.status(404).json({ Message: "Spot does not exist.", statusCode: 404})
