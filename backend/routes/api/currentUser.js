@@ -76,6 +76,13 @@ const validateSpot = [
     handleValidationErrors
   ];
 
+  const validateImage = [
+    check('imageUrl')
+    .exists({checkFalsy:true})
+    .withMessage("Must provide image URL."),
+    handleValidationErrors
+  ]
+
 
 // delete a review
 router.delete('/reviews/:reviewId', [requireAuth], async (req, res, next) => {
@@ -90,6 +97,25 @@ router.delete('/reviews/:reviewId', [requireAuth], async (req, res, next) => {
   }
 
 
+})
+
+router.post('/reviews/:reviewId/images', [requireAuth, validateImage], async (req, res, next) => {
+  const review = await Review.findByPk(req.params.reviewId)
+  if (!review) return res.json({message: "Review could not be found", statusCode: 404})
+
+  if(review.userId !== req.user.id)
+  return res.json({message: "Only the owner of this review may add images", statusCode: 401})
+
+  const images = await review.getImages()
+  if (images.length >= 10) return res.json({message: "No more than 10 images allowed per review", statusCode: 400})
+
+  const newImage = await Image.create({
+    type: 'review',
+    imageUrl: req.body.imageUrl,
+    reviewId: req.params.reviewId,
+    userId: req.user.id})
+
+    return res.json(newImage)
 })
 // edit a review
 router.put('/reviews/:reviewId', [requireAuth, validateReview], async (req, res, next) => {
