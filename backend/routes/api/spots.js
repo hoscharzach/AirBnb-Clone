@@ -117,14 +117,19 @@ router.get('/', validateQuery, async (req,res) => {
         else errorResult.error.price = "Price queries must be greater than 0"
     }
 
-    const spots = await Spot.findAll({
+    const result = {}
+    result.spots = await Spot.findAll({
         where,
         limit: size,
-        offset: (page - 1 ) * size
+        offset: (page - 1 ) * size,
+        raw: true,
     })
 
-
-    if (Object.keys(errorResult.error).length === 0) return res.json(spots)
+    if (Object.keys(errorResult.error).length === 0) {
+        result.page = page
+        result.size = size
+        return res.json(result)
+    }
     else return res.json(errorResult)
 
 })
@@ -284,23 +289,20 @@ router.get('/:spotId', async (req, res, next) => {
     })
 
     // find all reviews related to the spot
-    const reviews = await Review.findAll( {
-        where: {
-            spotId: id
-        }
-    })
+    const result = {}
+    const reviews = await spot.getReviews()
     if (spot) {
-        const jsonSpot = spot.toJSON()
         // add up all the stars from reviews of this spot
         let total = 0
         reviews.forEach(el => {
             total += el.stars
         })
         // add the data to the query's response
-        jsonSpot.numReviews = reviews.length || 0
-        jsonSpot.avgStarRating = total / reviews.length || 0
+        result.spot = spot
+        result.numReviews = reviews.length || 0
+        result.avgStarRating = total / reviews.length || 0
 
-        return res.json(jsonSpot)
+        return res.json(result)
     }
     else {
         res.status(404).json({ Message: "Spot does not exist.", statusCode: 404})
