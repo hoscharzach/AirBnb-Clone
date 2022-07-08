@@ -52,7 +52,7 @@ router.post('/', validateLogin, async (req, res, next) => {
 
 router.delete('/', async (req, res) => {
     res.clearCookie('token')
-    return res.json({ message: 'success'})
+    return res.json({ message: 'Successfully logged out'})
 })
 
 module.exports = router

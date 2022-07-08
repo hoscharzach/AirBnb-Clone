@@ -32,7 +32,7 @@ module.exports = {
 
   async down (queryInterface, Sequelize) {
     await queryInterface.bulkDelete('Reviews', {
-      userId: [2, 1]
+      userId: [2, 1, 3]
     })
   }
 };
