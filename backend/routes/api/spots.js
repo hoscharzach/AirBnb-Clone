@@ -56,16 +56,16 @@ const validateBooking = [
     .customSanitizer(size => parseInt(size) || 20)
     .isInt({min: 0, max: 20})
     .withMessage("Size must be between 0 and 20."),
-    query('minLat')
-    .isDecimal()
-    .withMessage("minLat must be a decimal."),
     handleValidationErrors
   ]
 
 
-router.get('/', async (req,res) => {
+router.get('/', validateQuery, async (req,res) => {
+
+
     const spots = await Spot.findAll()
-    console.log(req.query)
+
+
     return res.json(spots)
 })
 
