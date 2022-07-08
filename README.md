@@ -52,7 +52,7 @@ Returns the information about the current user that is logged in.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /session
+  * URL: /api/session
   * Body: none
 
 * Successful Response
@@ -63,11 +63,14 @@ Returns the information about the current user that is logged in.
 
     ```json
     {
-      "id": 1,
-      "firstName": "John",
-      "lastName": "Smith",
-      "email": "john.smith@gmail.com"
+    "safeUser": {
+        "id": 1,
+        "username": "Demo-lition",
+        "email": "demo@user.io",
+        "firstName": "Demo",
+        "lastName": "Lition"
     }
+  }
     ```
 
 ## Log In a User
@@ -78,16 +81,14 @@ information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: /session
+  * URL: /api/session
   * Headers:
     * Content-Type: application/json
   * Body:
 
     ```json
-    {
-      "email": "john.smith@gmail.com",
-      "password": "secret password"
-    }
+    { "credential": "Demo-lition",
+     "password": "password" }
     ```
 
 * Successful Response
@@ -98,12 +99,15 @@ information.
 
     ```json
     {
-      "id": 1,
-      "firstName": "John",
-      "lastName": "Smith",
-      "email": "john.smith@gmail.com",
-      "token": ""
-    }
+    "safeUser": {
+        "id": 1,
+        "username": "Demo-lition",
+        "email": "demo@user.io",
+        "firstName": "Demo",
+        "lastName": "Lition"
+    },
+    "token": ""
+  }
     ```
 
 * Error Response: Invalid credentials
@@ -144,13 +148,14 @@ user's information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: /session
+  * URL: /users
   * Headers:
     * Content-Type: application/json
   * Body:
 
     ```json
     {
+      "username": "johnsmith",
       "firstName": "John",
       "lastName": "Smith",
       "email": "john.smith@gmail.com",
@@ -166,12 +171,14 @@ user's information.
 
     ```json
     {
-      "id": 1,
-      "firstName": "John",
-      "lastName": "Smith",
-      "email": "john.smith@gmail.com",
-      "token": ""
+    "returnUser": {
+        "id": 4,
+        "firstName": "John",
+        "lastName": "Smith",
+        "email": "john.smith@gmail.com",
+        "token": ""
     }
+  }
     ```
 
 * Error response: User already exists with the specified email
@@ -215,7 +222,7 @@ Returns all the spots.
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: /spots
+  * URL: /api/spots
   * Body: none
 
 * Successful Response
@@ -254,7 +261,7 @@ Returns all the spots owned (created) by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /currentUser/spots
+  * URL: /api/currentUser/spots
   * Body: none
 
 * Successful Response
@@ -293,7 +300,7 @@ Returns the details of a spot specified by its id.
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: /spots/:spotId
+  * URL: /api/spots/:spotId
   * Body: none
 
 * Successful Response
@@ -350,7 +357,7 @@ Creates and returns a new spot.
 * Require Authentication: true
 * Request
   * Method: POST
-  * URL: /currentUser/spots
+  * URL: /api/currentUser/spots
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -425,7 +432,7 @@ Updates and returns an existing spot.
 * Require proper authorization: Spot must belong to the current user
 * Request
   * Method: PUT
-  * URL: /currentUser/spots/:spotId
+  * URL: /api/currentUser/spots/:spotId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -513,7 +520,7 @@ Deletes an existing spot.
 * Require proper authorization: Spot must belong to the current user
 * Request
   * Method: DELETE
-  * URL: /currentUser/spots/:spotId
+  * URL: /api/currentUser/spots/:spotId
   * Body: none
 
 * Successful Response
@@ -549,7 +556,7 @@ Returns all the reviews written by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /currentUser/reviews
+  * URL: /api/currentUser/reviews
   * Body: none
 
 * Successful Response
@@ -601,7 +608,7 @@ Returns all the reviews that belong to a spot specified by id.
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: /spots/:spotId/reviews
+  * URL: /api/spots/:spotId/reviews
   * Body: none
 
 * Successful Response
@@ -654,7 +661,7 @@ Create and return a new review for a spot specified by id.
 * Require Authentication: true
 * Request
   * Method: POST
-  * URL: /spots/:spotId/reviews
+  * URL: /api/spots/:spotId/reviews
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -735,7 +742,7 @@ Update and return an existing review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: PUT
-  * URL: /currentUser/reviews/:reviewId
+  * URL: /api/currentUser/reviews/:reviewId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -803,7 +810,7 @@ Delete an existing review.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: DELETE
-  * URL: /currentUser/reviews/:reviewId
+  * URL: /api/currentUser/reviews/:reviewId
   * Body: none
 
 * Successful Response
@@ -839,7 +846,7 @@ Return all the bookings that the current user has made.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /currentUser/bookings
+  * URL: /api/currentUser/bookings
   * Body: none
 
 * Successful Response
@@ -884,7 +891,7 @@ Return all the bookings for a spot specified by id.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: /spots/:spotId/bookings
+  * URL: /api/spots/:spotId/bookings
   * Body: none
 
 * Successful Response: If you ARE NOT the owner of the spot.
@@ -953,7 +960,7 @@ Create and return a new booking from a spot specified by id.
 * Require proper authorization: Spot must NOT belong to the current user
 * Request
   * Method: POST
-  * URL: /spots/:spotId/bookings
+  * URL: /api/spots/:spotId/bookings
   * Body: none
 
 * Successful Response
@@ -1012,7 +1019,7 @@ Update and return an existing booking.
 * Require proper authorization: Booking must belong to the current user
 * Request
   * Method: PUT
-  * URL: /currentUser/bookings/:bookingsId
+  * URL: /api/currentUser/bookings/:bookingsId
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -1094,7 +1101,7 @@ Delete an existing booking.
   Spot must belong to the current user
 * Request
   * Method: DELETE
-  * URL: currentUser/bookings/:bookingsId
+  * URL: /api/currentUser/bookings/:bookingsId
   * Body: none
 
 * Successful Response
