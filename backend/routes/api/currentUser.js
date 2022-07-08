@@ -83,7 +83,16 @@ const validateSpot = [
     handleValidationErrors
   ]
 
+router.delete('/images/:imageId', requireAuth, async (req, res, next) => {
+  const image = await Image.findByPk(req.params.imageId)
+  if (!image) return res.json({message: "Image couldn't be found", statusCode: 404})
 
+  if (image.userId !== req.user.id)
+  return res.json({message: "You are not authorized to delete this image", statusCode: 401})
+
+  await image.destroy()
+  return res.json({message: "Successfully deleted", statusCode: 200})
+})
 // delete a review
 router.delete('/reviews/:reviewId', [requireAuth], async (req, res, next) => {
   const review = await Review.findByPk(req.params.reviewId)

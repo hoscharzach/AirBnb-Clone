@@ -1191,14 +1191,14 @@ Create and return a new image for a review specified by id.
 * Require proper authorization: Review must belong to the current user
 * Request
   * Method: POST
-  * URL: /users/:userId/reviews/:reviewId/images
+  * URL: /api/currentUser/reviews/:reviewId/images
   * Headers:
     * Content-Type: application/json
   * Body:
 
     ```json
     {
-      "url": "image url"
+      "imageUrl": "image url"
     }
     ```
 
@@ -1253,7 +1253,7 @@ Delete an existing image.
   the image's imageableId and imageableType
 * Request
   * Method: DELETE
-  * URL: /users/:userId/images
+  * URL: /api/currentUser/images/:imageId
   * Body: none
 
 * Successful Response
