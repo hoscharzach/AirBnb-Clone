@@ -1144,14 +1144,14 @@ Create and return a new image for a spot specified by id.
 * Require proper authorization: Spot must belong to the current user
 * Request
   * Method: POST
-  * URL: users/:userId/spots/:spotId/images
+  * URL: /api/spots/:spotId/images
   * Headers:
     * Content-Type: application/json
   * Body:
 
     ```json
     {
-      "url": "image url"
+      "imageUrl": "image url"
     }
     ```
 

@@ -41,7 +41,10 @@ const validateBooking = [
   ];
 
   const validateImage = [
-
+    check('imageUrl')
+    .exists({checkFalsy:true})
+    .withMessage("Must provide image URL."),
+    handleValidationErrors
   ]
 
 
@@ -52,8 +55,18 @@ router.get('/', async (req,res) => {
 })
 
 // add image to spot
-router.post('/:spotId/images', requireAuth, async (req, res, next) => {
+router.post('/:spotId/images', [validateImage, requireAuth], async (req, res, next) => {
+    const spot = await Spot.findByPk(req.params.spotId)
+    if (!spot) return res.json({message: "Spot couldn't be found", statusCode: 404})
 
+    if (spot.ownerId !== req.user.id) return res.json({message: "You must own this spot to add an image", statusCode: 401})
+
+    const images = await spot.getPics()
+    console.log(images)
+    if (images.length >= 10) return res.json({message: "Max 10 images allowed per spot"})
+
+    const newImage = await Image.create({ type: 'spot', spotId: req.params.spotId, imageUrl: req.body.imageUrl, userId: req.user.id})
+    return res.json(newImage)
 })
 
 // create new booking

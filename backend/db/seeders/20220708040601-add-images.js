@@ -31,6 +31,13 @@ module.exports = {
         spotId: null,
         reviewId: 4
       },
+      {
+        type: "spot",
+        imageUrl: "http://tinyurl.com/y56knttz",
+        userId: 2,
+        spotId: 2,
+        reviewId: null
+      },
 
     ])
   },
