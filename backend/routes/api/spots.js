@@ -40,12 +40,22 @@ const validateBooking = [
   handleValidationErrors
   ];
 
+  const validateImage = [
+
+  ]
+
 
 
 router.get('/', async (req,res) => {
     const spots = await Spot.findAll()
     return res.json(spots)
 })
+
+// add image to spot
+router.post('/:spotId/images', requireAuth, async (req, res, next) => {
+
+})
+
 // create new booking
 router.post('/:spotId/bookings', [requireAuth, validateBooking], async(req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId)
