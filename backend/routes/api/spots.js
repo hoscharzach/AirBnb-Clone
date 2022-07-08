@@ -60,7 +60,7 @@ const validateBooking = [
   ]
 
 
-router.get('/', validateQuery, async (req,res) => {
+router.get('/', async (req,res) => {
 
 
     const spots = await Spot.findAll()
