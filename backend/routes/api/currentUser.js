@@ -197,6 +197,10 @@ router.put('/bookings/:bookingId', [validateBooking, requireAuth], async (req, r
 
     const response = {message: "Sorry, this spot is already booked for the specified dates.", errors: {}}
     for (reservation of conflictCheck) {
+
+      if (reservation.startDate === start && reservation.endDate === end)
+      return res.json({message: "Booking already exists for the specified dates."})
+
       if (reservation.startDate <= start && reservation.endDate >= start) {
           response.errors.startDate = "Start date conflicts with an existing booking."
         }
