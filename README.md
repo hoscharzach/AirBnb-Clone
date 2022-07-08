@@ -961,7 +961,14 @@ Create and return a new booking from a spot specified by id.
 * Request
   * Method: POST
   * URL: /api/spots/:spotId/bookings
-  * Body: none
+  * Body:
+
+    ```json
+    {
+      "startDate": "2022-10-15",
+      "endDate": "2022-10-20",
+    }
+    ```
 
 * Successful Response
   * Status Code: 200

@@ -49,21 +49,27 @@ const validateBooking = [
 
   const validateQuery = [
     query('page')
-    .customSanitizer(page => parseInt(page) || 0)
-    .isInt({min: 0, max: 10})
-    .withMessage("Page must be between 0 and 10."),
+    .customSanitizer(page => parseInt(page) || 1)
+    .isInt({min: 1, max: 10})
+    .withMessage("Page must be between 1 and 10."),
     query('size')
     .customSanitizer(size => parseInt(size) || 20)
-    .isInt({min: 0, max: 20})
-    .withMessage("Size must be between 0 and 20."),
+    .isInt({min: 1, max: 20})
+    .withMessage("Size must be between 1 and 20."),
     handleValidationErrors
   ]
 
 
-router.get('/', async (req,res) => {
+router.get('/', validateQuery, async (req,res) => {
+    const { page, size, maxLat, minLat, minLng, maxLng, minPrice, maxPrice } = req.query
 
 
-    const spots = await Spot.findAll()
+    const where = {}
+    const spots = await Spot.findAll({
+        where,
+        limit: size,
+        offset: (page - 1 ) * size
+    })
 
 
     return res.json(spots)
