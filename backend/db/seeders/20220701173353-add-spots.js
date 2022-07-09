@@ -19,17 +19,47 @@ module.exports = {
       },
       {
         // id: 2,
-        ownerId: 1,
-        address: "1375 E Buena Vista Dr",
-        city: "Orlando",
-        state: "Florida",
+        ownerId: 2,
+        address: "301 Main St",
+        city: "Graysville",
+        state: "Alabama",
         country: "United States of America",
-        lat: 81.5707,
-        lng: 28.3772,
-        name: "Walt Disney World Resort",
-        description: "Mickey Mouse lives here or something",
-        price: 1000000,
-        previewImage: "https://d23.com/app/uploads/2016/09/1180-x-600-092916_wdw-45th-45-photos-gallery.jpg"
+        lat: 33.63,
+        lng: -86.91,
+        name: "Random Place in Alabama",
+        description: "I don't know it's just a house",
+        price: 50,
+        previewImage: "preview-image"
+
+      },
+      {
+        // id: 2,
+        ownerId: 3,
+        address: "1331 Pennsylvania Avenue",
+        city: "Washington",
+        state: "DC",
+        country: "United States of America",
+        lat: 38.8966,
+        lng: 77.03,
+        name: "Marriot Hotel",
+        description: "It's a hotel... but on airbnb",
+        price: 200,
+        previewImage: "preview-image"
+
+      },
+      {
+        // id: 2,
+        ownerId: 1,
+        address: "2 Officers Row",
+        city: "Yellowstone Park",
+        state: "Wyoming",
+        country: "United States of America",
+        lat: 44.43,
+        lng: -110.575620,
+        name: "Yellowstone National Park",
+        description: "Great view come see the animals and stuff",
+        price: 250,
+        previewImage: "preview-image"
 
       },
     ])
@@ -37,11 +67,8 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    const Op = Sequelize.Op
     await queryInterface.bulkDelete('Spots', {
-      name: {
-        [Op.in]: ["Walt Disney World Resort", "App Academy"]
-      }
+      ownerId: [1,2,3]
     })
   }
 };
