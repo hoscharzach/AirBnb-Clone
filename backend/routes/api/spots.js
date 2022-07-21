@@ -84,7 +84,7 @@ router.get('/', validateQuery, async (req,res) => {
         else errorResult.error.lat = "Lat queries must be a decimal between -90 and 90."
     }
 
-    if (minLng || minLng) {
+    if (minLng || maxLng) {
         if (minLng >= -180 && minLng <= 180 && maxLng >= -180 && maxLng <= 180) where.lng = {[Op.and]: {
             [Op.gte]: minLng,
             [Op.lte]: maxLng
