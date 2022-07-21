@@ -38,5 +38,6 @@
   },
   "devDependencies": {
     "redux-logger": "^3.0.6"
-  }
+  },
+  "proxy": "https://zach-bnb-main.herokuapp.com"
 }

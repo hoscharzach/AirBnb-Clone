@@ -21,9 +21,9 @@ router.use('/spots', spotsRouter)
 router.use('/users', usersRouter)
 router.use('/currentUser', currentUserRouter)
 
-router.post('/test', (req, res) => {
-    res.json({requestBody: req.body})
-})
+// router.post('/test', (req, res) => {
+//     res.json({requestBody: req.body})
+// })
 
 
 module.exports = router
