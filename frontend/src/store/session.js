@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf"
 
 const LOGIN = 'users/login'
 const LOGOUT = 'users/logout'
+const RESTORE = 'users/restore'
 
 
 const initialState = {
@@ -21,6 +22,21 @@ export const logout = () => {
     }
 }
 
+export const restore = (user) => {
+    return {
+        type: RESTORE,
+        user
+    }
+}
+
+export const thunkRestoreSession = () => async dispatch => {
+    const response = await csrfFetch('/api/session')
+
+    if (response) {
+        const user = await response.json()
+        dispatch(restore(user))
+    }
+}
 export const thunkLogout = () => async dispatch => {
     const response = await csrfFetch('/api/session', {
         method: 'DELETE'
@@ -54,11 +70,20 @@ export const thunkLogin = (credentials) => async dispatch => {
 
 
 export const sessionReducer = (state = initialState, action) => {
+    let newState
     switch (action.type) {
+        case RESTORE:
+            newState = {...initialState}
+            newState.user = {
+                id: action.user.user.id,
+                email: action.user.user.email,
+                username: action.user.user.username
+            }
+            return newState
         case LOGOUT:
             return {...initialState}
         case LOGIN:
-            const newState = {...state}
+            newState = {...state}
             newState.user = {
                 id: action.user.safeUser.id,
                 email: action.user.safeUser.email,

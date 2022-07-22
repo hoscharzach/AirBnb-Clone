@@ -1,12 +1,12 @@
 import { thunkLogin } from "../../store/session";
 import '../../components/LoginFormPage/loginform.css'
 import { useState} from 'react'
-import { useHistory, Redirect } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
 export default function LoginFormPage () {
     const dispatch = useDispatch()
-    const history = useHistory()
+    // const history = useHistory()
     const user = useSelector(state => state.session.user)
 
     const [errors, setErrors] = useState([])
@@ -17,18 +17,15 @@ export default function LoginFormPage () {
         return (
             <>
             <h1>Already logged in</h1>
-            {console.log("redirecting to home, already logged in")}
+            {/* {console.log("redirecting to home, already logged in")} */}
             <Redirect to="/" />
             </>
         )
     }
 
-
     function handleSubmit(e) {
         e.preventDefault()
         setErrors([])
-
-        const errors = {}
 
         const payload = {
             credential,
