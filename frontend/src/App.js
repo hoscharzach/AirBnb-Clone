@@ -1,15 +1,20 @@
 import { thunkLogin, thunkLogout } from './store/session'
 import { useDispatch } from 'react-redux'
+import LoginFormPage from './components/LoginFormPage/LoginFormPage';
+import { Switch, Route } from 'react-router-dom'
 
 function App() {
-  const dispatch = useDispatch()
   return (
-    // <h1>Hello from App</h1>
-    <div>
-    <button onClick={(e) => dispatch(thunkLogin({ "credential": "Demo-lition", "password": "password" }))}>LOGIN</button>
-    <br></br>
-    <button onClick={(e) => dispatch(thunkLogout())}>LOGOUT</button>
-    </div>
+    <>
+    <Switch>
+      <Route exact path="/">
+        <h1>Hello from home</h1>
+      </Route>
+      <Route path="/login">
+    <LoginFormPage />
+      </Route>
+    </Switch>
+    </>
   );
 }
 
