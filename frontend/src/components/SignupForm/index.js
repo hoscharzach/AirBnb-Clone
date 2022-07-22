@@ -12,6 +12,7 @@ export default function SignupForm() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState([])
+    const [confirmPassword, setConfirmPassword] = useState('')
 
     function onSubmit (e) {
         e.preventDefault()
@@ -47,6 +48,7 @@ export default function SignupForm() {
             <input value={lastName} onChange={(e) => setLastName(e.target.value)} type="text" placeholder="LastName"></input>
             <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email"></input>
             <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password"></input>
+            <input value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="password" placeholder="Password"></input>
             <button>Sign Up</button>
         </form>
         </>
