@@ -3,10 +3,18 @@ import { csrfFetch } from "./csrf"
 const LOGIN = 'users/login'
 const LOGOUT = 'users/logout'
 const RESTORE = 'users/restore'
+const SIGNUP = 'users/signup'
 
 
 const initialState = {
     user: null
+}
+
+export const signup = (user) => {
+    return {
+        type: SIGNUP,
+        user
+    }
 }
 
 export const login = (user) => {
@@ -29,13 +37,32 @@ export const restore = (user) => {
     }
 }
 
+export const thunkSignup = (body) => async dispatch => {
+    const response = await csrfFetch('/api/users', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(body)
+    })
+
+    if (response) {
+        const data = await response.json()
+        const { returnUser:user } = data
+        dispatch(signup(user))
+        return data
+    } else throw response
+}
+
 export const thunkRestoreSession = () => async dispatch => {
     const response = await csrfFetch('/api/session')
 
     if (response) {
         const user = await response.json()
-        dispatch(restore(user))
-    }
+        const { username } = user
+        if (username) dispatch(restore(user))
+        else return user.message
+    } else return response
 }
 export const thunkLogout = () => async dispatch => {
     const response = await csrfFetch('/api/session', {
@@ -72,6 +99,15 @@ export const thunkLogin = (credentials) => async dispatch => {
 export const sessionReducer = (state = initialState, action) => {
     let newState
     switch (action.type) {
+        case SIGNUP:
+            console.log(action)
+            newState = {...initialState}
+            newState.user = {
+                id: action.user.id,
+                email: action.user.email,
+                username: action.user.username
+            }
+            return newState
         case RESTORE:
             newState = {...initialState}
             newState.user = {

@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux'
 
 export default function LoginFormPage () {
     const dispatch = useDispatch()
-    // const history = useHistory()
     const user = useSelector(state => state.session.user)
 
     const [errors, setErrors] = useState([])
@@ -15,11 +14,7 @@ export default function LoginFormPage () {
 
     if (user) {
         return (
-            <>
-            <h1>Already logged in</h1>
-            {/* {console.log("redirecting to home, already logged in")} */}
             <Redirect to="/" />
-            </>
         )
     }
 

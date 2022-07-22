@@ -1,3 +1,15 @@
+//console commands
+
+//sign up
+window.store.dispatch(window.sessionActions.thunkSignup({username: 'hello', password: 'password', email: 'email@email.com', lastName: 'Doe', firstName: 'John'}))
+
+
+
+
+
+
+
+
 // create spot
 
 //login
