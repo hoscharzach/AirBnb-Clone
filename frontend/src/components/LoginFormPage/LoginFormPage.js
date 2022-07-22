@@ -1,4 +1,4 @@
-import { thunkLogin, logout } from "../../store/session";
+import { thunkLogin } from "../../store/session";
 import '../../components/LoginFormPage/loginform.css'
 import { useState} from 'react'
 import { useHistory, Redirect } from 'react-router-dom'
@@ -9,6 +9,7 @@ export default function LoginFormPage () {
     const history = useHistory()
     const user = useSelector(state => state.session.user)
 
+    const [errors, setErrors] = useState([])
     const [credential, setCredential] = useState('')
     const [password, setPassword] = useState('')
 
@@ -16,6 +17,7 @@ export default function LoginFormPage () {
         return (
             <>
             <h1>Already logged in</h1>
+            {console.log("redirecting to home, already logged in")}
             <Redirect to="/" />
             </>
         )
@@ -24,20 +26,32 @@ export default function LoginFormPage () {
 
     function handleSubmit(e) {
         e.preventDefault()
+        setErrors([])
+
+        const errors = {}
 
         const payload = {
             credential,
             password
         }
 
-        dispatch(thunkLogin(payload))
-        history.push('/')
+        return dispatch(thunkLogin(payload))
+      .catch(async (res) => {
+        const data = await res.json();
+        console.log(data)
+        if (data && data.errors) setErrors(data.errors);
+      });
     }
 
     return (
         <form onSubmit={handleSubmit} className="login-form">
-            <input type="text" placeholder="Username or email" value={credential} onChange={(e) => setCredential(e.target.value)} />
-            <input type="text" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)}></input>
+            <ul>
+                {errors.map((el, i) => (
+                    <li key={i}>{el}</li>
+                ))}
+            </ul>
+            <input type="text" placeholder="Username or Email" value={credential} onChange={(e) => setCredential(e.target.value)} required />
+            <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required ></input>
             <button>Log-in</button>
         </form>
     )

@@ -8,14 +8,14 @@ const initialState = {
     user: null
 }
 
-const login = (user) => {
+export const login = (user) => {
     return {
         type: LOGIN,
         user
     }
 }
 
-const logout = () => {
+export const logout = () => {
     return {
         type: LOGOUT
     }
@@ -56,7 +56,7 @@ export const thunkLogin = (credentials) => async dispatch => {
 export const sessionReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOGOUT:
-            return initialState
+            return {...initialState}
         case LOGIN:
             const newState = {...state}
             newState.user = {
