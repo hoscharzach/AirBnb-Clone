@@ -59,7 +59,7 @@ export const thunkRestoreSession = () => async dispatch => {
 
     if (response) {
         const user = await response.json()
-        const { username } = user
+        const { username } = user.user
         if (username) dispatch(restore(user))
         else return user.message
     } else return response
@@ -100,7 +100,6 @@ export const sessionReducer = (state = initialState, action) => {
     let newState
     switch (action.type) {
         case SIGNUP:
-            console.log(action)
             newState = {...initialState}
             newState.user = {
                 id: action.user.id,

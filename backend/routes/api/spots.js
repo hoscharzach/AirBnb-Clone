@@ -142,7 +142,7 @@ router.post('/:spotId/images', [validateImage, requireAuth], async (req, res, ne
     if (spot.ownerId !== req.user.id) return res.json({message: "You must own this spot to add an image", statusCode: 401})
 
     const images = await spot.getPics()
-    console.log(images)
+    // console.log(images)
     if (images.length >= 10) return res.json({message: "Max 10 images allowed per spot"})
 
     const newImage = await Image.create({ type: 'spot', spotId: req.params.spotId, imageUrl: req.body.imageUrl, userId: req.user.id})

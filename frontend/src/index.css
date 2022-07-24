@@ -1,3 +1,8 @@
+* {
+    max-width: 70vw;
+    border: 2px solid red;
+}
+
 body {
     display: flex;
     flex-direction: column;

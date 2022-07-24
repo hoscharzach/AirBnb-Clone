@@ -5,19 +5,46 @@ import ProfileButton from "./ProfileButton"
 import * as sessionActions from '../../store/session'
 
 
-export default function Navigation () {
-    const sessionUser = useSelector(state => state.session.user)
-    const dispatch = useDispatch()
-    const [showMenu, setShowMenu] = useState(false)
+function Navigation({ isLoaded }){
+    const sessionUser = useSelector(state => state.session.user);
 
-        return (
-            <nav>
-                <NavLink to="/">Home</NavLink>
-                {sessionUser && <ProfileButton user={sessionUser}showMenu={showMenu} setShowMenu={setShowMenu}/>}
-                {sessionUser && <button onClick={async (e) => dispatch(sessionActions.thunkLogout())}>Logout</button>}
-                {!sessionUser && <NavLink to="/login">Login</NavLink>}
-                {!sessionUser && <NavLink to="/signup">Signup</NavLink>}
-            </nav>
-        )
+    let sessionLinks;
+    if (sessionUser) {
+      sessionLinks = (
+        <ProfileButton user={sessionUser} />
+      );
+    } else {
+      sessionLinks = (
+        <>
+          <NavLink to="/login">Log In</NavLink>
+          <NavLink to="/signup">Sign Up</NavLink>
+        </>
+      );
+    }
 
-}
+    return (
+      <ul>
+        <li>
+          <NavLink exact to="/">Home</NavLink>
+          {isLoaded && sessionLinks}
+        </li>
+      </ul>
+    );
+  }
+
+  export default Navigation;
+
+// export default function Navigation () {
+//     const sessionUser = useSelector(state => state.session.user)
+//     const dispatch = useDispatch()
+
+//         return (
+//             <nav>
+//                 <NavLink to="/">Home</NavLink>
+//                 {sessionUser && <ProfileButton user={sessionUser}/>}
+//                 {!sessionUser && <NavLink to="/login">Login</NavLink>}
+//                 {!sessionUser && <NavLink to="/signup">Signup</NavLink>}
+//             </nav>
+//         )
+
+// }

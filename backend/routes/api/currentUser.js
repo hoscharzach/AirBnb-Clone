@@ -153,7 +153,7 @@ router.put('/reviews/:reviewId', [requireAuth, validateReview], async (req, res,
 router.get('/reviews', requireAuth, async (req, res, next) => {
 
     const id = req.user.id
-    console.log(req.user)
+    // console.log(req.user)
     const reviews = await Review.findAll({
       include: [
         {model: Image},
@@ -296,9 +296,9 @@ router.post('/spots', [requireAuth, validateSpot], async (req, res, next) => {
 })
 
 router.delete('/spots/:spotId', requireAuth, async (req, res, next) => {
-  console.log("curr user id", req.user.id)
+  // console.log("curr user id", req.user.id)
   const spot = await Spot.findByPk(req.params.spotId)
-  console.log("curr spot owner id", spot.ownerId)
+  // console.log("curr spot owner id", spot.ownerId)
 
   if (spot) {
     if (req.user.id === spot.ownerId) {

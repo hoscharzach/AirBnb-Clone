@@ -34,7 +34,7 @@ export default function SignupForm() {
             dispatch(thunkSignup(payload))
             .catch(async (res) => {
                 const data = await res.json();
-                console.log(data)
+                // console.log(data)
                 if (data && data.errors) setErrors(data.errors);
               });
         } else setErrors(["Passwords do not match"])
