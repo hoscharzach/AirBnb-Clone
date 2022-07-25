@@ -112,8 +112,8 @@ export const sessionReducer = (state = initialState, action) => {
         case RESTORE:
             newState = {...initialState}
             newState.user = {
-                id: action.userid,
-                email: action.useremail,
+                id: action.user.id,
+                email: action.user.email,
                 username: action.user.username
             }
             return newState
