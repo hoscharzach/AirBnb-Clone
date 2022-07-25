@@ -1,21 +1,28 @@
 import LoginFormPage from './components/LoginFormPage';
 import * as sessionActions from './store/session'
+import * as spotActions from './store/spots'
 import { useDispatch, useSelector } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import './index.css';
 import SignupForm from './components/SignupForm';
 import Navigation from './components/Navigation';
+import SpotDisplay from './components/SpotDisplay'
 
 
 
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
+  const spots = useSelector(state => state.spots)
 
   useEffect(() => {
     dispatch(sessionActions.thunkRestoreSession()).then(() => setIsLoaded(true));
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(spotActions.thunkLoadAllSpots())
+  },[])
 
   return (
     <>
@@ -27,6 +34,9 @@ function App() {
           </Route>
           <Route path="/signup">
             <SignupForm />
+          </Route>
+          <Route path="/">
+            <SpotDisplay />
           </Route>
         </Switch>
       )}
