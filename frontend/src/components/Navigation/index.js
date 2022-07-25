@@ -10,7 +10,10 @@ function Navigation({ isLoaded }){
     let sessionLinks;
     if (sessionUser) {
       sessionLinks = (
+        <>
+        <NavLink to="/host-form">Host</NavLink>
         <ProfileButton user={sessionUser} />
+        </>
       );
     } else {
       sessionLinks = (

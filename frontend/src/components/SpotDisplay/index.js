@@ -11,7 +11,7 @@ export default function SpotDisplay () {
             <p>{spot.address}</p>
             <p>{spot.price}</p>
             <p>{spot.description} </p>
-            <img src={spot.previewImage} alt={spot.description} ></img>
+            {/* <img src={spot.previewImage} alt={" "} ></img> */}
         </div>
     )
 }
