@@ -2,16 +2,16 @@ import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 
 export default function SpotDisplay () {
-    const spotId = useParams()
+    const { spotId } = useParams()
 
     const spot = useSelector(state => state.spots.normalizedSpots[Number(spotId)])
-    console.log(spot)
     return (
         <div className="main-spot-container">
-            <h1>SpotDisplay</h1>
-            <p>{spot.name}</p>
+            <h1>{spot.name}</h1>
             <p>{spot.address}</p>
-            <p>{spot.cost}</p>
+            <p>{spot.price}</p>
+            <p>{spot.description} </p>
+            <img src={spot.previewImage} alt={spot.description} ></img>
         </div>
     )
 }

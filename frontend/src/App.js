@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import './index.css';
 import SignupForm from './components/SignupForm';
 import Navigation from './components/Navigation';
-import SpotDisplay from './components/SpotIndex'
+import SpotDisplay from './components/SpotDisplay'
 import SpotIndex from './components/SpotIndex';
 
 
@@ -32,14 +32,14 @@ function App() {
           <Route exact path="/">
             <SpotIndex />
           </Route>
+          <Route path="/spots/:spotId">
+            <SpotDisplay />
+          </Route>
           <Route path="/login">
             <LoginFormPage />
           </Route>
           <Route path="/signup">
             <SignupForm />
-          </Route>
-          <Route path="/spots/:spotId">
-            <SpotDisplay />
           </Route>
         </Switch>
       )}
