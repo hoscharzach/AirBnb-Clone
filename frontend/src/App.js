@@ -7,14 +7,13 @@ import { useEffect, useState } from 'react';
 import './index.css';
 import SignupForm from './components/SignupForm';
 import Navigation from './components/Navigation';
-import SpotDisplay from './components/SpotDisplay'
+import SpotDisplay from './components/SpotIndex'
 
 
 
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-  const spots = useSelector(state => state.spots)
 
   useEffect(() => {
     dispatch(sessionActions.thunkRestoreSession()).then(() => setIsLoaded(true));

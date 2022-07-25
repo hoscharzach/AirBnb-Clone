@@ -1,5 +1,15 @@
+.home-nav-links {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 50px;
+}
+
+.home-nav-links > * {
+    margin: 0px 20px;
+}
 
 
 .profile-button {
-    width: 100px;
+    width: 30px;
 }
