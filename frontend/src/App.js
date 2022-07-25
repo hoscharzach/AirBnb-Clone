@@ -1,7 +1,7 @@
 import LoginFormPage from './components/LoginFormPage';
 import * as sessionActions from './store/session'
 import * as spotActions from './store/spots'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import './index.css';
@@ -14,7 +14,6 @@ import HostForm from './components/HostForm';
 
 
 function App() {
-  const spots = useSelector(state => state.spots.list)
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
 
