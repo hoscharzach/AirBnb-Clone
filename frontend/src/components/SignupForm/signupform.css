@@ -5,11 +5,15 @@ form {
 }
 
 form > input {
-    margin-top: 5px;
+    margin-top: 7.5px;
 }
 
 form > button {
-    margin-top: 5px;
-    width: 50%;
+    margin-top: 10px;
+    width: 40%;
 
+}
+
+.signup-form-title {
+    text-align: center;
 }

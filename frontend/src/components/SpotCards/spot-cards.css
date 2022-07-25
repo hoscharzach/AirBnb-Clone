@@ -1,0 +1,11 @@
+.spot-display-image {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(37, 41, 41);
+    color: white;
+    width: 300px;
+    height: 200px;
+    margin: 15px;
+    justify-content: center;
+    align-items: center;
+}

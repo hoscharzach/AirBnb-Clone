@@ -30,21 +30,23 @@ export default function LoginFormPage () {
         return dispatch(thunkLogin(payload))
       .catch(async (res) => {
         const data = await res.json();
-        // console.log(data)
         if (data && data.errors) setErrors(data.errors);
       });
     }
 
     return (
+        <>
+        <h1 className="login-title">Login</h1>
         <form onSubmit={handleSubmit} className="login-form">
             <ul>
                 {errors.map((el, i) => (
                     <li key={i}>{el}</li>
-                ))}
+                    ))}
             </ul>
             <input type="text" placeholder="Username or Email" value={credential} onChange={(e) => setCredential(e.target.value)} required />
             <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required ></input>
             <button>Log-in</button>
         </form>
+        </>
     )
 }

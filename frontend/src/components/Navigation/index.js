@@ -1,8 +1,7 @@
-import { useSelector, useDispatch } from "react-redux"
-import { useState } from "react"
+import { useSelector } from "react-redux"
 import { NavLink } from "react-router-dom"
 import ProfileButton from "./ProfileButton"
-import * as sessionActions from '../../store/session'
+import './navigation.css'
 
 
 function Navigation({ isLoaded }){
@@ -11,7 +10,10 @@ function Navigation({ isLoaded }){
     let sessionLinks;
     if (sessionUser) {
       sessionLinks = (
+        <>
+        <NavLink to="/host-form">Host</NavLink>
         <ProfileButton user={sessionUser} />
+        </>
       );
     } else {
       sessionLinks = (
@@ -23,12 +25,11 @@ function Navigation({ isLoaded }){
     }
 
     return (
-      <ul>
-        <li>
-          <NavLink exact to="/">Home</NavLink>
-          {isLoaded && sessionLinks}
-        </li>
-      </ul>
+      <div className="home-nav-links">
+        <NavLink exact to="/">Home</NavLink>
+        {isLoaded && sessionLinks}
+      </div>
+
     );
   }
 

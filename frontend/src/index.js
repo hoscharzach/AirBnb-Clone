@@ -6,12 +6,14 @@ import { BrowserRouter } from 'react-router-dom'
 import configureStore from './store/'
 import { restoreCSRF, csrfFetch } from './store/csrf';
 import * as sessionActions from './store/session'
+import * as spotActions from './store/spots'
 
 const store = configureStore()
 
 if (process.env.NODE_ENV !== 'production') {
   restoreCSRF()
 
+  window.spotActions = spotActions
   window.store = store
   window.csrfFetch = csrfFetch
   window.sessionActions = sessionActions
