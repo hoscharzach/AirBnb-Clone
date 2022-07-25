@@ -9,7 +9,7 @@ import SignupForm from './components/SignupForm';
 import Navigation from './components/Navigation';
 import SpotDisplay from './components/SpotDisplay'
 import SpotIndex from './components/SpotIndex';
-import HostForm from './components/HostForm';
+import HostForm from './components/SpotForm';
 
 
 
