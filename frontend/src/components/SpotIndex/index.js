@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import './spot-display.css'
+import './spot-index.css'
 
 export default function SpotIndex () {
     const spots = useSelector(state => state.spots.list)
