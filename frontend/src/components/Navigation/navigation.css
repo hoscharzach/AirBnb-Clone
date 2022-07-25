@@ -13,3 +13,15 @@
 .profile-button {
     width: 30px;
 }
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-icon {
+    object-fit: contain;
+    height: 50px;
+    margin-left: 50px;
+}

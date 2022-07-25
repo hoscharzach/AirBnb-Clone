@@ -25,9 +25,13 @@ function Navigation({ isLoaded }){
     }
 
     return (
+      <div className="header-container">
+        <NavLink exact to="/"><img className="header-icon" src="https://1000logos.net/wp-content/uploads/2017/08/Airbnb-Logo-500x181.png" alt=" "></img></NavLink>
+
+      <div></div>
       <div className="home-nav-links">
-        <NavLink exact to="/">Home</NavLink>
         {isLoaded && sessionLinks}
+      </div>
       </div>
 
     );

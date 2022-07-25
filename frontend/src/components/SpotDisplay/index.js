@@ -11,6 +11,7 @@ export default function SpotDisplay () {
             <p>{spot.address}</p>
             <p>{spot.price}</p>
             <p>{spot.description} </p>
+            <p>OwnerId: {spot.ownerId}</p>
             {/* <img src={spot.previewImage} alt={" "} ></img> */}
         </div>
     )
