@@ -1,8 +1,6 @@
-import { useSelector, useDispatch } from "react-redux"
-import { useState } from "react"
+import { useSelector } from "react-redux"
 import { NavLink } from "react-router-dom"
 import ProfileButton from "./ProfileButton"
-import * as sessionActions from '../../store/session'
 import './navigation.css'
 
 

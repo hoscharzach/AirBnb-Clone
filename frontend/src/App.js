@@ -1,13 +1,14 @@
 import LoginFormPage from './components/LoginFormPage';
 import * as sessionActions from './store/session'
 import * as spotActions from './store/spots'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import './index.css';
 import SignupForm from './components/SignupForm';
 import Navigation from './components/Navigation';
 import SpotDisplay from './components/SpotIndex'
+import SpotIndex from './components/SpotIndex';
 
 
 
@@ -21,20 +22,23 @@ function App() {
 
   useEffect(() => {
     dispatch(spotActions.thunkLoadAllSpots())
-  },[])
+  },[dispatch])
 
   return (
     <>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+          <Route exact path="/">
+            <SpotIndex />
+          </Route>
           <Route path="/login">
             <LoginFormPage />
           </Route>
           <Route path="/signup">
             <SignupForm />
           </Route>
-          <Route path="/">
+          <Route path="/spots/:spotId">
             <SpotDisplay />
           </Route>
         </Switch>

@@ -42,7 +42,7 @@ export default function SignupForm() {
 
     return (
         <>
-        <h1>Hello from signup form</h1>
+        <h1 className='signup-form-title'>Create an Account</h1>
         <form onSubmit={onSubmit}>
             <ul>
                 {errors.map((el, i) => (
