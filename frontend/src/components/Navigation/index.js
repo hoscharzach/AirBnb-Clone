@@ -2,6 +2,7 @@ import { useSelector } from "react-redux"
 import { NavLink } from "react-router-dom"
 import ProfileButton from "./ProfileButton"
 import './navigation.css'
+import LoginFormModal from '../LoginFormModal'
 
 
 function Navigation({ isLoaded }){
@@ -18,7 +19,7 @@ function Navigation({ isLoaded }){
     } else {
       sessionLinks = (
         <>
-          <NavLink to="/login">Log In</NavLink>
+          <LoginFormModal />
           <NavLink to="/signup">Sign Up</NavLink>
         </>
       );
@@ -38,18 +39,3 @@ function Navigation({ isLoaded }){
   }
 
   export default Navigation;
-
-// export default function Navigation () {
-//     const sessionUser = useSelector(state => state.session.user)
-//     const dispatch = useDispatch()
-
-//         return (
-//             <nav>
-//                 <NavLink to="/">Home</NavLink>
-//                 {sessionUser && <ProfileButton user={sessionUser}/>}
-//                 {!sessionUser && <NavLink to="/login">Login</NavLink>}
-//                 {!sessionUser && <NavLink to="/signup">Signup</NavLink>}
-//             </nav>
-//         )
-
-// }
