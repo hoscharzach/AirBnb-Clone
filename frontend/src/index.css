@@ -3,6 +3,11 @@
     src: local('Montserrat'), url('./fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf') format('truetype');
 }
 
+.text-link {
+    color: inherit;
+    text-decoration: inherit;
+}
+
 html {
     display: flex;
     flex-direction: column;

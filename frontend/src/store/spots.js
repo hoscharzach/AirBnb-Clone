@@ -3,6 +3,8 @@ import { csrfFetch } from "./csrf";
 const LOAD = '/spots/load'
 const CREATE = '/spots/create'
 
+const LOAD_REVIEWS = 'reviews/load'
+const POST_REVIEW = 'reviews/post'
 
 export const loadSpots = (spots) => {
     return {

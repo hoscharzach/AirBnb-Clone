@@ -123,6 +123,7 @@ router.get('/', validateQuery, async (req,res) => {
         limit: size,
         offset: (page - 1 ) * size,
         raw: true,
+        include: 'Owner'
     })
 
     // console.log('result spots', result.spots)
