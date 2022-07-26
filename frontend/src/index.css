@@ -1,12 +1,17 @@
-
+@font-face {
+    font-family: 'Montserrat';
+    src: local('Montserrat'), url('./fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf') format('truetype');
+}
 
 html {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-left: 10vh;
-    margin-right: 10vh;
+}
+
+body, html {
+    font-family: Montserrat;
 }
 
 /* ::placeholder {

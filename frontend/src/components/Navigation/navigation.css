@@ -5,13 +5,18 @@
     height: 50px;
 }
 
+.profile-icons-container {
+    border: 1px  grey;
+    border-radius: 40%;
+    padding: 5px;
+}
 .home-nav-links > * {
-    margin: 0px 20px;
+    margin-right: 130px;
+    border: 1px solid rgba(red, green, blue, .7)
 }
 
-
-.profile-button {
-    width: 30px;
+.fa-circle-user {
+    margin-left: 5px;
 }
 
 .header-container {
@@ -21,10 +26,11 @@
     position: sticky;
     top: 0;
     background-color: white;
+    border-bottom: 1px solid lightgrey;
 }
 
 .header-icon {
     object-fit: contain;
     height: 50px;
-    margin-left: 50px;
+    margin-left: 130px;
 }

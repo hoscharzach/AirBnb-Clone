@@ -8,6 +8,7 @@ import { restoreCSRF, csrfFetch } from './store/csrf';
 import * as sessionActions from './store/session'
 import * as spotActions from './store/spots'
 import { ModalProvider } from './context/Modal';
+import 'typeface-montserrat'
 
 const store = configureStore()
 

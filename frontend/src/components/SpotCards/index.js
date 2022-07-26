@@ -7,8 +7,12 @@ export default function SpotCard({spotId}) {
 
     return (
        <Link to={`/spots/${spotId}`}>
+        <div className="spot-card-container">
         <div className="spot-display-image">
             <h2>{spot.name}</h2>
+            <p></p>
+        </div>
+        <div className="spot-card-caption"></div>
             <p>{spot.city}, {spot.state}</p>
         </div>
        </Link>

@@ -26,6 +26,9 @@ function App() {
     dispatch(spotActions.thunkLoadAllSpots())
   },[dispatch])
 
+  // useEffect(() => {
+  //   dispatch(spotActions.thunkLoadAllReviews())
+  // }, [dispatch])
 
 
   return (

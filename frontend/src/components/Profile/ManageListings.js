@@ -22,15 +22,19 @@ export default function MangageListings () {
 
     return (
         <>
+        <div className="my-listings-container">
         <h1>My Listings</h1>
-        {userSpots.map(spot => (
-            <div>
-                <h1>Name: {spot.name}</h1>
-                <p>Location: {spot.city}, {spot.state}</p>
-                <p>Price: {spot.price}</p>
-                <p>Owner: {spot.ownerId} </p>
-            </div>
-        ))}
+            <ol>
+                {userSpots.map((spot, i) => (
+                <li key={i}>
+                    <h2>Name: {spot.name}</h2>
+                    <p>Location: {spot.city}, {spot.state}</p>
+                    <p>Price: {spot.price}</p>
+                    <p>Owner: {spot.ownerId} </p>
+                </li>
+                ))}
+            </ol>
+        </div>
         </>
     )
 }
