@@ -42,7 +42,7 @@ function ProfileButton({ user }) {
           <ul className="profile-dropdown">
             <li>{user.username}</li>
             <li>{user.email}</li>
-            <li><Link to="/manage-my-listings">Manage Listings</Link></li>
+            <li><Link to="/my-profile">My Profile</Link></li>
             <li><button onClick={logout}>Log Out</button></li>
           </ul>
         )}

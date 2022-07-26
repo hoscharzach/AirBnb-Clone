@@ -10,7 +10,7 @@ import Navigation from './components/Navigation';
 import SpotDisplay from './components/SpotDisplay'
 import SpotIndex from './components/SpotIndex';
 import HostForm from './components/NewSpotForm';
-import MangageListings from './components/Profile/ManageListings';
+import MangageListings from './components/Profile/ProfilePage';
 import * as reviewActions from './store/reviews'
 
 
@@ -24,11 +24,11 @@ function App() {
 
   useEffect(() => {
     dispatch(spotActions.thunkLoadAllSpots())
-  },[])
+  },[dispatch])
 
   useEffect(() => {
     dispatch(reviewActions.thunkLoadReviews())
-  }, [])
+  }, [dispatch])
 
 
   return (
@@ -51,7 +51,7 @@ function App() {
           <Route path="/host-form">
             <HostForm />
           </Route>
-          <Route path="/manage-my-listings">
+          <Route path="/my-profile">
             <MangageListings />
           </Route>
           <Route>

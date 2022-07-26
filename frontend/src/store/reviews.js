@@ -1,7 +1,7 @@
 import { csrfFetch } from "./csrf"
 
 const LOAD = 'reviews/load'
-const POST = 'reviews/post'
+// const POST = 'reviews/post'
 
 export const loadReviews = (reviews) => {
     return {
@@ -30,7 +30,6 @@ export function reviewsReducer (state = initialState, action) {
 
             // organize all reviews by their spots for easy reference
             action.reviews.forEach(review => {
-
 
                 //ugly can probably refactor this
                 newState.normalizedReviews[review.spotId] === undefined ? newState.normalizedReviews[review.spotId] = [review] : newState.normalizedReviews[review.spotId] = [...newState.normalizedReviews[review.spotId], review]
