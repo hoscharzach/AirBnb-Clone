@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 
 export default function MangageListings () {
@@ -12,6 +13,12 @@ export default function MangageListings () {
     }
 
     console.log(userSpots)
+
+    if(!sessionUser) {
+        return (
+            <Redirect to="/"></Redirect>
+        )
+    }
 
     return (
         <>
