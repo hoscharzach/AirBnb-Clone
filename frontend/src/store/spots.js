@@ -3,9 +3,6 @@ import { csrfFetch } from "./csrf";
 const LOAD = '/spots/load'
 const CREATE = '/spots/create'
 
-const LOAD_REVIEWS = 'reviews/load'
-const POST_REVIEW = 'reviews/post'
-
 export const loadSpots = (spots) => {
     return {
         type: LOAD,
@@ -19,6 +16,8 @@ export const createSpot = (spot) => {
         spot
     }
 }
+
+
 
 export const thunkCreateSpot = (payload) => async dispatch => {
     const response = await csrfFetch(`/api/currentUser/spots`, {

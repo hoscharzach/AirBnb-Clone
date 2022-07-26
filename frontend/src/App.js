@@ -11,7 +11,7 @@ import SpotDisplay from './components/SpotDisplay'
 import SpotIndex from './components/SpotIndex';
 import HostForm from './components/NewSpotForm';
 import MangageListings from './components/Profile/ManageListings';
-
+import * as reviewActions from './store/reviews'
 
 
 function App() {
@@ -24,11 +24,11 @@ function App() {
 
   useEffect(() => {
     dispatch(spotActions.thunkLoadAllSpots())
-  },[dispatch])
+  },[])
 
-  // useEffect(() => {
-  //   dispatch(spotActions.thunkLoadAllReviews())
-  // }, [dispatch])
+  useEffect(() => {
+    dispatch(reviewActions.thunkLoadReviews())
+  }, [])
 
 
   return (
