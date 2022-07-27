@@ -2,12 +2,19 @@ import { csrfFetch } from "./csrf";
 
 const LOAD = '/spots/load'
 const CREATE = '/spots/create'
-const UPDATE = 'spots/update'
+const UPDATE = '/spots/update'
+const DELETE = '/spots/delete'
 
 export const loadSpots = (spots) => {
     return {
         type: LOAD,
         spots
+    }
+}
+export const deleteSpot = (id) => {
+    return {
+        type: DELETE,
+        id
     }
 }
 
@@ -46,6 +53,18 @@ export const thunkCreateSpot = (payload) => async dispatch => {
     }
 }
 
+export const thunkDeleteSpot = (id) => async dispatch => {
+    const response = await csrfFetch(`/api/currentUser/spots/${id}`, {
+        method: 'DELETE'
+    })
+
+    if (response) {
+        const data = response.json()
+        dispatch(deleteSpot(id))
+        return data
+    } else throw response
+}
+
 export const thunkUpdateSpot = (payload) => async dispatch => {
     const response = await csrfFetch(`/api/currentUser/spots/${payload.id}`, {
         method: 'PUT',
@@ -77,6 +96,11 @@ const initialState = {normalizedSpots: {}, list: []}
 export function spotsReducer (state = initialState, action) {
     let newState
     switch(action.type) {
+        case DELETE:
+            newState = structuredClone(state)
+            delete newState.normalizedSpots[action.id]
+            newState.list = [...Object.values(newState.normalizedSpots)]
+            return newState
         case UPDATE:
             newState = structuredClone(state)
             newState.normalizedSpots[action.spot.id] = action.spot
