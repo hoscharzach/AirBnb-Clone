@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
+import DeleteListingModal from "../DeleteListingModal"
 import EditListingModal from "../EditSpotModal"
 import ReviewCard from "../ReviewCard"
 
@@ -35,7 +36,7 @@ export default function SpotDisplay () {
                 {/* <img src={spot.previewImage} alt={" "} ></img> */}
 
                 {sessionUser && spot && sessionUser.id === spot.ownerId && <EditListingModal spot={spot}/>}
-                {sessionUser && spot && sessionUser.id === spot.ownerId && <button>Delete</button>}
+                {sessionUser && spot && sessionUser.id === spot.ownerId && <DeleteListingModal spot={spot} />}
             </div>
             <div className="spot-images-container">
                 Images here
