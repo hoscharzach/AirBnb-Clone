@@ -4,8 +4,7 @@ import { useState } from 'react'
 import * as spotActions from '../../store/spots'
 import { useHistory } from 'react-router-dom'
 
-export default function HostForm () {
-
+export default function HostForm ({spot}) {
     const sessionUser = useSelector(state => state.session.user)
     const dispatch = useDispatch()
     const history = useHistory()

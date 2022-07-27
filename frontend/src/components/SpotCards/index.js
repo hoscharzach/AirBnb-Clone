@@ -15,7 +15,13 @@ export default function SpotCard({spotId, spot}) {
         }, 0)
         avgStarRating = (sum / numReviews)
     }
+    let caption
 
+    if (avgStarRating) {
+        caption = (
+            {}
+        )
+    }
 
     return (
        <Link className="text-link" to={`/spots/${spotId}`}>
@@ -23,12 +29,13 @@ export default function SpotCard({spotId, spot}) {
         <div className="spot-display-image">
             <h2>{spot.name}</h2>
         </div>
-        <div className="spot-card-caption"></div>
-            <p>
-             {spot.city}, {spot.state}
-             </p>
-            {avgStarRating && <p>{avgStarRating}</p>}
+        <div className="spot-card-caption">
+            <div>
+             {spot.city}, {spot.state} {avgStarRating &&
+             (<div className="star-rating-container">{avgStarRating} <i class="fa-solid fa-star"></i></div>)}
             {!avgStarRating && <p>New!</p>}
+            </div>
+            </div>
         </div>
        </Link>
     )
