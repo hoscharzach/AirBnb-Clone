@@ -1,14 +1,12 @@
-import { useEffect } from "react"
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
+import EditListingModal from "../EditSpotModal"
 
 
 export default function SpotDisplay () {
     const { spotId } = useParams()
     const sessionUser = useSelector(state => state.session.user)
     const spot = useSelector(state => state.spots.normalizedSpots[Number(spotId)])
-    const dispatch = useDispatch()
-
 
     if (!spot) return null
 
@@ -20,10 +18,10 @@ export default function SpotDisplay () {
             <p>Description: {spot.description} </p>
             <p>OwnerId: {spot.ownerId}</p>
             <p>Listed by: {spot['Owner.firstName']} {spot['Owner.lastName']} </p>
-
             {/* <img src={spot.previewImage} alt={" "} ></img> */}
+
             <br></br>
-            {sessionUser?.id === spot?.id && <button>Edit Listing</button>}
+            {sessionUser && spot && <EditListingModal spot={spot}/>}
         </div>
     )
 }

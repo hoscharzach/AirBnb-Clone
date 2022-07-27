@@ -11,12 +11,12 @@ export const loadReviews = (reviews) => {
 }
 
 export const thunkLoadReviews = () => async dispatch => {
-    const response = await csrfFetch('api/reviews')
+    const response = await csrfFetch('/api/reviews')
 
     if (response) {
         const allReviews = await response.json()
         return dispatch(loadReviews(allReviews))
-    }
+    } else throw response
 }
 const initialState = {list: [], normalizedReviews: {}}
 
