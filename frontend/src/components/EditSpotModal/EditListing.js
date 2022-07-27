@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import * as spotActions from '../../store/spots'
 
-export default function EditListing ({spot}) {
+export default function EditListing ({spot, setShowModal}) {
     const dispatch = useDispatch()
 
     const [errors, setErrors] = useState([])
@@ -44,8 +44,15 @@ export default function EditListing ({spot}) {
                 imageUrl
             }
 
-            dispatch(spotActions.thunkUpdateSpot(payload))
-            // history.push(`/`)
+            await dispatch(spotActions.thunkUpdateSpot(payload)).catch(
+                async (res) => {
+                  const data = await res.json();
+                  if (data && data.errors) setErrors(data.errors);
+                }
+              );
+
+              setShowModal(false)
+
         }
     }
 
@@ -68,7 +75,7 @@ export default function EditListing ({spot}) {
                     <li key={i}>{error}</li>
                 ))}
             </ul>
-        <h1 className='host-form-title'>Host Form</h1>
+        <h1 className='host-form-title'>Edit Listing</h1>
             <form onSubmit={onSubmit}>
                 <input required type="text" placeholder="Name" value={name} onChange={nameChange} ></input>
                 <textarea required className='description-field' placeholder="Description" value={description} onChange={descriptionChange} ></textarea>
