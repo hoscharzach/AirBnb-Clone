@@ -77,6 +77,11 @@ const initialState = {normalizedSpots: {}, list: []}
 export function spotsReducer (state = initialState, action) {
     let newState
     switch(action.type) {
+        case UPDATE:
+            newState = structuredClone(state)
+            newState.normalizedSpots[action.spot.id] = action.spot
+            newState.list = [...Object.values(newState.normalizedSpots)]
+            return newState
         case LOAD:
             newState = {...state}
             action.spots.forEach(spot => newState.normalizedSpots[spot.id] = spot)
