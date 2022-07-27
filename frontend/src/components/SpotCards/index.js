@@ -25,7 +25,7 @@ export default function SpotCard({spotId, spot}) {
         <div className="spot-card-caption">
             <div>
              {spot.city}, {spot.state} {avgStarRating &&
-             (<div className="star-rating-container">{avgStarRating} <i class="fa-solid fa-star"></i></div>)}
+             (<div className="star-rating-container">{avgStarRating} <i className="fa-solid fa-star"></i></div>)}
             {!avgStarRating && <p>New!</p>}
             </div>
             </div>
