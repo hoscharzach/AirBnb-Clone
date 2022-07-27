@@ -59,13 +59,13 @@ export const thunkRestoreSession = () => async dispatch => {
 
     if (response) {
         const user = await response.json()
-        const { username } = user.user
-        if (username){
-            dispatch(restore(user.user))
+        if (user.message) return user.message
+        else {
+            return dispatch(restore(user))
         }
-        else return user.message
-    } else return response
+    }
 }
+
 export const thunkLogout = () => async dispatch => {
     const response = await csrfFetch('/api/session', {
         method: 'DELETE'
@@ -112,9 +112,9 @@ export const sessionReducer = (state = initialState, action) => {
         case RESTORE:
             newState = {...initialState}
             newState.user = {
-                id: action.user.id,
-                email: action.user.email,
-                username: action.user.username
+                id: action.user.user.id,
+                email: action.user.user.email,
+                username: action.user.user.username
             }
             return newState
         case LOGOUT:

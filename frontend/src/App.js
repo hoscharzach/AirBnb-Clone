@@ -9,8 +9,9 @@ import SignupForm from './components/SignupForm';
 import Navigation from './components/Navigation';
 import SpotDisplay from './components/SpotDisplay'
 import SpotIndex from './components/SpotIndex';
-import HostForm from './components/SpotForm';
-
+import HostForm from './components/NewSpotForm';
+import MangageListings from './components/Profile/ProfilePage';
+import * as reviewActions from './store/reviews'
 
 
 function App() {
@@ -25,6 +26,9 @@ function App() {
     dispatch(spotActions.thunkLoadAllSpots())
   },[dispatch])
 
+  useEffect(() => {
+    dispatch(reviewActions.thunkLoadReviews())
+  }, [dispatch])
 
 
   return (
@@ -47,6 +51,12 @@ function App() {
           <Route path="/host-form">
             <HostForm />
           </Route>
+          <Route path="/my-profile">
+            <MangageListings />
+          </Route>
+          <Route>
+            <h1>404 Not Found</h1>
+          </Route>
         </Switch>
       )}
     </>
@@ -54,32 +64,3 @@ function App() {
 }
 
 export default App;
-
-
-// function App() {
-//   const dispatch = useDispatch()
-
-
-//   useEffect(() => {
-//     dispatch(sessionActions.thunkRestoreSession())
-//   }, [dispatch])
-
-//   return (
-//     <>
-//     <Navigation />
-//     <Switch>
-//       <Route exact path="/">
-//         <h1>Home Page</h1>
-//       </Route>
-//       <Route path="/login">
-//         <LoginFormPage />
-//       </Route>
-//       <Route path="/signup">
-//         <SignupForm />
-//       </Route>
-//     </Switch>
-//     </>
-//   );
-// }
-
-// export default App;

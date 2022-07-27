@@ -2,7 +2,7 @@ import { csrfFetch } from "./csrf";
 
 const LOAD = '/spots/load'
 const CREATE = '/spots/create'
-
+const UPDATE = 'spots/update'
 
 export const loadSpots = (spots) => {
     return {
@@ -17,6 +17,15 @@ export const createSpot = (spot) => {
         spot
     }
 }
+
+export const updateSpot = (spot) => {
+    return {
+        type: UPDATE,
+        spot
+    }
+}
+
+
 
 export const thunkCreateSpot = (payload) => async dispatch => {
     const response = await csrfFetch(`/api/currentUser/spots`, {
@@ -34,6 +43,21 @@ export const thunkCreateSpot = (payload) => async dispatch => {
             return data.id
         }
 
+    }
+}
+
+export const thunkUpdateSpot = (payload) => async dispatch => {
+    const response = await csrfFetch(`/api/currentUser/spots/${payload.id}`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+    })
+
+    if (response) {
+        const data = await response.json()
+        return dispatch(updateSpot(data))
     }
 }
 

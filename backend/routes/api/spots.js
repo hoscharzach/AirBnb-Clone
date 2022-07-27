@@ -123,7 +123,21 @@ router.get('/', validateQuery, async (req,res) => {
         limit: size,
         offset: (page - 1 ) * size,
         raw: true,
+        include: 'Owner'
     })
+
+    // console.log('result spots', result.spots)
+
+    // result.spots.forEach(async (spot, i) => {
+    //     const reviews = await Review.findAll({
+    //         where: {
+    //             spotId: spot.id
+    //         },
+    //         raw: true
+    //     })
+    //     console.log("spot", spot, "index", i, "reviews", reviews, "current object", result.spots[i])
+    //     result.spots[i]['reviews'] = reviews
+    // })
 
     if (Object.keys(errorResult.error).length === 0) {
         result.page = page

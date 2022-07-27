@@ -1,40 +1,21 @@
-import './spotform.css'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import * as spotActions from '../../store/spots'
-import { useHistory } from 'react-router-dom'
 
-export default function HostForm () {
-
-    const sessionUser = useSelector(state => state.session.user)
+export default function EditListing ({spot}) {
     const dispatch = useDispatch()
-    const history = useHistory()
-
 
     const [errors, setErrors] = useState([])
-    const [name, setName] = useState('')
-    const [description, setDescription] = useState('')
-    const [price, setPrice] = useState('')
-    const [address, setAddress] = useState('')
-    const [city, setCity] = useState('')
-    const [state, setState] = useState('')
-    const [country, setCountry] = useState('')
-    const [lat, setLat] = useState('')
-    const [lng, setLng] = useState('')
-    const [imageUrl, setImageUrl] = useState('')
-
-    const reset = () => {
-        setErrors([])
-        setName('')
-        setDescription('')
-        setPrice('')
-        setAddress('')
-        setCity('')
-        setCountry('')
-        setLat('')
-        setLng('')
-        setImageUrl('')
-    }
+    const [name, setName] = useState(spot?.name || '')
+    const [description, setDescription] = useState(spot?.description || '')
+    const [price, setPrice] = useState(spot?.price || '')
+    const [address, setAddress] = useState(spot?.address || '')
+    const [city, setCity] = useState(spot?.city || '')
+    const [state, setState] = useState(spot?.state || '')
+    const [country, setCountry] = useState(spot?.country ||'')
+    const [lat, setLat] = useState(spot?.lat || '')
+    const [lng, setLng] = useState(spot?.lng || '')
+    const [imageUrl, setImageUrl] = useState(spot?.previewImage || '')
 
     const onSubmit = async (e) => {
         e.preventDefault()
@@ -50,7 +31,7 @@ export default function HostForm () {
 
         if (formErrors.length === 0) {
             const payload = {
-                userId: sessionUser.id,
+                ...spot,
                 name,
                 description,
                 price,
@@ -63,11 +44,7 @@ export default function HostForm () {
                 imageUrl
             }
 
-            const spotId = await dispatch(spotActions.thunkCreateSpot(payload))
-            reset()
-            history.push(`/spots/${spotId}`)
-
-
+            return dispatch(spotActions.thunkUpdateSpot(payload))
         }
     }
 
@@ -101,8 +78,8 @@ export default function HostForm () {
                 <input required type="text" placeholder="Country" value={country} onChange={countryChange} ></input>
                 <input required type="number" placeholder="Latitude" value={lat} onChange={latChange} ></input>
                 <input required type="number" placeholder="Longitude" value={lng} onChange={lngChange}></input>
-                <input required type="text" placeholder="https://image.url" value={imageUrl} onChange={imageUrlChange}></input>
-                <button>Submit Spot</button>
+                <input required type="text" placeholder="Image Link" value={imageUrl} onChange={imageUrlChange}></input>
+                <button type="submit">Submit Changes</button>
             </form>
         </div>
     )
