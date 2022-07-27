@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import DeleteListingModal from "../DeleteListingModal";
 import EditListingModal from "../EditSpotModal";
 
 
@@ -37,6 +38,7 @@ export default function MangageListings () {
                         <p>Owner: {spot['Owner.firstName']} {spot['Owner.lastName']} </p>
                         {/* On click of button, open up modal for editing */}
                         <EditListingModal spot={spot} />
+                        <DeleteListingModal spot={spot} redirect={'my-profile'} />
                     </div>
                 ))}
             </div>

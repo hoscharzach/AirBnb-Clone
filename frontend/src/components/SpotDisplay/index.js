@@ -36,7 +36,7 @@ export default function SpotDisplay () {
                 {/* <img src={spot.previewImage} alt={" "} ></img> */}
 
                 {sessionUser && spot && sessionUser.id === spot.ownerId && <EditListingModal spot={spot}/>}
-                {sessionUser && spot && sessionUser.id === spot.ownerId && <DeleteListingModal spot={spot} />}
+                {sessionUser && spot && sessionUser.id === spot.ownerId && <DeleteListingModal redirect={'/'} spot={spot} />}
             </div>
             <div className="spot-images-container">
                 Images here

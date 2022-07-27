@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
 import DeleteListing from './DeleteListing'
 
-export default function DeleteListingModal ({spot}) {
+export default function DeleteListingModal ({spot, redirect}) {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -10,7 +10,7 @@ export default function DeleteListingModal ({spot}) {
       <button onClick={() => setShowModal(true)}>Delete Listing</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <DeleteListing setShowModal={setShowModal} spot={spot} />
+          <DeleteListing setShowModal={setShowModal} spot={spot} redirect={redirect}/>
         </Modal>
       )}
     </>

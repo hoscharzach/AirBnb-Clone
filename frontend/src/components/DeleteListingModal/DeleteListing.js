@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useHistory } from "react-router-dom"
 
 
-export default function DeleteListing ({spot, setShowModal}) {
+export default function DeleteListing ({spot, setShowModal, redirect}) {
     const dispatch = useDispatch()
     const history = useHistory()
     const [errors, setErrors] = useState([])
@@ -19,8 +19,8 @@ export default function DeleteListing ({spot, setShowModal}) {
           );
 
         if (res && errors.length === 0) {
-            window.alert("Spot successfully deleted")
-            history.push('/')
+            window.alert("Listing successfully deleted")
+            history.push(`${redirect}`)
         }
     }
 
