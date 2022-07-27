@@ -311,7 +311,7 @@ router.delete('/spots/:spotId', requireAuth, async (req, res, next) => {
 router.put('/spots/:spotId', [requireAuth, validateSpot], async (req, res, next) => {
   const currUserId = req.user.id
   const editSpot = await Spot.findByPk(req.params.spotId)
-  console.log(req.user)
+  // console.log(req.user)
   if (!editSpot) return res.json({ message: "Spot couldn't be found", statusCode: 404})
 
   const { address, city ,state, country, lat, lng, name, description, price } = req.body

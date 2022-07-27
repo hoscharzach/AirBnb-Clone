@@ -4,12 +4,13 @@ import EditListing from './EditListing'
 
 function EditListingModal({spot}) {
   const [showModal, setShowModal] = useState(false);
+
   return (
     <>
       <button onClick={() => setShowModal(true)}>Edit Listing</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <EditListing spot={spot} />
+          <EditListing setShowModal={setShowModal} spot={spot} />
         </Modal>
       )}
     </>

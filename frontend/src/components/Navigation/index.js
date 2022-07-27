@@ -7,7 +7,6 @@ import LoginFormModal from '../LoginFormModal'
 
 function Navigation({ isLoaded }){
     const sessionUser = useSelector(state => state.session.user);
-    console.log("navigation user", sessionUser)
 
     let sessionLinks;
     if (sessionUser) {
