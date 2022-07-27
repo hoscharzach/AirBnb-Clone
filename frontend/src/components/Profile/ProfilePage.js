@@ -36,7 +36,6 @@ export default function MangageListings () {
                         <p>Description: {spot.description}</p>
                         <p>Price: {spot.price} per night</p>
                         <p>Owner: {spot['Owner.firstName']} {spot['Owner.lastName']} </p>
-                        {/* On click of button, open up modal for editing */}
                         <EditListingModal spot={spot} />
                         <DeleteListingModal spot={spot} redirect={'my-profile'} />
                     </div>
