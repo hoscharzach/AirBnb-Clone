@@ -1,11 +1,9 @@
 import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import * as spotActions from '../../store/spots'
-import { useHistory } from 'react-router-dom'
 
 export default function EditListing ({spot}) {
     const dispatch = useDispatch()
-    const history = useHistory()
 
     const [errors, setErrors] = useState([])
     const [name, setName] = useState(spot?.name || '')
