@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom"
 
 export default function SpotDisplay () {
     const { spotId } = useParams()
-    const sessionuser = useSelector(state => state.session.user)
+    const sessionUser = useSelector(state => state.session.user)
     const spot = useSelector(state => state.spots.normalizedSpots[Number(spotId)])
     const dispatch = useDispatch()
     console.log(spot)
@@ -25,7 +25,7 @@ export default function SpotDisplay () {
 
             {/* <img src={spot.previewImage} alt={" "} ></img> */}
             <br></br>
-            {sessionuser.id === spot.id && <button>Edit Listing</button>}
+            {sessionUser?.id === spot?.id && <button>Edit Listing</button>}
         </div>
     )
 }
