@@ -8,10 +8,8 @@ export default function SpotDisplay () {
     const sessionUser = useSelector(state => state.session.user)
     const spot = useSelector(state => state.spots.normalizedSpots[Number(spotId)])
     const dispatch = useDispatch()
-    console.log(spot)
-    useEffect(() => {
-        //
-    }, [dispatch])
+
+
     if (!spot) return null
 
     return (

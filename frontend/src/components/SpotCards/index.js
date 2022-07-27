@@ -15,13 +15,6 @@ export default function SpotCard({spotId, spot}) {
         }, 0)
         avgStarRating = (sum / numReviews)
     }
-    let caption
-
-    if (avgStarRating) {
-        caption = (
-            {}
-        )
-    }
 
     return (
        <Link className="text-link" to={`/spots/${spotId}`}>
