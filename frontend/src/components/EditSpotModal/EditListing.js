@@ -1,11 +1,9 @@
 import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import * as spotActions from '../../store/spots'
-import { useHistory } from 'react-router-dom'
 
 export default function EditListing ({spot}) {
     const dispatch = useDispatch()
-    const history = useHistory()
 
     const [errors, setErrors] = useState([])
     const [name, setName] = useState(spot?.name || '')
@@ -18,19 +16,6 @@ export default function EditListing ({spot}) {
     const [lat, setLat] = useState(spot?.lat || '')
     const [lng, setLng] = useState(spot?.lng || '')
     const [imageUrl, setImageUrl] = useState(spot?.previewImage || '')
-
-    const reset = () => {
-        setErrors([])
-        setName('')
-        setDescription('')
-        setPrice('')
-        setAddress('')
-        setCity('')
-        setCountry('')
-        setLat('')
-        setLng('')
-        setImageUrl('')
-    }
 
     const onSubmit = async (e) => {
         e.preventDefault()
@@ -59,11 +44,7 @@ export default function EditListing ({spot}) {
                 imageUrl
             }
 
-            const spotId = await dispatch(spotActions.thunkCreateSpot(payload))
-            reset()
-            history.push(`/spots/${spotId}`)
-
-
+            return dispatch(spotActions.thunkUpdateSpot(payload))
         }
     }
 
@@ -98,7 +79,7 @@ export default function EditListing ({spot}) {
                 <input required type="number" placeholder="Latitude" value={lat} onChange={latChange} ></input>
                 <input required type="number" placeholder="Longitude" value={lng} onChange={lngChange}></input>
                 <input required type="text" placeholder="Image Link" value={imageUrl} onChange={imageUrlChange}></input>
-                <button>Submit Spot</button>
+                <button type="submit">Submit Changes</button>
             </form>
         </div>
     )

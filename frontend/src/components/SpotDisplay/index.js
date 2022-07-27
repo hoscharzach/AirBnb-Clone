@@ -21,7 +21,7 @@ export default function SpotDisplay () {
             {/* <img src={spot.previewImage} alt={" "} ></img> */}
 
             <br></br>
-            {sessionUser && spot && <EditListingModal spot={spot}/>}
+            {sessionUser && spot && sessionUser.id === spot.ownerId && <EditListingModal spot={spot}/>}
         </div>
     )
 }

@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import EditListingModal from "../EditSpotModal";
 
 
 export default function MangageListings () {
@@ -31,10 +32,11 @@ export default function MangageListings () {
                     <div key={i}>
                         <h2>{spot.name}</h2>
                         <p>Location: {spot.city}, {spot.state}</p>
-                        <p>Price: {spot.price}</p>
-                        <p>Owner: {spot.ownerId} </p>
+                        <p>Description: {spot.description}</p>
+                        <p>Price: {spot.price} per night</p>
+                        <p>Owner: {spot['Owner.firstName']} {spot['Owner.lastName']} </p>
                         {/* On click of button, open up modal for editing */}
-                        <button>Edit</button>
+                        <EditListingModal spot={spot} />
                     </div>
                 ))}
             </div>
