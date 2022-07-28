@@ -128,32 +128,42 @@ router.post('/reviews/:reviewId/images', [requireAuth, validateImage], async (re
 })
 // edit a review
 router.put('/reviews/:reviewId', [requireAuth, validateReview], async (req, res, next) => {
-    // grab the info from body of request
     const { review, stars } = req.body
-    // find the review
     const editReview = await Review.findByPk(req.params.reviewId)
 
-    if (editReview) {
+    if (editReview === null) {
+      const err = new Error("Review doesn't exist")
+      err.status = 404
+      err.errors = [err.message]
+      next(err)
+    }
 
-      if (editReview.userId === req.user.id) {
-        editReview.content = review
-        editReview.stars = stars
-        await editReview.save()
-        return res.json(editReview)
-      } else return res.json({
-        message: "You are not authorized to edit this review",
-        statusCode: 401
-      })
-    } else return res.json({
-      message: "Review couldn't be found",
-      statusCode: 404
+    if (editReview && editReview.userId !== req.user.id) {
+      const err = newError("You are not authorized to edit this review.")
+      err.status = 401
+      err.errors = [err.message]
+      next(err)
+    }
+
+    editReview.content = review
+    editReview.stars = stars
+    await editReview.save()
+
+    const returnReview = await Review.findOne({
+      where: {
+        id: editReview.id
+      },
+      include: {
+        model: User
+      },
     })
+
+    return res.json(returnReview)
 })
 // get all review for current user with associated images
 router.get('/reviews', requireAuth, async (req, res, next) => {
 
     const id = req.user.id
-    // console.log(req.user)
     const reviews = await Review.findAll({
       include: [
         {model: Image},

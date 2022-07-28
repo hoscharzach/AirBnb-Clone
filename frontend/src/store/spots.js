@@ -73,8 +73,7 @@ export const thunkUpdateSpot = (payload) => async dispatch => {
         },
         body: JSON.stringify(payload)
     })
-
-    if (response) {
+    if (response.ok) {
         const data = await response.json()
         return dispatch(updateSpot(data))
     }

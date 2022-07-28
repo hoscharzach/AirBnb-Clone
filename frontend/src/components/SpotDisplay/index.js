@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
+import AddReviewModal from "../AddReviewModal"
 import DeleteListingModal from "../DeleteListingModal"
 import EditListingModal from "../EditSpotModal"
 import ReviewCard from "../ReviewCard"
@@ -10,6 +11,7 @@ export default function SpotDisplay () {
     const sessionUser = useSelector(state => state.session.user)
     const spot = useSelector(state => state.spots.normalizedSpots[Number(spotId)])
     const reviews = useSelector(state => state.reviews.normalizedReviews[Number(spotId)])
+    const type = "Post"
 
     let avgStarRating
     let numReviews
@@ -44,6 +46,7 @@ export default function SpotDisplay () {
             <div className="reviews-container">
                {reviews && (<h2><i className="fa-solid fa-star"></i> {avgStarRating} ● {numReviews}  Reviews</h2>)}
                {!reviews && <h2>No Reviews</h2>}
+               <AddReviewModal spot={spot} type={type}/>
                 {reviews && reviews.map((review, i) => (
                     <ReviewCard key={i} className="review-component" review={review}/>
                     ))}
