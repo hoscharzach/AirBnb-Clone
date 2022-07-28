@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import AddReviewModal from "../AddReviewModal"
 import DeleteListingModal from "../DeleteListingModal"
 import EditListingModal from "../EditSpotModal"
@@ -13,9 +13,10 @@ export default function SpotDisplay () {
     const spot = useSelector(state => state.spots.normalizedSpots[Number(spotId)])
 
     const allReviews = useSelector(state => state.reviews.normalizedReviews)
-
-    const [showAddReview, setShowAddReview] = useState(true)
     const reviews = Object.values(allReviews).filter(review => review.spotId === spot.id)
+    const userReview = reviews.find(review => review.userId === sessionUser.id)
+    console.log(userReview)
+    const [showAddReview, setShowAddReview] = useState(true)
 
     let avgStarRating
     let numReviews
@@ -28,6 +29,11 @@ export default function SpotDisplay () {
         avgStarRating = (sum / numReviews)
         if(avgStarRating === Math.floor(avgStarRating)) avgStarRating += ".0"
     }
+
+    // check for reviews that exist by user
+    useEffect(() => {
+        userReview !== undefined ? setShowAddReview(false) : setShowAddReview(true)
+    }, [userReview])
 
     if (!spot) return null
 

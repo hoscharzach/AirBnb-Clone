@@ -60,8 +60,8 @@ export default function AddReview ({ spot, setShowModal }) {
             </ul>
         <h1 className='add-review-title'>Add Review</h1>
             <form onSubmit={onSubmit}>
-                <textarea required className='content-field' placeholder="review" value={content} onChange={contentChange} ></textarea>
-                <input type="number" required placeholder="stars" value={stars} onChange={starsChange}></input>
+                <textarea required className='content-field' placeholder="Review (minimum 10 characters)" value={content} onChange={contentChange} ></textarea>
+                <input type="number" required placeholder="Rating (1-5)" value={stars} onChange={starsChange}></input>
                 <button type="submit" disabled={disableSubmit}>Leave Review</button>
             </form>
         </div>

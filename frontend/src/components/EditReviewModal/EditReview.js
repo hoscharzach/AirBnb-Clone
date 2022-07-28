@@ -52,8 +52,8 @@ export default function EditReview ({review, setShowModal}) {
             </ul>
         <h1 className='edit-listing-form'>Edit Review</h1>
             <form onSubmit={onSubmit}>
-                <textarea required className='review-content' placeholder="Description" value={content} onChange={contentChange} ></textarea>
-                <input type="number" required placeholder="Price" value={stars} onChange={starsChange}></input>
+                <textarea required className='Review (minimum 10 characters)' placeholder="Description" value={content} onChange={contentChange} ></textarea>
+                <input type="number" required placeholder="Rating (1-5)" value={stars} onChange={starsChange}></input>
                 <button type="submit" disabled={disableSubmit}>Submit Changes</button>
             </form>
         </div>
