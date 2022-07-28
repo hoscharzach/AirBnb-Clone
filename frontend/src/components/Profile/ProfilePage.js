@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import DeleteListingModal from "../DeleteListingModal";
 import DeleteReviewModal from "../DeleteReviewModal";
+import EditReviewModal from "../EditReviewModal";
 import EditListingModal from "../EditSpotModal";
 
 
@@ -52,6 +53,7 @@ export default function MangageListings () {
                     <p>Review: {review.content}</p>
                     <p>Stars: {review.stars}</p>
                     <DeleteReviewModal review={review} />
+                    <EditReviewModal review={review} />
                 </div>
             ))}
             </div>

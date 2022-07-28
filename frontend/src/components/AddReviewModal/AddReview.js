@@ -13,7 +13,7 @@ export default function AddReview ({ spot, setShowModal }) {
 
     useEffect(() => {
         const formErrors = []
-        if (stars < 0 || stars > 5) formErrors.push('Stars must be between 0 and 5')
+        if (stars < 1 || stars > 5) formErrors.push('Stars must be between 1 and 5')
         if (content.length < 10) formErrors.push('Review must be at least 10 characters')
         setValidationErrors(formErrors)
         setDisableSubmit(validationErrors.length > 0)
@@ -54,6 +54,11 @@ export default function AddReview ({ spot, setShowModal }) {
 
         <div className='add-review-container'>
             <ul className='add-review-errors'>
+                {validationErrors.map((error, i) => (
+                    <li key={i}>{error}</li>
+                ))}
+            </ul>
+            <ul className='add-review-validation-errors'>
                 {errors.map((error, i) => (
                     <li key={i}>{error}</li>
                 ))}
@@ -61,7 +66,7 @@ export default function AddReview ({ spot, setShowModal }) {
         <h1 className='add-review-title'>Add Review</h1>
             <form onSubmit={onSubmit}>
                 <textarea required className='content-field' placeholder="Review (minimum 10 characters)" value={content} onChange={contentChange} ></textarea>
-                <input type="number" required placeholder="Rating (1-5)" value={stars} onChange={starsChange}></input>
+                <input type="number" maxLength={1} required placeholder="Rating (1-5)" value={stars} onChange={starsChange}></input>
                 <button type="submit" disabled={disableSubmit}>Leave Review</button>
             </form>
         </div>

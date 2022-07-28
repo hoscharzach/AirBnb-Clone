@@ -14,8 +14,10 @@ export default function SpotDisplay () {
 
     const allReviews = useSelector(state => state.reviews.normalizedReviews)
     const reviews = Object.values(allReviews).filter(review => review.spotId === spot.id)
-    const userReview = reviews.find(review => review.userId === sessionUser.id)
-    console.log(userReview)
+
+    const userReview = reviews.find(review => review.userId === sessionUser?.id)
+    const userOwnsSpot = spot.ownerId === sessionUser.id
+
     const [showAddReview, setShowAddReview] = useState(true)
 
     let avgStarRating
@@ -26,7 +28,7 @@ export default function SpotDisplay () {
         let sum = reviews.reduce((acc, review) => {
             return acc + review.stars
         }, 0)
-        avgStarRating = (sum / numReviews)
+        avgStarRating = (sum / numReviews).toFixed(2)
         if(avgStarRating === Math.floor(avgStarRating)) avgStarRating += ".0"
     }
 
@@ -57,7 +59,7 @@ export default function SpotDisplay () {
             <div className="reviews-container">
                {reviews && (<h2><i className="fa-solid fa-star"></i> {avgStarRating} ● {numReviews}  Reviews</h2>)}
                {!reviews && <h2>No Reviews</h2>}
-               { showAddReview && <AddReviewModal spot={spot} />}
+               { showAddReview && !userOwnsSpot && <AddReviewModal spot={spot} />}
                 {reviews && reviews.map((review, i) => (
                     <ReviewCard key={i} className="review-component" review={review}/>
                     ))}

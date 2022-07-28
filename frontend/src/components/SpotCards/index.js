@@ -26,7 +26,7 @@ export default function SpotCard({spotId, spot}) {
             <div className="spot-card-caption">
                 <div className="location-stars-container">
                 {spot.city}, {spot.state} {avgStarRating &&
-                (<span className="star-rating-container">{avgStarRating} <i className="fa-solid fa-star"></i></span>)}
+                (<span className="star-rating-container">{avgStarRating.toFixed(2)} <i className="fa-solid fa-star"></i></span>)}
                 {numReviews === 0 && <span>New!</span>}
                 </div>
                 <div className="price-container">

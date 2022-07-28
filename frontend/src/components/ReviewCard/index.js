@@ -1,7 +1,6 @@
 import { useSelector } from 'react-redux'
 import DeleteReviewModal from '../DeleteReviewModal'
 import EditReviewModal from '../EditReviewModal'
-import EditReview from '../EditReviewModal/EditReview'
 import './reviewcard.css'
 
 export default function ReviewCard ({review}) {
