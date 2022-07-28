@@ -276,7 +276,7 @@ router.get('/bookings', requireAuth, async (req, res, next) => {
 })
 
 router.post('/spots', [requireAuth, validateSpot], async (req, res, next) => {
-  const { address, city ,state, country, lat, lng, name, description, price } = req.body
+  const { address, city ,state, country, lat, lng, name, description, price, previewImage } = req.body
   const id = req.user.id
   const newSpot = await Spot.create({
     address,
@@ -288,6 +288,7 @@ router.post('/spots', [requireAuth, validateSpot], async (req, res, next) => {
     name,
     description,
     price,
+    previewImage,
     ownerId: id
   })
 
@@ -311,7 +312,7 @@ router.put('/spots/:spotId', [requireAuth, validateSpot], async (req, res, next)
   const editSpot = await Spot.findByPk(req.params.spotId)
   if (!editSpot) return res.json({ message: "Spot couldn't be found", statusCode: 404})
 
-  const { address, city ,state, country, lat, lng, name, description, price } = req.body
+  const { address, city ,state, country, lat, lng, name, description, price, previewImage } = req.body
 
   if (currUserId === editSpot.ownerId) {
     editSpot.address = address
@@ -323,6 +324,7 @@ router.put('/spots/:spotId', [requireAuth, validateSpot], async (req, res, next)
     editSpot.name = name
     editSpot.description = description
     editSpot.price = price
+    editSpot.previewImage = previewImage
 
     await editSpot.save()
     return res.json(editSpot)

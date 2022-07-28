@@ -41,7 +41,7 @@ export default function EditListing ({spot, setShowModal}) {
                 country,
                 lat,
                 lng,
-                imageUrl
+                previewImage: imageUrl
             }
 
             await dispatch(spotActions.thunkUpdateSpot(payload)).catch(
