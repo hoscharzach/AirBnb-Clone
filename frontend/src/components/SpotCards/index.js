@@ -19,15 +19,18 @@ export default function SpotCard({spotId, spot}) {
     return (
        <Link className="text-link" to={`/spots/${spotId}`}>
         <div className="spot-card-container">
-        <div className="spot-display-image">
-            <h2>{spot.name}</h2>
-        </div>
-        <div className="spot-card-caption">
-            <div>
-             {spot.city}, {spot.state} {avgStarRating &&
-             (<div className="star-rating-container">{avgStarRating} <i className="fa-solid fa-star"></i></div>)}
-            {!avgStarRating && <p>New!</p>}
+            <div className="spot-display-image">
+                <img className="preview-image" src={spot.previewImage} alt=""/>
             </div>
+            <div className="spot-card-caption">
+                <div className="location-stars-container">
+                {spot.city}, {spot.state} {avgStarRating &&
+                (<span className="star-rating-container">{avgStarRating} <i className="fa-solid fa-star"></i></span>)}
+                {!avgStarRating && <span>New!</span>}
+                </div>
+                <div className="price-container">
+                    ${spot.price} night
+                </div>
             </div>
         </div>
        </Link>
