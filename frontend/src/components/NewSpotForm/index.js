@@ -59,7 +59,7 @@ export default function HostForm ({spot}) {
                 country,
                 lat,
                 lng,
-                imageUrl
+                previewImage: imageUrl
             }
 
             const spotId = await dispatch(spotActions.thunkCreateSpot(payload))

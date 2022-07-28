@@ -8,7 +8,7 @@ const {Op} = require('sequelize')
 
 const router = express.Router()
 const validateReview = [
-    check('review')
+    check('content')
       .exists({checkFalsy: true})
       .isLength({ min: 10 })
       .withMessage('Review text must be at least 10 characters'),
@@ -126,19 +126,6 @@ router.get('/', validateQuery, async (req,res) => {
         include: 'Owner'
     })
 
-    // console.log('result spots', result.spots)
-
-    // result.spots.forEach(async (spot, i) => {
-    //     const reviews = await Review.findAll({
-    //         where: {
-    //             spotId: spot.id
-    //         },
-    //         raw: true
-    //     })
-    //     console.log("spot", spot, "index", i, "reviews", reviews, "current object", result.spots[i])
-    //     result.spots[i]['reviews'] = reviews
-    // })
-
     if (Object.keys(errorResult.error).length === 0) {
         result.page = page
         result.size = size
@@ -234,38 +221,55 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
 // post a new review to a spot
 router.post('/:spotId/reviews', [requireAuth, validateReview], async (req, res, next) => {
     const userId = req.user.id
-    const spot = await Spot.findByPk(req.params.spotId)
-    const { review, stars } = req.body
+    const spotId = req.params.spotId
+    const spot = await Spot.findByPk(spotId)
+    const { content, stars } = req.body
 
-    if (spot) {
-        // check if review already exists
-        const reviewCheck = await Review.findOne({
-            where: {
-                userId: userId,
-                spotId: req.params.spotId
-            }
-        })
-        // if there is no review, create the review
-        if (!reviewCheck) {
-            const newReview = await Review.create({
-                userId: userId,
-                spotId: req.params.spotId,
-                content: review,
-                stars})
-
-           return res.json(newReview)
-        // if there is a review, return an error
-        } else return res.json({
-            message: "User already has a review for this spot",
-            statusCode: 403
-        })
-    } else {
-        res.json({
-            message: "Spot couldn't be found",
-            statusCode: 404
-        })
+    // if spot doesn't exist, break and pass error to error handler
+    if (!spot) {
+        const err = new Error('Spot does not exist.')
+        err.status = 404
+        err.errors = [err.message]
+        return next(err)
     }
 
+    // check if user already has a review for this spot
+    const reviewCheck = await Review.findOne({
+        where: {
+            userId,
+            spotId
+        }
+    })
+
+    // if the review already exists, return and pass to error handler
+    if (reviewCheck !== null) {
+        const err = new Error('You have already reviewed this spot.')
+        err.status = 403
+        err.errors = [err.message]
+        return next(err)
+    }
+
+    // otherwise, create a new review
+    const newReview = await Review.create({
+        userId,
+        spotId,
+        content,
+        stars
+    })
+
+    // find the review with the included data I need
+    const returnReview = await Review.findOne({
+        where: {
+            userId
+        },
+        include: {
+            model: User
+        },
+        order: [
+            ['createdAt', 'DESC']
+        ]
+    })
+    return res.json(returnReview)
 })
 // reviews by spot id
 router.get('/:spotId/reviews', async (req, res, next) => {

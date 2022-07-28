@@ -65,7 +65,7 @@ const validateSpot = [
   ];
 
   const validateReview = [
-    check('review')
+    check('content')
       .exists({checkFalsy: true})
       .isLength({ min: 10 })
       .withMessage('Review text must be at least 10 characters'),
@@ -93,19 +93,26 @@ router.delete('/images/:imageId', requireAuth, async (req, res, next) => {
   await image.destroy()
   return res.json({message: "Successfully deleted", statusCode: 200})
 })
-// delete a review
+
 router.delete('/reviews/:reviewId', [requireAuth], async (req, res, next) => {
   const review = await Review.findByPk(req.params.reviewId)
-  if (review && req.user.id === review.userId) {
-    await review.destroy()
-    return res.json({message: "Review successfully deleted."})
-  } else if (review && req.user.id !== review.userId) {
-    return res.json({message: "You are not authorized to delete this review", statusCode: 401})
-  } else {
-    return res.json({message: "Review could not be found", statusCode: 404})
+
+  if (review === null) {
+    const err = new Error("Review doesn't exist.")
+    err.status = 404
+    err.errors = [err.message]
+    return next(err)
   }
 
+  if (review && req.user.id !== review.userId) {
+    const err = newError("You are not authorized to delete this review")
+    err.status = 401
+    err.errors = [err.message]
+    return next(err)
+  }
 
+  await review.destroy()
+  return res.json({Message: "Review successfully deleted"})
 })
 
 router.post('/reviews/:reviewId/images', [requireAuth, validateImage], async (req, res, next) => {
@@ -128,32 +135,42 @@ router.post('/reviews/:reviewId/images', [requireAuth, validateImage], async (re
 })
 // edit a review
 router.put('/reviews/:reviewId', [requireAuth, validateReview], async (req, res, next) => {
-    // grab the info from body of request
-    const { review, stars } = req.body
-    // find the review
+    const { content, stars } = req.body
     const editReview = await Review.findByPk(req.params.reviewId)
 
-    if (editReview) {
+    if (editReview === null) {
+      const err = new Error("Review doesn't exist")
+      err.status = 404
+      err.errors = [err.message]
+      next(err)
+    }
 
-      if (editReview.userId === req.user.id) {
-        editReview.content = review
-        editReview.stars = stars
-        await editReview.save()
-        return res.json(editReview)
-      } else return res.json({
-        message: "You are not authorized to edit this review",
-        statusCode: 401
-      })
-    } else return res.json({
-      message: "Review couldn't be found",
-      statusCode: 404
+    if (editReview && editReview.userId !== req.user.id) {
+      const err = newError("You are not authorized to edit this review.")
+      err.status = 401
+      err.errors = [err.message]
+      next(err)
+    }
+
+    editReview.content = content
+    editReview.stars = stars
+    await editReview.save()
+
+    const returnReview = await Review.findOne({
+      where: {
+        id: editReview.id
+      },
+      include: {
+        model: User
+      },
     })
+
+    return res.json(returnReview)
 })
 // get all review for current user with associated images
 router.get('/reviews', requireAuth, async (req, res, next) => {
 
     const id = req.user.id
-    // console.log(req.user)
     const reviews = await Review.findAll({
       include: [
         {model: Image},
@@ -276,7 +293,7 @@ router.get('/bookings', requireAuth, async (req, res, next) => {
 })
 
 router.post('/spots', [requireAuth, validateSpot], async (req, res, next) => {
-  const { address, city ,state, country, lat, lng, name, description, price } = req.body
+  const { address, city ,state, country, lat, lng, name, description, price, previewImage } = req.body
   const id = req.user.id
   const newSpot = await Spot.create({
     address,
@@ -288,6 +305,7 @@ router.post('/spots', [requireAuth, validateSpot], async (req, res, next) => {
     name,
     description,
     price,
+    previewImage,
     ownerId: id
   })
 
@@ -296,14 +314,12 @@ router.post('/spots', [requireAuth, validateSpot], async (req, res, next) => {
 })
 
 router.delete('/spots/:spotId', requireAuth, async (req, res, next) => {
-  // console.log("curr user id", req.user.id)
   const spot = await Spot.findByPk(req.params.spotId)
-  // console.log("curr spot owner id", spot.ownerId)
 
   if (spot) {
     if (req.user.id === spot.ownerId) {
       await spot.destroy()
-      return res.json({ message: "Spot successfully deleted."})
+      return res.json({ message:"Spot successfully deleted."})
     } else return res.json( {statusCode: 401, message: "You are not authorized to delete this spot."} )
   } else return res.status(404).json({message: "This spot could not be found."})
 })
@@ -311,10 +327,9 @@ router.delete('/spots/:spotId', requireAuth, async (req, res, next) => {
 router.put('/spots/:spotId', [requireAuth, validateSpot], async (req, res, next) => {
   const currUserId = req.user.id
   const editSpot = await Spot.findByPk(req.params.spotId)
-  // console.log(req.user)
   if (!editSpot) return res.json({ message: "Spot couldn't be found", statusCode: 404})
 
-  const { address, city ,state, country, lat, lng, name, description, price } = req.body
+  const { address, city ,state, country, lat, lng, name, description, price, previewImage } = req.body
 
   if (currUserId === editSpot.ownerId) {
     editSpot.address = address
@@ -326,6 +341,7 @@ router.put('/spots/:spotId', [requireAuth, validateSpot], async (req, res, next)
     editSpot.name = name
     editSpot.description = description
     editSpot.price = price
+    editSpot.previewImage = previewImage
 
     await editSpot.save()
     return res.json(editSpot)

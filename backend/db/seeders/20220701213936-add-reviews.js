@@ -16,6 +16,12 @@ module.exports = {
         spotId: 1,
       },
       {
+        content: "Great experience, highly recommend this place.",
+        stars: 5,
+        userId: 1,
+        spotId: 1,
+      },
+      {
         content: "Here's a review of Disney World: Hated it, was straight up terrible. Seagull stole my lunch.",
         stars: 1,
         userId: 2,
@@ -26,6 +32,12 @@ module.exports = {
         stars: 3,
         userId: 3,
         spotId: 2,
+      },
+      {
+        content: "Thought the slicy rolling coffins thing was just a gag, but no those things are DANGEROUS. Avoid this place at all costs, I don't even know how this listing is legal...",
+        stars: 1,
+        userId: 2,
+        spotId: 3,
       },
     ])
   },

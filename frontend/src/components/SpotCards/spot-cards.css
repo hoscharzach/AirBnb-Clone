@@ -1,11 +1,24 @@
+.spot-card-container {
+    margin: 12.5px;
+}
+
 .spot-display-image {
     display: flex;
-    flex-direction: column;
-    background-color: rgb(37, 41, 41);
-    color: white;
-    width: 300px;
-    height: 300px;
-    margin: 15px;
     justify-content: center;
     align-items: center;
+    /* padding: 12.5px; */
+    overflow: hidden;
+    width: 18em;
+    height: 18em;
+    border-radius: 5%;
+}
+
+.preview-image {
+    flex: 1;
+    height: 100%;
+}
+
+.location-stars-container {
+    display: flex;
+    justify-content: space-between;
 }
