@@ -65,7 +65,7 @@ const validateSpot = [
   ];
 
   const validateReview = [
-    check('review')
+    check('content')
       .exists({checkFalsy: true})
       .isLength({ min: 10 })
       .withMessage('Review text must be at least 10 characters'),
@@ -93,19 +93,26 @@ router.delete('/images/:imageId', requireAuth, async (req, res, next) => {
   await image.destroy()
   return res.json({message: "Successfully deleted", statusCode: 200})
 })
-// delete a review
+
 router.delete('/reviews/:reviewId', [requireAuth], async (req, res, next) => {
   const review = await Review.findByPk(req.params.reviewId)
-  if (review && req.user.id === review.userId) {
-    await review.destroy()
-    return res.json({message: "Review successfully deleted."})
-  } else if (review && req.user.id !== review.userId) {
-    return res.json({message: "You are not authorized to delete this review", statusCode: 401})
-  } else {
-    return res.json({message: "Review could not be found", statusCode: 404})
+
+  if (review === null) {
+    const err = new Error("Review doesn't exist.")
+    err.status = 404
+    err.errors = [err.message]
+    return next(err)
   }
 
+  if (review && req.user.id !== review.userId) {
+    const err = newError("You are not authorized to delete this review")
+    err.status = 401
+    err.errors = [err.message]
+    return next(err)
+  }
 
+  await review.destroy()
+  return res.json({Message: "Review successfully deleted"})
 })
 
 router.post('/reviews/:reviewId/images', [requireAuth, validateImage], async (req, res, next) => {
@@ -128,7 +135,7 @@ router.post('/reviews/:reviewId/images', [requireAuth, validateImage], async (re
 })
 // edit a review
 router.put('/reviews/:reviewId', [requireAuth, validateReview], async (req, res, next) => {
-    const { review, stars } = req.body
+    const { content, stars } = req.body
     const editReview = await Review.findByPk(req.params.reviewId)
 
     if (editReview === null) {
@@ -145,7 +152,7 @@ router.put('/reviews/:reviewId', [requireAuth, validateReview], async (req, res,
       next(err)
     }
 
-    editReview.content = review
+    editReview.content = content
     editReview.stars = stars
     await editReview.save()
 

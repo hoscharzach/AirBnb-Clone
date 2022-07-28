@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
-import DeleteListing from './DeleteListing'
+import DeleteReview from './DeleteReview'
 
-export default function DeleteListingModal ({spot, redirect}) {
+export default function DeleteReviewModal ({ review }) {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <button onClick={() => setShowModal(true)}>Delete Listing</button>
+      <button onClick={() => setShowModal(true)}>Delete Review</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <DeleteListing setShowModal={setShowModal} spot={spot} redirect={redirect}/>
+          <DeleteReview setShowModal={setShowModal} review={review} />
         </Modal>
       )}
     </>

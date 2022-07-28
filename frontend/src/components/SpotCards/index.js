@@ -3,12 +3,13 @@ import { useSelector } from "react-redux"
 import './spot-cards.css'
 
 export default function SpotCard({spotId, spot}) {
-    const reviews = useSelector(state => state.reviews.normalizedReviews[spot.id])
+    const allReviews = useSelector(state => state.reviews.normalizedReviews)
+    const reviews = Object.values(allReviews).filter(review => spot.id === review.spotId)
 
-    let numReviews
+    let numReviews = 0
     let avgStarRating
 
-    if (reviews) {
+    if (reviews.length > 0) {
         numReviews = reviews.length
         let sum = reviews.reduce((acc, review) => {
             return acc + review.stars
@@ -26,7 +27,7 @@ export default function SpotCard({spotId, spot}) {
                 <div className="location-stars-container">
                 {spot.city}, {spot.state} {avgStarRating &&
                 (<span className="star-rating-container">{avgStarRating} <i className="fa-solid fa-star"></i></span>)}
-                {!avgStarRating && <span>New!</span>}
+                {numReviews === 0 && <span>New!</span>}
                 </div>
                 <div className="price-container">
                     ${spot.price} night

@@ -1,5 +1,7 @@
 import { useSelector } from 'react-redux'
-import AddReviewModal from '../AddReviewModal'
+import DeleteReviewModal from '../DeleteReviewModal'
+import EditReviewModal from '../EditReviewModal'
+import EditReview from '../EditReviewModal/EditReview'
 import './reviewcard.css'
 
 export default function ReviewCard ({review}) {
@@ -11,8 +13,8 @@ export default function ReviewCard ({review}) {
             <div>Rating: {review.stars}</div>
             <div>User: {review.User.firstName}</div>
             <div>Review: {review.content}</div>
-            {sessionUser && review.userId === sessionUser.id && <AddReviewModal review={review} spotId={review.spotId} type={type}/>}
-            {sessionUser && review.userId === sessionUser.id && <button>Delete Review</button>}
+            {sessionUser && review.userId === sessionUser.id && <EditReviewModal review={review} spotId={review.spotId} type={type}/>}
+            {sessionUser && review.userId === sessionUser.id && <DeleteReviewModal review={review} />}
         </div>
         )
     }

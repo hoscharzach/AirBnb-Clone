@@ -1,17 +1,15 @@
 import { useDispatch } from "react-redux"
-import * as spotActions from '../../store/spots'
+import * as reviewActions from '../../store/reviews'
 import { useState } from "react"
-import { useHistory } from "react-router-dom"
 
 
-export default function DeleteListing ({spot, setShowModal, redirect}) {
+export default function DeleteReview ({setShowModal, review}) {
     const dispatch = useDispatch()
-    const history = useHistory()
     const [errors, setErrors] = useState([])
 
     async function onClickYes (e) {
         e.preventDefault()
-        const res = await dispatch(spotActions.thunkDeleteSpot(spot.id)).catch(
+        const res = await dispatch(reviewActions.thunkDeleteReview(review)).catch(
             async (res) => {
               const data = await res.json();
               if (data && data.errors) setErrors(data.errors);
@@ -19,11 +17,10 @@ export default function DeleteListing ({spot, setShowModal, redirect}) {
           );
 
         if (res && errors.length === 0) {
-            window.alert("Listing successfully deleted")
-            history.push(`${redirect}`)
+            window.alert("Review successfully deleted")
+            setShowModal(false)
         }
     }
-
     function onClickNo (e) {
         setShowModal(false)
     }
@@ -36,7 +33,7 @@ export default function DeleteListing ({spot, setShowModal, redirect}) {
             ))}
         </ul>
 
-        <h2>Are you sure you want to remove this listing?</h2>
+        <h2>Are you sure you want to remove this review?</h2>
         <button onClick={onClickYes}>Yes</button><button onClick={onClickNo}>No</button>
         </>
     )

@@ -126,19 +126,6 @@ router.get('/', validateQuery, async (req,res) => {
         include: 'Owner'
     })
 
-    // console.log('result spots', result.spots)
-
-    // result.spots.forEach(async (spot, i) => {
-    //     const reviews = await Review.findAll({
-    //         where: {
-    //             spotId: spot.id
-    //         },
-    //         raw: true
-    //     })
-    //     console.log("spot", spot, "index", i, "reviews", reviews, "current object", result.spots[i])
-    //     result.spots[i]['reviews'] = reviews
-    // })
-
     if (Object.keys(errorResult.error).length === 0) {
         result.page = page
         result.size = size
@@ -256,7 +243,7 @@ router.post('/:spotId/reviews', [requireAuth, validateReview], async (req, res, 
 
     // if the review already exists, return and pass to error handler
     if (reviewCheck !== null) {
-        const err = new Error('Review already exists')
+        const err = new Error('You have already reviewed this spot.')
         err.status = 403
         err.errors = [err.message]
         return next(err)

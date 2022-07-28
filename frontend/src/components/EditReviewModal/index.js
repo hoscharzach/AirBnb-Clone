@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
-import AddReview from './AddReview'
+import EditReview from './EditReview'
 
-export default function AddReviewModal ({spot, review, type}) {
+export default function EditReviewModal ({review}) {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <button onClick={() => setShowModal(true)}>{type} Review</button>
+      <button onClick={() => setShowModal(true)}>Edit Review</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <AddReview setShowModal={setShowModal} spot={spot} review={review} />
+          <EditReview setShowModal={setShowModal} review={review} />
         </Modal>
       )}
     </>

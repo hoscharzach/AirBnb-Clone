@@ -1,61 +1,50 @@
 import { useDispatch } from 'react-redux'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as reviewActions from '../../store/reviews'
 
-export default function AddReview ({spot, setShowModal, review, type}) {
+export default function AddReview ({ spot, setShowModal }) {
     const dispatch = useDispatch()
-    console.log(type)
 
+    const [validationErrors, setValidationErrors] = useState([])
     const [errors, setErrors] = useState([])
-    const [stars, setStars] = useState(review?.stars || 5)
-    const [content, setContent] = useState(review?.content || '')
+    const [stars, setStars] = useState(5)
+    const [content, setContent] = useState('')
+    const [disableSubmit, setDisableSubmit] = useState(false)
+
+    useEffect(() => {
+        const formErrors = []
+        if (stars < 0 || stars > 5) formErrors.push('Stars must be between 0 and 5')
+        if (content.length < 10) formErrors.push('Review must be at least 10 characters')
+        setValidationErrors(formErrors)
+        setDisableSubmit(validationErrors.length > 0)
+    },[stars, content, validationErrors.length])
 
     const onSubmit = async (e) => {
         e.preventDefault()
         setErrors([])
 
-        const formErrors = []
-        setErrors(formErrors)
 
+        const payload = {
+            content,
+            stars,
+            spotId: spot.id
+        }
 
-        if (formErrors.length === 0) {
-            const payload = {
-                ...review,
-                content,
-                stars,
-                spotId: spot.id || review.spotId
-            }
-
-            if (review) {
-                await dispatch(reviewActions.thunkEditReview(payload))
-                .catch(
-                    async (res) => {
+        await dispatch(reviewActions.thunkCreateReview(payload))
+            .catch(
+                async (res) => {
                     const data = await res.json();
                     if (data && data.errors) {
                         setErrors(data.errors);
-                        console.log(errors)
                     }
-                    }
-                )
-                if (errors.length === 0) {
-                    setShowModal(false)
-                }
+                })
 
-            } else {
-                await dispatch(reviewActions.thunkCreateReview(payload))
-                .catch(
-                    async (res) => {
-                    const data = await res.json();
-                    if (data && data.errors) setErrors(data.errors);
-                    }
-                );
-
-                if (errors.length === 0) {
-                    setShowModal(false)
-                }
-            }
-
+        if (errors.length > 0) {
+            setDisableSubmit(true)
+        } else {
+            setShowModal(false)
         }
+
     }
 
     const contentChange = (e) => setContent(e.target.value)
@@ -73,7 +62,7 @@ export default function AddReview ({spot, setShowModal, review, type}) {
             <form onSubmit={onSubmit}>
                 <textarea required className='content-field' placeholder="review" value={content} onChange={contentChange} ></textarea>
                 <input type="number" required placeholder="stars" value={stars} onChange={starsChange}></input>
-                <button type="submit">Leave Review</button>
+                <button type="submit" disabled={disableSubmit}>Leave Review</button>
             </form>
         </div>
     )
