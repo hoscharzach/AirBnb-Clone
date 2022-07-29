@@ -12,9 +12,12 @@ export default function DeleteListing ({spot, setShowModal, redirect}) {
     async function onClickYes (e) {
         e.preventDefault()
         await dispatch(spotActions.thunkDeleteSpot(spot.id))
-
             window.alert("Listing successfully deleted")
-            history.push(`/`)
+
+            if (redirect === '/my-profile') {
+                setShowModal(false)
+            } else history.push('/')
+
 
     }
 

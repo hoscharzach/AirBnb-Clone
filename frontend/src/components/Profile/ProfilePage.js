@@ -39,7 +39,7 @@ export default function MangageListings () {
                         <p>Price: {spot.price} per night</p>
                         <p>Owner: {spot['Owner.firstName']} {spot['Owner.lastName']} </p>
                         <EditListingModal spot={spot} />
-                        <DeleteListingModal spot={spot} redirect={'my-profile'} />
+                        <DeleteListingModal spot={spot} redirect={'/my-profile'} />
                     </div>
                 ))}
             </div>

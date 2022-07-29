@@ -14,7 +14,7 @@ export default function SpotDisplay () {
     const spot = useSelector(state => state.spots.normalizedSpots[Number(spotId)])
 
     const allReviews = useSelector(state => state.reviews.normalizedReviews)
-    const reviews = Object.values(allReviews).filter(review => review.spotId === spot.id)
+    const reviews = Object.values(allReviews).filter(review => review?.spotId === spot?.id)
 
     let userReview
     let userOwnsSpot
