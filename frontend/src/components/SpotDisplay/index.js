@@ -6,6 +6,7 @@ import DeleteListingModal from "../DeleteListingModal"
 import EditListingModal from "../EditSpotModal"
 import ReviewCard from "../ReviewCard"
 import './spot-display.css'
+import star from '../../assets/images/icons/svgexport-14.svg'
 
 
 export default function SpotDisplay () {
@@ -24,6 +25,7 @@ export default function SpotDisplay () {
        userReview = reviews.find(review => review?.userId === sessionUser?.id)
     }
 
+    console.log(spot)
     const [showAddReview, setShowAddReview] = useState(true)
 
     let avgStarRating
@@ -47,24 +49,32 @@ export default function SpotDisplay () {
 
     return (
         <div className="main-display-container">
-            <div className="spot-info-container">
-                <h2>{spot.name}</h2>
-                <p>Address: {spot.address}</p>
-                <p>Price: {spot.price}</p>
-                <p>Description: {spot.description} </p>
-                <p>OwnerId: {spot.ownerId}</p>
-                <h2>{spot.name} hosted by {spot['Owner.firstName']} {spot['Owner.lastName']} </h2>
-                {/* <img src={spot.previewImage} alt={" "} ></img> */}
 
-                {sessionUser && spot && sessionUser.id === spot.ownerId && <EditListingModal spot={spot}/>}
-                {sessionUser && spot && sessionUser.id === spot.ownerId && <DeleteListingModal redirect={'/'} spot={spot} />}
+            <div className="outer-spot-info-container">
+                <div className="inner-spot-info-container">
+                    <div className="spot-name-container">
+                        <h1>{spot.name}</h1>
+                    </div>
+                    <div className="spot-reviews-and-location">
+                        {reviews && <span><img className="top-div-star" src={star}></img> {avgStarRating} · {numReviews}  Review(s) <span className="dot-add-padding">·</span> {spot.city}, {spot.state}, {spot.country}</span>}
+                    </div>
+
+                    {sessionUser && spot && sessionUser.id === spot.ownerId && <EditListingModal spot={spot}/>}
+                    {sessionUser && spot && sessionUser.id === spot.ownerId && <DeleteListingModal redirect={'/'} spot={spot} />}
+                </div>
             </div>
+
             <div className="spot-images-container">
-                Images here
+                <img className="main-spot-image" src={spot.previewImage} alt="" ></img>
             </div>
+
+            <div className="hosted-by-price-container">
+            <h2>{spot.name} hosted by {spot['Owner.firstName']} {spot['Owner.lastName']} </h2>
+            </div>
+
             <div className="reviews-container">
-               {reviews && (<h2><i className="fa-solid fa-star"></i> {avgStarRating} ● {numReviews}  Reviews</h2>)}
-               {!reviews && <h2>No Reviews</h2>}
+               {reviews && (<h2><img className="bottom-reviews-star" src={star}></img> {avgStarRating} · {numReviews} Reviews</h2>)}
+               {!reviews && <h2>Be the first to review this spot!</h2>}
                { sessionUser && showAddReview && !userOwnsSpot && <AddReviewModal spot={spot} />}
                 {reviews && reviews.map((review, i) => (
                     <ReviewCard key={i} className="review-component" review={review}/>
