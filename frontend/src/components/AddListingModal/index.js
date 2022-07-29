@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
-import AddReview from './AddReview'
+import AddListing from './AddListing'
+import './listingmodal.css'
 
-export default function AddReviewModal ({spot, review}) {
+export default function AddListingModal () {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <button onClick={() => setShowModal(true)}>Add Review</button>
+      <div className='create-new-spot-link' onClick={() => setShowModal(true)}>Become a Host</div>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <AddReview setShowModal={setShowModal} spot={spot} review={review} />
+          <AddListing setShowModal={setShowModal} />
         </Modal>
       )}
     </>

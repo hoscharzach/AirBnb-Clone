@@ -5,6 +5,7 @@ import AddReviewModal from "../AddReviewModal"
 import DeleteListingModal from "../DeleteListingModal"
 import EditListingModal from "../EditSpotModal"
 import ReviewCard from "../ReviewCard"
+import './spot-display.css'
 
 
 export default function SpotDisplay () {
@@ -15,8 +16,13 @@ export default function SpotDisplay () {
     const allReviews = useSelector(state => state.reviews.normalizedReviews)
     const reviews = Object.values(allReviews).filter(review => review.spotId === spot.id)
 
-    const userReview = reviews.find(review => review.userId === sessionUser?.id)
-    const userOwnsSpot = spot.ownerId === sessionUser.id
+    let userReview
+    let userOwnsSpot
+
+    if (sessionUser) {
+       userOwnsSpot = spot?.ownerId === sessionUser?.id
+       userReview = reviews.find(review => review?.userId === sessionUser?.id)
+    }
 
     const [showAddReview, setShowAddReview] = useState(true)
 
@@ -59,7 +65,7 @@ export default function SpotDisplay () {
             <div className="reviews-container">
                {reviews && (<h2><i className="fa-solid fa-star"></i> {avgStarRating} ● {numReviews}  Reviews</h2>)}
                {!reviews && <h2>No Reviews</h2>}
-               { showAddReview && !userOwnsSpot && <AddReviewModal spot={spot} />}
+               { sessionUser && showAddReview && !userOwnsSpot && <AddReviewModal spot={spot} />}
                 {reviews && reviews.map((review, i) => (
                     <ReviewCard key={i} className="review-component" review={review}/>
                     ))}

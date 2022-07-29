@@ -58,7 +58,7 @@ export const thunkDeleteSpot = (id) => async dispatch => {
         method: 'DELETE'
     })
 
-    if (response) {
+    if (response.ok) {
         const data = response.json()
         dispatch(deleteSpot(id))
         return data

@@ -9,7 +9,6 @@ import SignupForm from './components/SignupForm';
 import Navigation from './components/Navigation';
 import SpotDisplay from './components/SpotDisplay'
 import SpotIndex from './components/SpotIndex';
-import HostForm from './components/NewSpotForm';
 import MangageListings from './components/Profile/ProfilePage';
 import * as reviewActions from './store/reviews'
 
@@ -32,7 +31,7 @@ function App() {
 
 
   return (
-    <>
+    <div className='whole-page-container'>
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
@@ -48,9 +47,6 @@ function App() {
           <Route path="/signup">
             <SignupForm />
           </Route>
-          <Route path="/host-form">
-            <HostForm />
-          </Route>
           <Route path="/my-profile">
             <MangageListings />
           </Route>
@@ -59,7 +55,7 @@ function App() {
           </Route>
         </Switch>
       )}
-    </>
+    </div>
   );
 }
 

@@ -1,9 +1,10 @@
 import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-import './navigation.css'
+// import './navigation.css'
 import * as sessionActions from '../../store/session'
-
+import userIcon from '../../assets/images/icons/svgexport-7.svg'
+import hamburgerIcon from '../../assets/images/icons/svgexport-6.svg'
 
 
 function ProfileButton({ user }) {
@@ -38,8 +39,10 @@ function ProfileButton({ user }) {
     return (
       <>
         <div className="profile-icons-container" onClick={openMenu}>
-          <i className="fa-solid fa-bars" />
-          <i className="fa-solid fa-circle-user"/>
+          <div className="profile-icons">
+            <img className='hamburger-icon' src={hamburgerIcon} alt="" />
+            <img className='user-icon' src={userIcon} alt="" />
+          </div>
         </div>
         {showMenu && (
           <ul className="profile-dropdown">
