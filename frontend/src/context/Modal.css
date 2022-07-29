@@ -19,11 +19,15 @@
   }
 
   #modal-content {
+    width: 568px;
+    border-radius: 12px;
     position: absolute;
     background-color:white;
-    padding: 20px;
   }
 
-  h1 {
-    text-align: center;
-  }
+  input {
+    height: 52px;
+    width: 27.083vw;
+    border: 1px solid grey;
+    padding-left: 15px;
+}
