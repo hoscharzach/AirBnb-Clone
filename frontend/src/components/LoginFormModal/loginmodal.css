@@ -86,4 +86,10 @@ h3 {
     color: white;
     font-weight: 600;
     font-size: 16px;
+    transition: all 0.2s ease-in-out;
+}
+
+#login-button:active {
+    /* transform: translateY(2px); */
+    transform: scale(0.9);
 }

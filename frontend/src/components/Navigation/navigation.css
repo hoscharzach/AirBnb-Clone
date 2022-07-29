@@ -26,10 +26,12 @@
     height: 42px;
     width: 110px;
     border-radius: 12px;
+    transition: all 0.2s ease-in-out;
 }
 #demo-user-button:active {
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
+    transform: scale(0.9);
+    /* box-shadow: 0 3px #666;
+    transform: translateY(2px); */
 }
 
 /* #login-form-modal {

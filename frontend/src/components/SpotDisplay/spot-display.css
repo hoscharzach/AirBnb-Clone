@@ -1,9 +1,19 @@
+
 .main-display-container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+.maint-display-container p, h2, h1 {
+    margin: 0px;
+}
+
+h1 {
+    font-size: 26px;
+    padding-bottom: 5px;
+}
+/* spot info container */
 .outer-spot-info-container {
     width: 100%;
     height: 86px;
@@ -23,27 +33,74 @@
     width: 13.5px;
 }
 
+.dot-add-padding {
+    padding: 0px 8px;
+}
+
+/* spot image container */
+.spot-images-container {
+    overflow: hidden;
+    border-radius: 12px;
+    width: 560px;
+    height: 431px;
+    display: flex;
+    justify-content: center;
+
+}
+.main-spot-image {
+    flex: 1;
+    height: 100%
+}
+
+/* spot caption and buttons div */
+.below-image-container {
+    display: flex;
+    width: 29.083vw;
+    height: 110px;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0px;
+}
+
+.hosted-by-price-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 10px;;
+}
+.hosted-by-text {
+    font-size: 22px;
+}
+.avatar-price-wrapper {
+    display: flex;
+}
+.user-avatar {
+    width: 56px;
+    height: 56px;
+    /* padding-right: 10px; */
+}
+.edit-delete-buttons {
+    padding-left: 10px;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.under-image-spot-price-text {
+    font-weight: bold;
+}
+.avatar-and-buttons-wrapper {
+    display: flex;
+    align-items: center;
+}
 .bottom-reviews-star {
     width: 15px;
     height: 15px;
 }
-.spot-images-container {
-    overflow: hidden;
-}
-.main-spot-image {
-    border-radius: 12px;
-    width: 560px;
-    height: 431px;
-    overflow: hidden;
-}
 
-.dot-add-padding {
-    padding: 0px 8px;
-}
-p, h2, h1 {
-    margin: 0px;
-}
-
-h1 {
-    font-size: 26px;
+/* reviews at bottom of page */
+.spot-display-review-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
 }

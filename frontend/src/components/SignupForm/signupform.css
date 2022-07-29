@@ -24,9 +24,9 @@ form {
     color: white;
     font-weight: 600;
     font-size: 16px;
+    transition: all 0.2s ease-in-out;
 }
 
 #signup-submit-button:active {
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
+    transform: scale(0.9);
 }

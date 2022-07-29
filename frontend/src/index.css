@@ -1,16 +1,20 @@
-@font-face {
+/* @font-face {
     font-family: 'Montserrat';
-    src: local('Montserrat'), url('./fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf') format('truetype');
+    src: local('Montserrat'), url('./fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf') format('truetype'); */
+/* } */
+
+* {
+    font-family: Circular, -apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;
 }
 
 .whole-page-container {
-    letter-spacing: -.3px;
+    /* letter-spacing: -.3px; */
     width: 100vw;
     height: 100vh;
 
 }
 html > * {
-    font-family: Montserrat;
+    /* font-family: Montserrat; */
     box-sizing: border-box;
     margin: 0 auto;
 }
@@ -23,4 +27,24 @@ a {
 textarea:required {
     box-shadow: none;
     resize: none;
+}
+
+#delete-listing-button {
+    border: 0;
+    background-color: white;
+}
+
+#delete-listing-button:hover, #edit-listing-button:hover {
+    cursor: pointer;
+}
+
+#delete-listing-icon {
+    height: 23px;
+}
+#edit-listing-button {
+    border: 0;
+    background-color: white;
+}
+#edit-listing-icon {
+    height: 23px;
 }
