@@ -8,9 +8,11 @@ export default function SpotIndex () {
 
     return (
         <div className="spot-display-container">
+            <div className="spot-cards-container">
             {spots.map(spot => (
                 <SpotCard key={spot.id} spotId={spot.id} spot={spot}/>
-            ))}
+                ))}
+            </div>
         </div>
     )
 }

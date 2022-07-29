@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import './spot-cards.css'
+import star from '../../assets/images/icons/svgexport-14.svg'
 
 export default function SpotCard({spotId, spot}) {
+
     const allReviews = useSelector(state => state.reviews.normalizedReviews)
     const reviews = Object.values(allReviews).filter(review => spot.id === review.spotId)
 
@@ -18,22 +20,22 @@ export default function SpotCard({spotId, spot}) {
     }
 
     return (
-       <Link className="text-link" to={`/spots/${spotId}`}>
         <div className="spot-card-container">
+            <Link className="text-link" to={`/spots/${spotId}`}>
             <div className="spot-display-image">
                 <img className="preview-image" src={spot.previewImage} alt=""/>
             </div>
             <div className="spot-card-caption">
                 <div className="location-stars-container">
-                {spot.city}, {spot.state} {avgStarRating &&
-                (<span className="star-rating-container">{avgStarRating.toFixed(2)} <i className="fa-solid fa-star"></i></span>)}
-                {numReviews === 0 && <span>New!</span>}
+                <span className="city-state-text">{spot.city}, {spot.state}</span> {avgStarRating &&
+                (<span className="star-rating-container"><img className="star-icon" src={star} alt="" /> {avgStarRating.toFixed(2)} </span>)}
+                {numReviews === 0 && <span>New</span>}
                 </div>
                 <div className="price-container">
-                    ${spot.price} night
+                    <span className="price-text">${spot.price}</span> night
                 </div>
             </div>
-        </div>
        </Link>
+        </div>
     )
 }

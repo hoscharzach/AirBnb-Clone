@@ -1,36 +1,130 @@
+.header-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75.88vw;
+    background-color: white;
+    height: 80px;
+}
+.entire-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid lightgrey;
+    background-color: white;
+    top: 0;
+    height: 80px;
+    position: sticky;
+}
+
+#demo-user-button {
+    background: linear-gradient(0.25turn, #E61E4D, #D70666);
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    border: 0px;
+    height: 42px;
+    width: 110px;
+    border-radius: 12px;
+}
+#demo-user-button:active {
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
+/* #login-form-modal {
+    background-color: white;
+} */
+#login-form-modal::hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+	transition: 0.2s;
+}
+.logo-container {
+    width: 599px;
+    display: flex;
+    justify-content: flex-start;
+}
+
 .home-nav-links {
     display: flex;
     justify-content: flex-end;
+    width: 599px;
     align-items: center;
-    height: 50px;
+
+}
+.profile-icons {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: white;
+    height: 42px;
+    width: 77px;
+    border-radius: 21px;
+    color: #717171;
+    border: 1px solid #71717159;
+}
+
+.middle-div {
+    border: 1px solid white;
+    width: 400px;
+}
+
+.menu-item {
+    padding: 10px;
+    padding-left: 10px;
+}
+.menu-item-hover:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+
+#profile-dropdown-wrapper {
+    background-color: white;
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    right: 167px;
+    top: -110px;
+    margin-top: 180px;
+    border-radius: 12px;
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.56);
+    border: 0;
+    width: 200px;
 }
 
 .profile-icons-container {
-    border: 1px  grey;
-    border-radius: 40%;
-    padding: 5px;
-}
-.home-nav-links > * {
-    margin-right: 130px;
-    border: 1px solid rgba(red, green, blue, .7)
-}
-
-.fa-circle-user {
-    margin-left: 5px;
-}
-
-.header-container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: sticky;
-    top: 0;
-    background-color: white;
-    border-bottom: 1px solid lightgrey;
+    border: 1px solid #dddddd;
+    border-radius: 23px;
+    width: 77px;
+    height: 42px;
+    margin-left: 50px;
+}
+
+.profile-icons-container:hover {
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+	transition: 0.2s;
+}
+
+.hamburger-icon {
+    height: 16px;
+    width: 16px;
+    padding-left: 10px;
+}
+.user-icon {
+    height: 30px;
+    width: 30px;
+    padding: 5px 5px 5px 15px;
 }
 
 .header-icon {
     object-fit: contain;
-    height: 50px;
-    margin-left: 130px;
+}
+
+.create-new-spot-link {
+    font-size: 14px;
+    font-weight: 450;
+    margin-left: 40px;
+    /* letter-spacing: -.3px; */
 }

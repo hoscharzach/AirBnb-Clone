@@ -1,0 +1,89 @@
+.entire-modal-wrapper {
+    margin: 0;
+    padding: 0;
+    width: 29.583vw;
+    font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+}
+
+.entire-modal-wrapper * {
+    box-sizing: border-box;
+}
+h3 {
+    font-size: 22px;
+    margin: 0px;
+}
+
+.modal-body-wrapper {
+    padding: 25px;
+}
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.top-input {
+    border-bottom: 0px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 64px;
+    border-bottom: 1px solid #dddddd;
+    position: sticky;
+}
+
+.x {
+    width: 13px;
+    height: 13px;
+}
+
+.title-text-container {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.close-out-button {
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 23px;
+    left: 23px;
+    border-radius: 50%;
+    width: 23px;
+    height: 23px;
+    background-color: white;
+    border-color: white;
+    background: transparent;
+}
+
+.close-out-button:hover {
+    background-color: rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+}
+
+.bottom-input {
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+::placeholder {
+    padding-left: 15px;
+    font-weight: bold;
+}
+#login-button {
+    margin-top: 15px;
+    width: 27.083vw;
+    height: 48px;
+    border-radius: 8px;
+    border: 0;
+    background: linear-gradient(0.25turn, #E61E4D, #D70666);
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+}

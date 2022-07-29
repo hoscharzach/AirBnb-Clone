@@ -1,0 +1,49 @@
+.main-display-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.outer-spot-info-container {
+    width: 100%;
+    height: 86px;
+    display: flex;
+    justify-content: center;
+}
+
+.inner-spot-info-container {
+    display: flex;
+    flex-direction: column;
+    align-items:flex-start;
+    justify-content: center;
+    width: 29.083vw;
+}
+.top-div-star {
+    height: 13.5px;
+    width: 13.5px;
+}
+
+.bottom-reviews-star {
+    width: 15px;
+    height: 15px;
+}
+.spot-images-container {
+    overflow: hidden;
+}
+.main-spot-image {
+    border-radius: 12px;
+    width: 560px;
+    height: 431px;
+    overflow: hidden;
+}
+
+.dot-add-padding {
+    padding: 0px 8px;
+}
+p, h2, h1 {
+    margin: 0px;
+}
+
+h1 {
+    font-size: 26px;
+}

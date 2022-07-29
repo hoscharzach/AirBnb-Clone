@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
-import LoginForm from './LoginForm';
+import AddListing from './AddListing'
+import './listingmodal.css'
 
-function LoginFormModal() {
+export default function AddListingModal () {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <div className='menu-item menu-item-hover' onClick={() => setShowModal(true)}>Log In</div>
+      <div className='create-new-spot-link' onClick={() => setShowModal(true)}>Become a Host</div>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <LoginForm setShowModal={setShowModal} showModal={showModal} />
+          <AddListing setShowModal={setShowModal} />
         </Modal>
       )}
     </>
   );
 }
-
-export default LoginFormModal;

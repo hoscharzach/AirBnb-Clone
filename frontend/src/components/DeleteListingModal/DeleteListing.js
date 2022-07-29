@@ -11,17 +11,14 @@ export default function DeleteListing ({spot, setShowModal, redirect}) {
 
     async function onClickYes (e) {
         e.preventDefault()
-        const res = await dispatch(spotActions.thunkDeleteSpot(spot.id)).catch(
-            async (res) => {
-              const data = await res.json();
-              if (data && data.errors) setErrors(data.errors);
-            }
-          );
-
-        if (res && errors.length === 0) {
+        await dispatch(spotActions.thunkDeleteSpot(spot.id))
             window.alert("Listing successfully deleted")
-            history.push(`${redirect}`)
-        }
+
+            if (redirect === '/my-profile') {
+                setShowModal(false)
+            } else history.push('/')
+
+
     }
 
     function onClickNo (e) {
