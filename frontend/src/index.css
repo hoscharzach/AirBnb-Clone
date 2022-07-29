@@ -14,3 +14,13 @@ html > * {
     box-sizing: border-box;
     margin: 0 auto;
 }
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+textarea:required {
+    box-shadow: none;
+    resize: none;
+}

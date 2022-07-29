@@ -43,19 +43,19 @@ export default function SignupForm() {
     return (
         <>
         <h1 className='signup-form-title'>Create an Account</h1>
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} id="sign-up-form">
             <ul>
                 {errors.map((el, i) => (
                     <li key={i}>{el}</li>
                 ))}
             </ul>
-            <input value={username} onChange={(e) => setUsername(e.target.value)} type="text" placeholder="Username"></input>
-            <input value={firstName} onChange={(e) => setFirstName(e.target.value)} type="text" placeholder="First name"></input>
-            <input value={lastName} onChange={(e) => setLastName(e.target.value)} type="text" placeholder="Last name"></input>
-            <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email"></input>
-            <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password"></input>
-            <input value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="password" placeholder="Confirm password"></input>
-            <button>Sign Up</button>
+            <input value={username} required onChange={(e) => setUsername(e.target.value)} type="text" placeholder="Username"></input>
+            <input value={firstName} required onChange={(e) => setFirstName(e.target.value)} type="text" placeholder="First name"></input>
+            <input value={lastName} required onChange={(e) => setLastName(e.target.value)} type="text" placeholder="Last name"></input>
+            <input value={email} required onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email"></input>
+            <input value={password} required onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password"></input>
+            <input value={confirmPassword} required onChange={(e) => setConfirmPassword(e.target.value)} type="password" placeholder="Confirm password"></input>
+            <button type='submit' id='signup-submit-button'>Sign Up</button>
         </form>
         </>
     )

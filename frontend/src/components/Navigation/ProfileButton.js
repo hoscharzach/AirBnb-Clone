@@ -5,6 +5,7 @@ import { Link, useHistory } from 'react-router-dom'
 import * as sessionActions from '../../store/session'
 import userIcon from '../../assets/images/icons/svgexport-7.svg'
 import hamburgerIcon from '../../assets/images/icons/svgexport-6.svg'
+import LoginFormModal from '../LoginFormModal'
 
 
 function ProfileButton({ user }) {
@@ -20,7 +21,15 @@ function ProfileButton({ user }) {
     useEffect(() => {
       if (!showMenu) return;
 
-      const closeMenu = () => {
+      const closeMenu = (e) => {
+        console.log(e.target.id)
+        const modal = document.getElementById('modal-background')
+        if( modal) return
+
+        if (e.target.id === 'login-form-modal'||
+            e.target.id === 'signup-form-modal' ||
+            e.target.id === 'modal-background') return
+
         setShowMenu(false);
       };
 
@@ -32,27 +41,42 @@ function ProfileButton({ user }) {
     const logout = (e) => {
       e.preventDefault();
       dispatch(sessionActions.logout());
-      history.push('/')
-
     };
 
+    let dropdownItems
+    if (user) {
+      dropdownItems = (
+        <>
+        <div className='menu-item'>{user.username}</div>
+        <div className='menu-item menu-item-hover'><Link to="/my-profile">My Profile</Link></div>
+        <div className='menu-item menu-item-hover' onClick={logout}>Log out</div>
+        </>
+      )
+    }
+
+    if (!user) {
+      dropdownItems = (
+        <>
+        <LoginFormModal />
+        <div className='menu-item menu-item-hover'><Link to="/signup">Signup</Link></div>
+        </>
+      )
+    }
+
     return (
-      <>
+      <div id="menu-container">
         <div className="profile-icons-container" onClick={openMenu}>
-          <div className="profile-icons">
+          <button className="profile-icons">
             <img className='hamburger-icon' src={hamburgerIcon} alt="" />
             <img className='user-icon' src={userIcon} alt="" />
-          </div>
+          </button>
         </div>
         {showMenu && (
-          <ul className="profile-dropdown">
-            <li>{user.username}</li>
-            <li>{user.email}</li>
-            <li><Link to="/my-profile">My Profile</Link></li>
-            <li><button onClick={logout}>Log Out</button></li>
-          </ul>
+          <div id="profile-dropdown-wrapper">
+            {dropdownItems}
+          </div>
         )}
-      </>
+      </div>
     );
   }
 
