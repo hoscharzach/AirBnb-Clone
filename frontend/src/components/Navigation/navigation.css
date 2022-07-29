@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1457px;
+    width: 75.88vw;
     background-color: white;
     height: 80px;
 }
@@ -11,6 +11,7 @@
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid lightgrey;
+    background-color: white;
     top: 0;
     height: 80px;
     position: sticky;
@@ -38,8 +39,7 @@
     display: flex;
     align-items: center;
 }
-.middle-div {
-}
+
 .profile-icons-container {
     display: flex;
     border: 1px solid #dddddd;
