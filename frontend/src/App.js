@@ -1,7 +1,7 @@
 import LoginFormPage from './components/LoginFormPage';
 import * as sessionActions from './store/session'
 import * as spotActions from './store/spots'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import './index.css';

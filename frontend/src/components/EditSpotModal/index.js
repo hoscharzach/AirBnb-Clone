@@ -8,7 +8,10 @@ function EditListingModal({spot}) {
 
   return (
     <>
-      <button id="edit-listing-button" onClick={() => setShowModal(true)}><img id="edit-listing-icon" src={editButton} /></button>
+      <button id="edit-listing-button" onClick={(e) => {
+        e.stopPropagation()
+        setShowModal(true)
+        }}><img id="edit-listing-icon" src={editButton} /></button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <EditListing setShowModal={setShowModal} spot={spot} />

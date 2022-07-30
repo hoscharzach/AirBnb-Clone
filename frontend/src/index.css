@@ -33,18 +33,16 @@ textarea:required {
     cursor: pointer;
 }
 
-#delete-listing-icon {
-    height: 23px;
-}
-#edit-listing-button, #create-new-listing-button, #delete-listing-button {
-    border: 0;
-    background-color: white;
-}
-#edit-listing-icon {
+#delete-listing-icon, #edit-listing-icon {
     height: 23px;
 }
 
-#login-button, #create-new-listing-button {
+#edit-listing-button, #delete-listing-button {
+    border: 0;
+    background-color: white;
+}
+
+#login-button, #edit-listing-button #create-new-listing-button, #submit-review-button {
     margin-top: 15px;
     width: 27.083vw;
     height: 48px;
@@ -57,7 +55,7 @@ textarea:required {
     transition: all 0.2s ease-in-out;
 }
 
-#login-button:active, #create-new-listing-button:active {
+#login-button:active, #create-new-listing-button:active, #submit-review-button:active {
     /* transform: translateY(2px); */
     transform: scale(0.9);
 }

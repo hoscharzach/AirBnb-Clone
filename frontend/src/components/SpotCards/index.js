@@ -2,8 +2,10 @@ import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import './spot-cards.css'
 import star from '../../assets/images/icons/svgexport-14.svg'
+import EditListingModal from "../EditSpotModal"
+import DeleteListingModal from "../DeleteListingModal"
 
-export default function SpotCard({spotId, spot}) {
+export default function SpotCard({spotId, spot, type}) {
 
     const allReviews = useSelector(state => state.reviews.normalizedReviews)
     const reviews = Object.values(allReviews).filter(review => spot.id === review.spotId)
@@ -19,13 +21,30 @@ export default function SpotCard({spotId, spot}) {
         avgStarRating = (sum / numReviews)
     }
 
-    return (
-        <div className="spot-card-container">
-            <Link className="text-link" to={`/spots/${spotId}`}>
-            <div className="spot-display-image">
-                <img className="preview-image" src={spot.previewImage} alt=""/>
+    let captionContainer
+    if (type === 'profile') {
+        captionContainer = (
+            <div className="profile-spot-caption">
+                <div>
+                <div className="profile-caption-top-line">
+                    <h4>{spot.name}</h4>
+                    <div className="profile-edit-delete-buttons-container">
+                        <EditListingModal spot={spot} />
+                        <DeleteListingModal spot={spot} redi />
+                    </div>
+                </div>
+                </div>
+                <div className="profile-caption-bottom-line">
+                    <p>{spot.city}, {spot.state}</p>
+                </div>
             </div>
+        )
+
+    } else {
+        captionContainer = (
             <div className="spot-card-caption">
+                <Link className="text-link" to={`/spots/${spotId}`}>
+
                 <div className="location-stars-container">
                 <span className="city-state-text">{spot.city}, {spot.state}</span> {avgStarRating &&
                 (<span className="star-rating-container"><img className="star-icon" src={star} alt="" /> {avgStarRating.toFixed(2)} </span>)}
@@ -34,8 +53,19 @@ export default function SpotCard({spotId, spot}) {
                 <div className="price-container">
                     <span className="price-text">${spot.price}</span> night
                 </div>
+                </Link>
             </div>
-       </Link>
+            )
+    }
+
+    return (
+        <div className="spot-card-container">
+            <Link className="text-link" to={`/spots/${spotId}`}>
+            <div className="spot-display-image">
+                <img className="preview-image" src={spot.previewImage} alt=""/>
+            </div>
+            </Link>
+            {captionContainer}
         </div>
     )
 }

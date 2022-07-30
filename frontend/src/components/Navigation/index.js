@@ -51,7 +51,7 @@ function Navigation({ isLoaded }){
             </NavLink>
           </div>
 
-          <div className="middle-div"></div>
+          {/* <div className="middle-div"></div> */}
 
           <div className="home-nav-links">
             {isLoaded && sessionLinks}

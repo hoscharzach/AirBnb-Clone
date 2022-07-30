@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import * as reviewActions from '../../store/reviews'
+import x from '../../assets/images/icons/x-symbol-svgrepo-com.svg'
 
 export default function AddReview ({ spot, setShowModal }) {
     const dispatch = useDispatch()
@@ -10,39 +11,45 @@ export default function AddReview ({ spot, setShowModal }) {
     const [stars, setStars] = useState(5)
     const [content, setContent] = useState('')
     const [disableSubmit, setDisableSubmit] = useState(false)
+    const [hasSubmitted, setHasSubmitted] = useState(false)
+
+    const clickX = (e) => {
+        setShowModal(false)
+      }
 
     useEffect(() => {
-        const formErrors = []
-        if (stars < 1 || stars > 5) formErrors.push('Stars must be between 1 and 5')
-        if (content.length < 10) formErrors.push('Review must be at least 10 characters')
-        setValidationErrors(formErrors)
-        setDisableSubmit(validationErrors.length > 0)
-    },[stars, content, validationErrors.length])
+        const errors = []
+        if (stars < 1 || stars > 5) errors.push('Stars must be between 1 and 5')
+        if (content.length < 10) errors.push('Review must be at least 10 characters')
+
+        setErrors(errors)
+
+        if (errors.length > 0 && hasSubmitted === true) {
+            setDisableSubmit(true)
+        } else setDisableSubmit(false)
+    },[stars, content])
 
     const onSubmit = async (e) => {
         e.preventDefault()
-        setErrors([])
+        setHasSubmitted(true)
 
+        if (errors.length === 0) {
 
-        const payload = {
-            content,
-            stars,
-            spotId: spot.id
-        }
+            const payload = {
+                content,
+                stars,
+                spotId: spot.id
+            }
 
-        await dispatch(reviewActions.thunkCreateReview(payload))
-            .catch(
-                async (res) => {
-                    const data = await res.json();
-                    if (data && data.errors) {
-                        setErrors(data.errors);
-                    }
-                })
-
-        if (errors.length > 0) {
-            setDisableSubmit(true)
-        } else {
-            setShowModal(false)
+            await dispatch(reviewActions.thunkCreateReview(payload))
+                .catch(
+                    async (res) => {
+                        const data = await res.json();
+                        if (data && data.errors) {
+                            setErrors(data.errors);
+                        }
+                    })
+            if (errors.length === 0) setShowModal(false)
         }
 
     }
@@ -51,24 +58,36 @@ export default function AddReview ({ spot, setShowModal }) {
     const starsChange = (e) => setStars(e.target.value)
 
     return (
-
-        <div className='add-review-container'>
-            <ul className='add-review-errors'>
-                {validationErrors.map((error, i) => (
-                    <li key={i}>{error}</li>
-                ))}
-            </ul>
-            <ul className='add-review-validation-errors'>
-                {errors.map((error, i) => (
-                    <li key={i}>{error}</li>
-                ))}
-            </ul>
-        <h1 className='add-review-title'>Add Review</h1>
-            <form onSubmit={onSubmit}>
-                <textarea required className='content-field' placeholder="Review (minimum 10 characters)" value={content} onChange={contentChange} ></textarea>
-                <input type="number" maxLength={1} required placeholder="Rating (1-5)" value={stars} onChange={starsChange}></input>
-                <button type="submit" disabled={disableSubmit}>Leave Review</button>
-            </form>
+        <>
+        <div className="close-out-button" onClick={clickX}>
+          <img className="x" src={x} alt=""></img>
         </div>
+        <div className='entire-modal-wrapper'>
+
+            <div className='modal-header'>
+                <h2 className='header-text'>
+                    Add Review
+                </h2>
+            </div>
+            <div className='modal-body-wrapper'>
+
+                <div className='add-review-container'>
+                    <ul className='add-review-validation-errors'>
+                        {hasSubmitted && errors.map((error, i) => (
+                            <li key={i}>{error}</li>
+                            ))}
+                    </ul>
+                    <div className='loginForm'>
+
+                        <textarea required className='top-input' placeholder="Review (minimum 10 characters)" value={content} onChange={contentChange} ></textarea>
+                        <input type="number" min="1" max="5" className='bottom-input' maxLength="1" required placeholder="Rating (1-5)" value={stars} onChange={starsChange}></input>
+                        <button type="submit" id='submit-review-button' disabled={disableSubmit} onClick={onSubmit} >Leave Review</button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        </>
     )
 }

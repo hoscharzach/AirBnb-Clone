@@ -58,7 +58,7 @@ export default function EditReview ({review, setShowModal}) {
         <h1 className='edit-review-modal-form'>Edit Review</h1>
             <form onSubmit={onSubmit}>
                 <input required placeholder="Description" value={content} onChange={contentChange} ></input>
-                <input type="number" maxLength={1} required placeholder="Rating (1-5)" value={stars} onChange={starsChange}></input>
+                <input type="number" maxLength="1" required placeholder="Rating (1-5)" value={stars} onChange={starsChange}></input>
                 <button type="submit" disabled={disableSubmit}>Submit Changes</button>
             </form>
         </div>
