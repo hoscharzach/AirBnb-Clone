@@ -89,11 +89,14 @@ export default function SpotDisplay () {
                 </div>
             </div>
             <div className="spot-display-review-wrapper">
-                <div className="reviews-container">
+                <div className="review-total">
+
+                </div>
+                <div className="reviews-footer-info">
                 {reviews.length > 0 && (<h2><img className="bottom-reviews-star" src={star}></img> {avgStarRating} · {numReviews} Reviews</h2>)}
-                {reviews.length === 0 && !userOwnsSpot && <h2>Be the first to review this spot!</h2>}
+                {reviews.length === 0 && !userOwnsSpot && <h4>Be the first to review this spot</h4>}
                 { sessionUser && showAddReview && !userOwnsSpot && <AddReviewModal spot={spot} />}
-                    {reviews && reviews.map((review, i) => (
+                    {reviews.length > 0 && reviews.map((review, i) => (
                         <ReviewCard key={i} className="review-component" review={review}/>
                         ))}
                 </div>

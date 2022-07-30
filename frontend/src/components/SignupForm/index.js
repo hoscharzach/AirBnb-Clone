@@ -1,5 +1,5 @@
 import './signupform.css'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { thunkSignup } from '../../store/session'
 import { Redirect } from 'react-router-dom'
@@ -15,14 +15,34 @@ export default function SignupForm() {
     const [password, setPassword] = useState('')
     const [errors, setErrors] = useState([])
     const [confirmPassword, setConfirmPassword] = useState('')
+    const [hasSubmitted, setHasSubmitted] = useState(false)
+    const [disableSubmit, setDisableSubmit] = useState(false)
+
+    useEffect(() => {
+        const errors = []
+        if (username.length < 5) errors.push('Username must be at least 5 characters')
+        if (password.length < 6) errors.push('Password must be at least 5 characters')
+
+        setErrors(errors)
+        if (errors.length > 0 && hasSubmitted === true) {
+            setDisableSubmit(true)
+        } else setDisableSubmit(false)
+
+}, [username, password])
 
     if (user) return <Redirect to="/" />
 
+
     function onSubmit (e) {
         e.preventDefault()
-        setErrors([])
 
-        if (password === confirmPassword) {
+        setHasSubmitted(true)
+        if (password !== confirmPassword) {
+            setErrors(...errors, ['Passwords do not match'])
+            return
+        }
+
+        if (errors.length === 0) {
             const payload = {
                 username,
                 email,
@@ -37,7 +57,9 @@ export default function SignupForm() {
                 // console.log(data)
                 if (data && data.errors) setErrors(data.errors);
               });
-        } else setErrors(["Passwords do not match"])
+        }
+
+
     }
 
     return (
@@ -45,7 +67,7 @@ export default function SignupForm() {
         <h1 className='signup-form-title'>Create an Account</h1>
         <form onSubmit={onSubmit} id="sign-up-form">
             <ul>
-                {errors.map((el, i) => (
+                {hasSubmitted && errors.map((el, i) => (
                     <li key={i}>{el}</li>
                 ))}
             </ul>
@@ -55,7 +77,7 @@ export default function SignupForm() {
             <input value={email} required onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email"></input>
             <input value={password} minLength="6" required onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password"></input>
             <input value={confirmPassword} required onChange={(e) => setConfirmPassword(e.target.value)} type="password" placeholder="Confirm password"></input>
-            <button type='submit' id='signup-submit-button'>Sign Up</button>
+            <button disableSubmit={disableSubmit} type='submit' id='signup-submit-button'>Sign Up</button>
         </form>
         </>
     )

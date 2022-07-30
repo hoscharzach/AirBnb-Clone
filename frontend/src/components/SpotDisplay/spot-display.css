@@ -62,6 +62,7 @@ h1 {
     justify-content: space-between;
     align-items: center;
     margin: 5px 0px;
+    border-bottom: 1px solid lightgrey;
 }
 
 .hosted-by-price-container {
@@ -103,6 +104,14 @@ h1 {
 /* reviews at bottom of page */
 .spot-display-review-wrapper {
     width: 100%;
+    margin-top: 50px;
     display: flex;
     justify-content: center;
 }
+
+.reviews-footer-info {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 20px;
+    grid-row-gap: 10px;
+  }

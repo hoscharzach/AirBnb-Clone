@@ -25,8 +25,9 @@ export default function HostForm () {
     useEffect(() => {
         const errors = []
         if (name.length < 5) errors.push('Name must be at least 5 characters')
+        if (name.length > 20) errors.push('Name must be less than 20 characters')
         if (description.length < 5) errors.push('Description must be at least 5 characters')
-        if (address.length < 3) errors.push('Address must be at least 2 characters')
+        if (address.length < 3) errors.push('Address must be at least 3 characters')
 
         setErrors(errors)
         if (errors.length > 0 && hasSubmitted === true) {
@@ -95,10 +96,10 @@ export default function HostForm () {
             </ul>
         <h1 className='host-form-title'>Create New Listing</h1>
             <form className='create-listing-form' onSubmit={onSubmit}>
-                <input id='create-listing-top-input' required type="text" placeholder="Name" value={name} onChange={nameChange} ></input>
-                <input type="text" required className='description-field' placeholder="Description" value={description} onChange={descriptionChange} ></input>
+                <input id='create-listing-top-input' required type="text" minLength="5" maxLength="20" placeholder="Name" value={name} onChange={nameChange} ></input>
+                <input type="text" minLength="5" required className='description-field' placeholder="Description" value={description} onChange={descriptionChange} ></input>
                 <input type="number" required placeholder="Price" value={price} onChange={priceChange}></input>
-                <input required type="text" placeholder="Address" value={address} onChange={addressChange}></input>
+                <input required type="text" placeholder="Address" minLength="3" value={address} onChange={addressChange}></input>
                 <input required type="text" placeholder="City" value={city} onChange={cityChange}></input>
                 <input required type="text" placeholder="State" value={state} onChange={stateChange} ></input>
                 <input required type="text" placeholder="Country" value={country} onChange={countryChange} ></input>
