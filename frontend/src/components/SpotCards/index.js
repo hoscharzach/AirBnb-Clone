@@ -25,17 +25,17 @@ export default function SpotCard({spotId, spot, type}) {
     if (type === 'profile') {
         captionContainer = (
             <div className="profile-spot-caption">
-                <div>
+
                 <div className="profile-caption-top-line">
-                    <h4>{spot.name}</h4>
+                    <div>{spot.name}</div>
                     <div className="profile-edit-delete-buttons-container">
                         <EditListingModal spot={spot} />
-                        <DeleteListingModal spot={spot} redi />
+                        <DeleteListingModal spot={spot} />
                     </div>
                 </div>
-                </div>
+
                 <div className="profile-caption-bottom-line">
-                    <p>{spot.city}, {spot.state}</p>
+                    <div>{spot.city}, {spot.state}</div>
                 </div>
             </div>
         )

@@ -29,9 +29,6 @@ textarea:required {
     resize: none;
 }
 
-#delete-listing-button:hover, #edit-listing-button:hover, #create-new-listing-button:hover {
-    cursor: pointer;
-}
 
 #delete-listing-icon, #edit-listing-icon {
     height: 23px;
@@ -42,7 +39,7 @@ textarea:required {
     background-color: white;
 }
 
-#login-button, #edit-listing-button #create-new-listing-button, #submit-review-button {
+#login-button, #signup-submit-button, #create-new-listing-button, #submit-review-button {
     margin-top: 15px;
     width: 27.083vw;
     height: 48px;
@@ -55,11 +52,13 @@ textarea:required {
     transition: all 0.2s ease-in-out;
 }
 
-#login-button:active, #create-new-listing-button:active, #submit-review-button:active {
-    /* transform: translateY(2px); */
+#login-button:active, #signup-submit-button:active, #create-new-listing-button:active, #submit-review-button:active {
     transform: scale(0.9);
 }
 
+#delete-listing-button:hover, #edit-listing-button:hover, #create-new-listing-button:hover, #signup-submit-button {
+    cursor: pointer;
+}
 input, textarea {
     height: 52px;
     width: 27.083vw;

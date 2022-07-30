@@ -104,7 +104,7 @@ export default function HostForm () {
                 <input required type="text" placeholder="State" value={state} onChange={stateChange} ></input>
                 <input required type="text" placeholder="Country" value={country} onChange={countryChange} ></input>
                 <input id='create-listing-bottom-input' required type="text" placeholder="https://image.url" value={imageUrl} onChange={imageUrlChange}></input>
-                <button type='submit' id='create-new-listing-button'>Submit Spot</button>
+                <button type='submit' id='create-new-listing-button'>Create Listing</button>
             </form>
         </div>
     )

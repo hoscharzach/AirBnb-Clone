@@ -11,22 +11,5 @@ form {
 
 .signup-form-title {
     text-align: center;
-    margin-top: 20px;
-}
-
-#signup-submit-button {
-    margin-top: 15px;
-    width: 27.083vw;
-    height: 48px;
-    border-radius: 8px;
-    border: 0;
-    background: linear-gradient(0.25turn, #E61E4D, #D70666);
-    color: white;
-    font-weight: 600;
-    font-size: 16px;
-    transition: all 0.2s ease-in-out;
-}
-
-#signup-submit-button:active {
-    transform: scale(0.9);
+    margin-top: 30px;
 }
