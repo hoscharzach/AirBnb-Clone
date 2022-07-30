@@ -40,6 +40,8 @@
 }
 
 .location-stars-container {
+    padding-right: 5px;
+    margin-top: 10px;
     display: flex;
     justify-content: space-between;
 }

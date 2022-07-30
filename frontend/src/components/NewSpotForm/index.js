@@ -1,10 +1,10 @@
 import './spotform.css'
 import { useDispatch, useSelector } from 'react-redux'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import * as spotActions from '../../store/spots'
-import { useHistory } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
 
-export default function HostForm ({spot}) {
+export default function HostForm () {
     const sessionUser = useSelector(state => state.session.user)
     const dispatch = useDispatch()
     const history = useHistory()
@@ -18,9 +18,22 @@ export default function HostForm ({spot}) {
     const [city, setCity] = useState('')
     const [state, setState] = useState('')
     const [country, setCountry] = useState('')
-    const [lat, setLat] = useState('')
-    const [lng, setLng] = useState('')
     const [imageUrl, setImageUrl] = useState('')
+    const [disableSubmit, setDisableSubmit] = useState(false)
+    const [hasSubmitted, setHasSubmitted] = useState(false)
+
+    useEffect(() => {
+        const errors = []
+        if (name.length < 5) errors.push('Name must be at least 5 characters')
+        if (description.length < 5) errors.push('Description must be at least 5 characters')
+        if (address.length < 3) errors.push('Address must be at least 2 characters')
+
+        setErrors(errors)
+        if (errors.length > 0 && hasSubmitted === true) {
+            setDisableSubmit(true)
+        } else setDisableSubmit(false)
+
+}, [name, description, address, city, state, country])
 
     const reset = () => {
         setErrors([])
@@ -30,35 +43,25 @@ export default function HostForm ({spot}) {
         setAddress('')
         setCity('')
         setCountry('')
-        setLat('')
-        setLng('')
         setImageUrl('')
     }
 
     const onSubmit = async (e) => {
         e.preventDefault()
-        setErrors([])
+        setHasSubmitted(true)
 
-        const formErrors = []
-        if (description.length < 5) formErrors.push('Description must be at least 5 characters')
-        if (lat < -90 || lat > 90) formErrors.push('Latitude must be between -90 and 90.')
-        if (lng < -180 || lng > 180) formErrors.push('Longitude must be between -180 and 180.')
-
-        setErrors(formErrors)
-
-
-        if (formErrors.length === 0) {
+        if (errors.length === 0) {
             const payload = {
                 userId: sessionUser.id,
                 name,
                 description,
-                price,
+                price: Math.floor(price),
                 address,
                 city,
                 state,
                 country,
-                lat,
-                lng,
+                lat: 1,
+                lng: 1,
                 previewImage: imageUrl
             }
 
@@ -69,6 +72,9 @@ export default function HostForm ({spot}) {
 
         }
     }
+    if(!sessionUser) {
+        return (<Redirect to="/" />)
+    }
 
     const nameChange = (e) => setName(e.target.value)
     const descriptionChange = (e) => setDescription(e.target.value)
@@ -77,31 +83,27 @@ export default function HostForm ({spot}) {
     const cityChange = (e) => setCity(e.target.value)
     const stateChange = (e) => setState(e.target.value)
     const countryChange = (e) => setCountry(e.target.value)
-    const latChange = (e) => setLat(e.target.value)
-    const lngChange = (e) => setLng(e.target.value)
     const imageUrlChange = (e) => setImageUrl(e.target.value)
 
     return (
 
         <div className='host-form-container'>
             <ul className='host-form-errors'>
-                {errors.map((error, i) => (
+                {hasSubmitted && errors.map((error, i) => (
                     <li key={i}>{error}</li>
                 ))}
             </ul>
-        <h1 className='host-form-title'>Host Form</h1>
-            <form onSubmit={onSubmit}>
-                <input required type="text" placeholder="Name" value={name} onChange={nameChange} ></input>
-                <textarea required className='description-field' placeholder="Description" value={description} onChange={descriptionChange} ></textarea>
+        <h1 className='host-form-title'>Create New Listing</h1>
+            <form className='create-listing-form' onSubmit={onSubmit}>
+                <input id='create-listing-top-input' required type="text" placeholder="Name" value={name} onChange={nameChange} ></input>
+                <input type="text" required className='description-field' placeholder="Description" value={description} onChange={descriptionChange} ></input>
                 <input type="number" required placeholder="Price" value={price} onChange={priceChange}></input>
                 <input required type="text" placeholder="Address" value={address} onChange={addressChange}></input>
                 <input required type="text" placeholder="City" value={city} onChange={cityChange}></input>
                 <input required type="text" placeholder="State" value={state} onChange={stateChange} ></input>
                 <input required type="text" placeholder="Country" value={country} onChange={countryChange} ></input>
-                <input required type="number" placeholder="Latitude" value={lat} onChange={latChange} ></input>
-                <input required type="number" placeholder="Longitude" value={lng} onChange={lngChange}></input>
-                <input required type="text" placeholder="https://image.url" value={imageUrl} onChange={imageUrlChange}></input>
-                <button>Submit Spot</button>
+                <input id='create-listing-bottom-input' required type="text" placeholder="https://image.url" value={imageUrl} onChange={imageUrlChange}></input>
+                <button type='submit' id='create-new-listing-button'>Submit Spot</button>
             </form>
         </div>
     )

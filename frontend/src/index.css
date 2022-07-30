@@ -29,22 +29,46 @@ textarea:required {
     resize: none;
 }
 
-#delete-listing-button {
-    border: 0;
-    background-color: white;
-}
-
-#delete-listing-button:hover, #edit-listing-button:hover {
+#delete-listing-button:hover, #edit-listing-button:hover, #create-new-listing-button:hover {
     cursor: pointer;
 }
 
 #delete-listing-icon {
     height: 23px;
 }
-#edit-listing-button {
+#edit-listing-button, #create-new-listing-button, #delete-listing-button {
     border: 0;
     background-color: white;
 }
 #edit-listing-icon {
     height: 23px;
+}
+
+#login-button, #create-new-listing-button {
+    margin-top: 15px;
+    width: 27.083vw;
+    height: 48px;
+    border-radius: 8px;
+    border: 0;
+    background: linear-gradient(0.25turn, #E61E4D, #D70666);
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    transition: all 0.2s ease-in-out;
+}
+
+#login-button:active, #create-new-listing-button:active {
+    /* transform: translateY(2px); */
+    transform: scale(0.9);
+}
+
+input, textarea {
+    height: 52px;
+    width: 27.083vw;
+    border: 1px solid grey;
+    padding-left: 15px;
+}
+
+textarea::placeholder {
+    padding-top: 16px;
 }

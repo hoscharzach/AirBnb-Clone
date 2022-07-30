@@ -11,6 +11,7 @@ import SpotDisplay from './components/SpotDisplay'
 import SpotIndex from './components/SpotIndex';
 import MangageListings from './components/Profile/ProfilePage';
 import * as reviewActions from './store/reviews'
+import HostForm from './components/NewSpotForm';
 
 
 function App() {
@@ -49,6 +50,9 @@ function App() {
           </Route>
           <Route path="/my-profile">
             <MangageListings />
+          </Route>
+          <Route path="/create-listing">
+            <HostForm />
           </Route>
           <Route>
             <h1>404 Not Found</h1>

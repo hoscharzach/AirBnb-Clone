@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as spotActions from '../../store/spots'
 
 export default function EditListing ({spot, setShowModal}) {
@@ -13,23 +13,28 @@ export default function EditListing ({spot, setShowModal}) {
     const [city, setCity] = useState(spot?.city || '')
     const [state, setState] = useState(spot?.state || '')
     const [country, setCountry] = useState(spot?.country ||'')
-    const [lat, setLat] = useState(spot?.lat || '')
-    const [lng, setLng] = useState(spot?.lng || '')
     const [imageUrl, setImageUrl] = useState(spot?.previewImage || '')
+    const [disableSubmit, setDisableSubmit] = useState(false)
+    const [hasSubmitted, setHasSubmitted] = useState(false)
+
+    useEffect(() => {
+            const errors = []
+            if (name.length < 5) errors.push('Name must be at least 5 characters')
+            if (description.length < 5) errors.push('Description must be at least 5 characters')
+            if (address.length < 3) errors.push('Address must be at least 2 characters')
+
+            setErrors(errors)
+            if (errors.length > 0 && hasSubmitted === true) {
+                setDisableSubmit(true)
+            } else setDisableSubmit(false)
+
+    }, [name, description, address, city, state, country])
 
     const onSubmit = async (e) => {
         e.preventDefault()
-        setErrors([])
+        setHasSubmitted(true)
 
-        const formErrors = []
-        if (description.length < 5) formErrors.push('Description must be at least 5 characters')
-        if (lat < -90 || lat > 90) formErrors.push('Latitude must be between -90 and 90.')
-        if (lng < -180 || lng > 180) formErrors.push('Longitude must be between -180 and 180.')
-
-        setErrors(formErrors)
-
-
-        if (formErrors.length === 0) {
+        if (errors.length === 0) {
             const payload = {
                 ...spot,
                 name,
@@ -39,19 +44,11 @@ export default function EditListing ({spot, setShowModal}) {
                 city,
                 state,
                 country,
-                lat,
-                lng,
                 previewImage: imageUrl
             }
 
-            await dispatch(spotActions.thunkUpdateSpot(payload)).catch(
-                async (res) => {
-                  const data = await res.json();
-                  if (data && data.errors) setErrors(data.errors);
-                }
-              );
-
-              setShowModal(false)
+            await dispatch(spotActions.thunkUpdateSpot(payload))
+            setShowModal(false)
 
         }
     }
@@ -63,15 +60,13 @@ export default function EditListing ({spot, setShowModal}) {
     const cityChange = (e) => setCity(e.target.value)
     const stateChange = (e) => setState(e.target.value)
     const countryChange = (e) => setCountry(e.target.value)
-    const latChange = (e) => setLat(e.target.value)
-    const lngChange = (e) => setLng(e.target.value)
     const imageUrlChange = (e) => setImageUrl(e.target.value)
 
     return (
 
         <div className='host-form-container'>
             <ul className='host-form-errors'>
-                {errors.map((error, i) => (
+                {hasSubmitted && errors.map((error, i) => (
                     <li key={i}>{error}</li>
                 ))}
             </ul>
@@ -84,10 +79,8 @@ export default function EditListing ({spot, setShowModal}) {
                 <input required type="text" placeholder="City" value={city} onChange={cityChange}></input>
                 <input required type="text" placeholder="State" value={state} onChange={stateChange} ></input>
                 <input required type="text" placeholder="Country" value={country} onChange={countryChange} ></input>
-                <input required type="number" placeholder="Latitude" value={lat} onChange={latChange} ></input>
-                <input required type="number" placeholder="Longitude" value={lng} onChange={lngChange}></input>
-                <input required type="text" placeholder="Image Link" value={imageUrl} onChange={imageUrlChange}></input>
-                <button type="submit">Submit Changes</button>
+                <input required type="url" placeholder="Image Link" value={imageUrl} onChange={imageUrlChange}></input>
+                <button type="submit" disabled={disableSubmit}>Submit Changes</button>
             </form>
         </div>
     )

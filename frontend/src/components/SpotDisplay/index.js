@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import AddReviewModal from "../AddReviewModal"
@@ -8,15 +8,24 @@ import ReviewCard from "../ReviewCard"
 import './spot-display.css'
 import star from '../../assets/images/icons/svgexport-14.svg'
 import avatar from '../../assets/images/icons/svgexport-7.svg'
+import * as spotActions from '../../store/spots'
 
 
 export default function SpotDisplay () {
+    const dispatch = useDispatch()
     const { spotId } = useParams()
     const sessionUser = useSelector(state => state.session.user)
     const spot = useSelector(state => state.spots.normalizedSpots[Number(spotId)])
+    const owner = spot?.['Owner.firstName']
+    // console.log(spot)
+
+    useEffect(() => {
+        dispatch(spotActions.thunkLoadAllSpots())
+    },[])
 
     const allReviews = useSelector(state => state.reviews.normalizedReviews)
     const reviews = Object.values(allReviews).filter(review => review?.spotId === spot?.id)
+    console.log(reviews)
 
     let userReview
     let userOwnsSpot
@@ -56,10 +65,9 @@ export default function SpotDisplay () {
                         <h1>{spot.name}</h1>
                     </div>
                     <div className="spot-reviews-and-location">
-                        {reviews && <span className="reviews-location-text"><img className="top-div-star" src={star}></img> {avgStarRating} · {numReviews}  Review(s) <span className="dot-add-padding">·</span> {spot.city}, {spot.state}, {spot.country}</span>}
+                        {reviews.length > 0 && <span className="reviews-location-text"><img className="top-div-star" src={star}></img> {avgStarRating} · {numReviews}  Review(s) <span className="dot-add-padding">·</span> {spot.city}, {spot.state}, {spot.country}</span>}
+                        {!reviews.length > 0 && <span className="reviews-location-text"><img className="top-div-star" src={star}></img> No Reviews <span className="dot-add-padding">·</span> {spot.city}, {spot.state}, {spot.country}</span>}
                     </div>
-
-
                 </div>
             </div>
 
@@ -69,7 +77,7 @@ export default function SpotDisplay () {
 
             <div className="below-image-container">
                 <div className="hosted-by-price-container">
-                    <div className="hosted-by-text">{spot.name} hosted by {spot['Owner.firstName']}</div>
+                    <div className="hosted-by-text">{spot.name} hosted by {owner}</div>
                     <div className="under-image-price-text"><span className="under-image-spot-price-text">${spot.price}</span> night</div>
                 </div>
                 <div className="avatar-and-buttons-wrapper">
@@ -82,8 +90,8 @@ export default function SpotDisplay () {
             </div>
             <div className="spot-display-review-wrapper">
                 <div className="reviews-container">
-                {reviews && (<h2><img className="bottom-reviews-star" src={star}></img> {avgStarRating} · {numReviews} Reviews</h2>)}
-                {!reviews && <h2>Be the first to review this spot!</h2>}
+                {reviews.length > 0 && (<h2><img className="bottom-reviews-star" src={star}></img> {avgStarRating} · {numReviews} Reviews</h2>)}
+                {reviews.length === 0 && !userOwnsSpot && <h2>Be the first to review this spot!</h2>}
                 { sessionUser && showAddReview && !userOwnsSpot && <AddReviewModal spot={spot} />}
                     {reviews && reviews.map((review, i) => (
                         <ReviewCard key={i} className="review-component" review={review}/>
