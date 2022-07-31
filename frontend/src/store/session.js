@@ -34,7 +34,7 @@ export const thunkSignup = (body) => async dispatch => {
         body: JSON.stringify(body)
     })
         const data = await response.json()
-        console.log(data)
+        // console.log(data)
         dispatch(setUser(data.returnUser))
         return data
 
