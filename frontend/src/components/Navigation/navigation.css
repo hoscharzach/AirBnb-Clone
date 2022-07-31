@@ -1,8 +1,8 @@
 .header-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    width: 75.88vw;
+    width: 80%;
     background-color: white;
     height: 80px;
 }
@@ -26,10 +26,12 @@
     height: 42px;
     width: 110px;
     border-radius: 12px;
+    transition: all 0.2s ease-in-out;
 }
 #demo-user-button:active {
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
+    transform: scale(0.9);
+    /* box-shadow: 0 3px #666;
+    transform: translateY(2px); */
 }
 
 /* #login-form-modal {
@@ -69,6 +71,10 @@
     width: 400px;
 }
 
+.menu-container {
+    position: relative;
+    display: inline-block;
+}
 .menu-item {
     padding: 10px;
     padding-left: 10px;
@@ -78,15 +84,14 @@
     cursor: pointer;
 }
 
-
 #profile-dropdown-wrapper {
     background-color: white;
     display: flex;
     position: absolute;
     flex-direction: column;
-    right: 167px;
-    top: -110px;
-    margin-top: 180px;
+    /* right: 0px; */
+    margin-top: 10px;
+    /* margin-top: 180px; */
     border-radius: 12px;
     box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.56);
     border: 0;

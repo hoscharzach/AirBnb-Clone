@@ -4,29 +4,8 @@ form {
     align-items: center;
 }
 
-#sign-up-form > input {
-    border-radius: 12px;
-    margin: 0px 0px;
-}
 
 .signup-form-title {
     text-align: center;
-    margin-top: 20px;
-}
-
-#signup-submit-button {
-    margin-top: 15px;
-    width: 27.083vw;
-    height: 48px;
-    border-radius: 8px;
-    border: 0;
-    background: linear-gradient(0.25turn, #E61E4D, #D70666);
-    color: white;
-    font-weight: 600;
-    font-size: 16px;
-}
-
-#signup-submit-button:active {
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
+    margin-top: 30px;
 }

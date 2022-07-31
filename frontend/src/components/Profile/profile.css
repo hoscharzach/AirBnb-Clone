@@ -1,4 +1,37 @@
-.page-wrapper {
-    display: flex;;
+.profile-title {
+    text-align: center;
+    margin: 20px 0;
+    padding-bottom: 30px;
+    padding-top: 10px;
+    border-bottom: 1px solid lightgrey;
+    width: 33%;
+}
+
+.profile-header-container {
+    display: flex;
     justify-content: center;
+}
+
+.profile-spot-caption {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile-caption-top-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 5px 10px;
+    font-weight: bold;
+}
+
+.profile-caption-bottom-line {
+    display: flex;
+    width: 100%;
+    padding-left: 10px;
+    justify-content: flex-start;
+    align-items: center;
 }

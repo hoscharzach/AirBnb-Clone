@@ -19,15 +19,8 @@
   }
 
   #modal-content {
-    width: 568px;
+    width: 29.583vw;
     border-radius: 12px;
     position: absolute;
     background-color:white;
   }
-
-  input {
-    height: 52px;
-    width: 27.083vw;
-    border: 1px solid grey;
-    padding-left: 15px;
-}

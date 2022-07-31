@@ -1,10 +1,10 @@
-.login-form {
+/* .login-form {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-left: 20vw;
     margin-right: 20vw;
-}
+} */
 
 .login-form > input {
     margin: 5px;

@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { NavLink, useHistory } from "react-router-dom"
+import { NavLink, useHistory, Link } from "react-router-dom"
 import ProfileButton from "./ProfileButton"
 import './navigation.css'
 import * as sessionActions from '../../store/session'
@@ -17,16 +17,14 @@ function Navigation({ isLoaded }){
         credential: 'Demo-lition',
         password: 'password'
       }))
-      .then(() => {
-        history.push('/')
-      })
+
     }
 
     let sessionLinks;
     if (sessionUser) {
       sessionLinks = (
         <>
-          <AddListingModal text={'Become a Host'}/>
+          <Link to="/create-listing">Become a Host</Link>
           <ProfileButton user={sessionUser} />
         </>
       );
@@ -51,7 +49,7 @@ function Navigation({ isLoaded }){
             </NavLink>
           </div>
 
-          <div className="middle-div"></div>
+          {/* <div className="middle-div"></div> */}
 
           <div className="home-nav-links">
             {isLoaded && sessionLinks}

@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
-// import './navigation.css'
 import * as sessionActions from '../../store/session'
 import userIcon from '../../assets/images/icons/svgexport-7.svg'
 import hamburgerIcon from '../../assets/images/icons/svgexport-6.svg'
@@ -41,6 +40,7 @@ function ProfileButton({ user }) {
     const logout = (e) => {
       e.preventDefault();
       dispatch(sessionActions.logout());
+      history.push('/')
     };
 
     let dropdownItems
@@ -48,7 +48,8 @@ function ProfileButton({ user }) {
       dropdownItems = (
         <>
         <div className='menu-item'>{user.username}</div>
-        <div className='menu-item menu-item-hover'><Link to="/my-profile">My Profile</Link></div>
+        <div className='menu-item menu-item-hover' onClick={() => history.push('/my-profile')} >My Profile</div>
+        <div className='menu-item menu-item-hover' onClick={() => history.push('/create-listing')} >Create Listing</div>
         <div className='menu-item menu-item-hover' onClick={logout}>Log out</div>
         </>
       )
@@ -58,7 +59,7 @@ function ProfileButton({ user }) {
       dropdownItems = (
         <>
         <LoginFormModal />
-        <div className='menu-item menu-item-hover'><Link to="/signup">Signup</Link></div>
+        <div className='menu-item menu-item-hover' onClick={() => history.push('/signup')} >Sign up</div>
         </>
       )
     }

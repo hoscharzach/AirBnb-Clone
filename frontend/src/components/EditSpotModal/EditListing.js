@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import * as spotActions from '../../store/spots'
+import x from '../../assets/images/icons/x-symbol-svgrepo-com.svg'
 
 export default function EditListing ({spot, setShowModal}) {
     const dispatch = useDispatch()
@@ -13,23 +14,29 @@ export default function EditListing ({spot, setShowModal}) {
     const [city, setCity] = useState(spot?.city || '')
     const [state, setState] = useState(spot?.state || '')
     const [country, setCountry] = useState(spot?.country ||'')
-    const [lat, setLat] = useState(spot?.lat || '')
-    const [lng, setLng] = useState(spot?.lng || '')
     const [imageUrl, setImageUrl] = useState(spot?.previewImage || '')
+    const [disableSubmit, setDisableSubmit] = useState(false)
+    const [hasSubmitted, setHasSubmitted] = useState(false)
+
+    useEffect(() => {
+            const errors = []
+            if (name.length < 5) errors.push('Name must be at least 5 characters')
+            if (name.length > 20) errors.push('Name must be less than 20 characters')
+            if (description.length < 5) errors.push('Description must be at least 5 characters')
+            if (address.length < 3) errors.push('Address must be at least 2 characters')
+
+            setErrors(errors)
+            if (errors.length > 0 && hasSubmitted === true) {
+                setDisableSubmit(true)
+            } else setDisableSubmit(false)
+
+    }, [name, description, address, city, state, country])
 
     const onSubmit = async (e) => {
         e.preventDefault()
-        setErrors([])
+        setHasSubmitted(true)
 
-        const formErrors = []
-        if (description.length < 5) formErrors.push('Description must be at least 5 characters')
-        if (lat < -90 || lat > 90) formErrors.push('Latitude must be between -90 and 90.')
-        if (lng < -180 || lng > 180) formErrors.push('Longitude must be between -180 and 180.')
-
-        setErrors(formErrors)
-
-
-        if (formErrors.length === 0) {
+        if (errors.length === 0) {
             const payload = {
                 ...spot,
                 name,
@@ -39,22 +46,17 @@ export default function EditListing ({spot, setShowModal}) {
                 city,
                 state,
                 country,
-                lat,
-                lng,
                 previewImage: imageUrl
             }
 
-            await dispatch(spotActions.thunkUpdateSpot(payload)).catch(
-                async (res) => {
-                  const data = await res.json();
-                  if (data && data.errors) setErrors(data.errors);
-                }
-              );
-
-              setShowModal(false)
+            await dispatch(spotActions.thunkUpdateSpot(payload))
+            setShowModal(false)
 
         }
     }
+    const clickX = (e) => {
+        setShowModal(false)
+      }
 
     const nameChange = (e) => setName(e.target.value)
     const descriptionChange = (e) => setDescription(e.target.value)
@@ -63,32 +65,42 @@ export default function EditListing ({spot, setShowModal}) {
     const cityChange = (e) => setCity(e.target.value)
     const stateChange = (e) => setState(e.target.value)
     const countryChange = (e) => setCountry(e.target.value)
-    const latChange = (e) => setLat(e.target.value)
-    const lngChange = (e) => setLng(e.target.value)
     const imageUrlChange = (e) => setImageUrl(e.target.value)
 
     return (
-
-        <div className='host-form-container'>
-            <ul className='host-form-errors'>
-                {errors.map((error, i) => (
-                    <li key={i}>{error}</li>
-                ))}
-            </ul>
-        <h1 className='host-form-title'>Edit Listing</h1>
-            <form onSubmit={onSubmit}>
-                <input required type="text" placeholder="Name" value={name} onChange={nameChange} ></input>
-                <textarea required className='description-field' placeholder="Description" value={description} onChange={descriptionChange} ></textarea>
-                <input type="number" required placeholder="Price" value={price} onChange={priceChange}></input>
-                <input required type="text" placeholder="Address" value={address} onChange={addressChange}></input>
-                <input required type="text" placeholder="City" value={city} onChange={cityChange}></input>
-                <input required type="text" placeholder="State" value={state} onChange={stateChange} ></input>
-                <input required type="text" placeholder="Country" value={country} onChange={countryChange} ></input>
-                <input required type="number" placeholder="Latitude" value={lat} onChange={latChange} ></input>
-                <input required type="number" placeholder="Longitude" value={lng} onChange={lngChange}></input>
-                <input required type="text" placeholder="Image Link" value={imageUrl} onChange={imageUrlChange}></input>
-                <button type="submit">Submit Changes</button>
-            </form>
+    <>
+        <div className="close-out-button" onClick={clickX}>
+          <img className="x" src={x} alt=""></img>
         </div>
+
+        <div className="entire-modal-wrapper">
+
+        <div className="modal-header">
+            <div className="header-text">
+              Edit Listing
+            </div>
+        </div>
+        <div className='modal-body-wrapper'>
+            <div className='host-form-container'>
+                <ul className='host-form-errors'>
+                    {hasSubmitted && errors.map((error, i) => (
+                        <li key={i}>{error}</li>
+                        ))}
+                </ul>
+                <form className='create-listing-form' onSubmit={onSubmit}>
+                    <input id='create-listing-top-input' required type="text" placeholder="Name" value={name} minLength="5" maxLength="20" onChange={nameChange} ></input>
+                    <input types="text" required className='description-field' placeholder="Description" value={description} onChange={descriptionChange} ></input>
+                    <input type="number" required placeholder="Price" value={price} onChange={priceChange}></input>
+                    <input required type="text" placeholder="Address" value={address} onChange={addressChange}></input>
+                    <input required type="text" placeholder="City" value={city} onChange={cityChange}></input>
+                    <input required type="text" placeholder="State" value={state} onChange={stateChange} ></input>
+                    <input required type="text" placeholder="Country" value={country} onChange={countryChange} ></input>
+                    <input id='create-listing-bottom-input' required type="url" placeholder="Image Link" value={imageUrl} onChange={imageUrlChange}></input>
+                    <button id='signup-submit-button' type="submit" disabled={disableSubmit}>Submit Changes</button>
+                </form>
+            </div>
+            </div>
+        </div>
+    </>
     )
 }

@@ -1,7 +1,7 @@
 import LoginFormPage from './components/LoginFormPage';
 import * as sessionActions from './store/session'
 import * as spotActions from './store/spots'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import './index.css';
@@ -11,6 +11,7 @@ import SpotDisplay from './components/SpotDisplay'
 import SpotIndex from './components/SpotIndex';
 import MangageListings from './components/Profile/ProfilePage';
 import * as reviewActions from './store/reviews'
+import HostForm from './components/NewSpotForm'
 
 
 function App() {
@@ -31,8 +32,9 @@ function App() {
 
 
   return (
+    <>
+    <Navigation isLoaded={isLoaded} />
     <div className='whole-page-container'>
-      <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
           <Route exact path="/">
@@ -50,12 +52,16 @@ function App() {
           <Route path="/my-profile">
             <MangageListings />
           </Route>
+          <Route path="/create-listing">
+            <HostForm />
+          </Route>
           <Route>
             <h1>404 Not Found</h1>
           </Route>
         </Switch>
       )}
     </div>
+      </>
   );
 }
 

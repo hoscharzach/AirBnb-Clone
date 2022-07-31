@@ -8,6 +8,7 @@
 .entire-modal-wrapper * {
     box-sizing: border-box;
 }
+
 h3 {
     font-size: 22px;
     margin: 0px;
@@ -22,11 +23,6 @@ h3 {
     align-items: center;
 }
 
-.top-input {
-    border-bottom: 0px;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-}
 .modal-header {
     display: flex;
     align-items: center;
@@ -67,23 +63,7 @@ h3 {
     cursor: pointer;
 }
 
-.bottom-input {
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
-}
-
 ::placeholder {
     padding-left: 15px;
     font-weight: bold;
-}
-#login-button {
-    margin-top: 15px;
-    width: 27.083vw;
-    height: 48px;
-    border-radius: 8px;
-    border: 0;
-    background: linear-gradient(0.25turn, #E61E4D, #D70666);
-    color: white;
-    font-weight: 600;
-    font-size: 16px;
 }

@@ -53,7 +53,7 @@ const validateSpot = [
     check('name')
       .exists({checkFalsy: true})
       .isLength({ max: 50})
-      .withMessage('Name must be less than 50 characters'),
+      .withMessage('Name must be less than 20 characters'),
     check('description')
       .exists({checkFalsy:true})
       .withMessage('Description is required'),
@@ -293,6 +293,7 @@ router.get('/bookings', requireAuth, async (req, res, next) => {
 })
 
 router.post('/spots', [requireAuth, validateSpot], async (req, res, next) => {
+
   const { address, city ,state, country, lat, lng, name, description, price, previewImage } = req.body
   const id = req.user.id
   const newSpot = await Spot.create({
@@ -316,12 +317,22 @@ router.post('/spots', [requireAuth, validateSpot], async (req, res, next) => {
 router.delete('/spots/:spotId', requireAuth, async (req, res, next) => {
   const spot = await Spot.findByPk(req.params.spotId)
 
-  if (spot) {
-    if (req.user.id === spot.ownerId) {
-      await spot.destroy()
-      return res.json({ message:"Spot successfully deleted."})
-    } else return res.json( {statusCode: 401, message: "You are not authorized to delete this spot."} )
-  } else return res.status(404).json({message: "This spot could not be found."})
+  if (!spot) {
+    const err = new Error("The spot doesn't exist")
+    err.errors = [err.message]
+    err.status = 404
+    return next(err)
+  }
+
+  if (req.user.id !== spot?.ownerId) {
+    const err = new Error("You are not authorized to delete this spot.")
+    err.erros = [err.message]
+    err.status = 401
+    return next(err)
+  }
+
+  await spot.destroy()
+  return res.json({ message:"Spot successfully deleted."})
 })
 
 router.put('/spots/:spotId', [requireAuth, validateSpot], async (req, res, next) => {

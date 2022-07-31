@@ -7,7 +7,7 @@ export default function EditReviewModal ({review}) {
 
   return (
     <>
-      <button onClick={() => setShowModal(true)}>Edit Review</button>
+      <button className="edit-review-modal-button" onClick={() => setShowModal(true)}>Edit Review</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <EditReview setShowModal={setShowModal} review={review} />

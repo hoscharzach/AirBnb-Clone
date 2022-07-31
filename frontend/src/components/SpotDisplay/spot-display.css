@@ -1,9 +1,19 @@
+
 .main-display-container {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
+.maint-display-container p, h2, h1 {
+    margin: 0px;
+}
+
+h1 {
+    font-size: 26px;
+    padding-bottom: 5px;
+}
+/* spot info container */
 .outer-spot-info-container {
     width: 100%;
     height: 86px;
@@ -16,34 +26,121 @@
     flex-direction: column;
     align-items:flex-start;
     justify-content: center;
-    width: 29.083vw;
+    min-width: 29.083vw;
+    max-width: 40vw;
 }
 .top-div-star {
     height: 13.5px;
     width: 13.5px;
 }
 
+.dot-add-padding {
+    padding: 0px 8px;
+}
+
+/* spot image container */
+.spot-images-container {
+    overflow: hidden;
+    /* border-radius: 12px; */
+    max-width: 650px;
+    height: 431px;
+    display: flex;
+    justify-content: center;
+
+}
+.main-spot-image {
+    border-radius: 12px;
+    flex: 1;
+    height: 100%
+}
+
+/* spot caption and buttons div */
+
+.below-image-container {
+    display: flex;
+    width: 29.083vw;
+    height: 110px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hosted-by-price-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 10px;;
+}
+.hosted-by-text {
+    font-size: 22px;
+}
+.avatar-price-wrapper {
+    display: flex;
+}
+.user-avatar {
+    width: 56px;
+    height: 56px;
+    /* padding-right: 10px; */
+}
+.edit-delete-buttons {
+    padding-left: 10px;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.under-image-spot-price-text {
+    font-weight: bold;
+}
+.avatar-and-buttons-wrapper {
+    display: flex;
+    align-items: center;
+}
 .bottom-reviews-star {
     width: 15px;
     height: 15px;
 }
-.spot-images-container {
-    overflow: hidden;
-}
-.main-spot-image {
-    border-radius: 12px;
-    width: 560px;
-    height: 431px;
-    overflow: hidden;
+
+/* reviews at bottom of page */
+.spot-display-review-wrapper {
+    width: 100%;
+    /* margin-top: 50px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.dot-add-padding {
-    padding: 0px 8px;
-}
-p, h2, h1 {
-    margin: 0px;
+.spot-display-review-header {
+    border-top: 1px solid lightgrey;
+    padding-top: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 70%;
 }
 
-h1 {
-    font-size: 26px;
+.spot-reviews-display {
+    width: 60%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 20px;
+    grid-row-gap: 10px;
+  }
+
+
+  /* for add, edit, delete reviews button */
+.add-review-modal-button {
+    background-color: white;
+    padding: 13px 23px;
+    margin-left: 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    border: 1px solid black;
+}
+
+.add-review-modal-button:hover {
+    cursor: pointer;
+}
+.add-review-modal-button:active {
+    transform: scale(0.9);
 }
