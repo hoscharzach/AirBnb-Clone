@@ -17,7 +17,6 @@ export default function AddReview ({user, spot, setShowModal }) {
       }
 
     useEffect(() => {
-        console.log(content)
         const errors = []
         if (stars < 1 || stars > 5) errors.push('Stars must be between 1 and 5')
         if (content.length < 10) errors.push('Review must be at least 10 characters')

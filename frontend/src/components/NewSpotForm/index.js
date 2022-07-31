@@ -25,7 +25,6 @@ export default function HostForm () {
     useEffect(() => {
         const errors = []
         if (name.length < 5) errors.push('Name must be at least 5 characters')
-        console.log(name.length)
         if (name.length > 20) errors.push('Name must be less than 20 characters')
         if (description.length < 5) errors.push('Description must be at least 5 characters')
         if (address.length < 3) errors.push('Address must be at least 3 characters')

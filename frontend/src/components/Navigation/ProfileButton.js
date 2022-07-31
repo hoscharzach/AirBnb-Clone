@@ -21,7 +21,6 @@ function ProfileButton({ user }) {
       if (!showMenu) return;
 
       const closeMenu = (e) => {
-        console.log(e.target.id)
         const modal = document.getElementById('modal-background')
         if( modal) return
 
