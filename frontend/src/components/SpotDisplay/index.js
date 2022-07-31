@@ -56,21 +56,27 @@ export default function SpotDisplay () {
 
     if (!spot) return null
 
-    let reviewsHeader
 
-    // <div className="spot-display-review-title">
-    // {reviews.length > 0 && (<h2><img className="bottom-reviews-star" src={star}></img> {avgStarRating} · {numReviews} Reviews</h2>)}
-    // {reviews.length === 0 && !userOwnsSpot && <h4>Be the first to review this spot</h4>}
-    // { sessionUser && showAddReview && !userOwnsSpot && <AddReviewModal spot={spot} />}
-    // </div>
+    //determine what reviews header will look like, depending on if user owns spot or has already left a review
+    let reviewsHeader
 
     if (reviews.length > 0) {
         reviewsHeader = (
+            <div className="spot-display-review-header">
             <h2><img className="bottom-reviews-star" src={star}></img> {avgStarRating} · {numReviews} Reviews</h2>
+            {!userOwnsSpot && showAddReview && sessionUser && <AddReviewModal user={sessionUser} spot={spot} />}
+            </div>
         )
-    } else if (reviews.length === 0 && !userOwnsSpot) {
+    } else if (reviews.length === 0) {
         reviewsHeader = (
-            <h3>Be the first to review this spot</h3>
+            <div className="spot-display-review-header">
+                <h2>No Reviews</h2>
+                <AddReviewModal user={sessionUser} spot={spot} />
+            </div>
+        )
+    } else {
+        reviewsHeader = (
+            null
         )
     }
 
@@ -109,12 +115,8 @@ export default function SpotDisplay () {
                 </div>
             </div>
             <div className="spot-display-review-wrapper">
-                <div className="spot-display-review-header">
-                {reviews.length > 0 && (<h2><img className="bottom-reviews-star" src={star}></img> {avgStarRating} · {numReviews} Reviews</h2>)}
-                {reviews.length === 0 && !userOwnsSpot && <h4>Be the first to review this spot</h4>}
-                { sessionUser && showAddReview && !userOwnsSpot && <AddReviewModal spot={spot} />}
-                </div>
-                <div className="reviews-footer-info">
+                {reviewsHeader}
+                <div className="spot-reviews-display">
                     {reviews.length > 0 && reviews.map((review, i) => (
                         <ReviewCard key={i} className="review-component" review={review}/>
                         ))}

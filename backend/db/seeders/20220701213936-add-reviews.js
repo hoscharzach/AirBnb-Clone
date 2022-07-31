@@ -18,7 +18,7 @@ module.exports = {
       {
         content: "Great experience, highly recommend this place.",
         stars: 5,
-        userId: 1,
+        userId: 3,
         spotId: 1,
       },
       {

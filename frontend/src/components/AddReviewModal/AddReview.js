@@ -3,10 +3,9 @@ import { useEffect, useState } from 'react'
 import * as reviewActions from '../../store/reviews'
 import x from '../../assets/images/icons/x-symbol-svgrepo-com.svg'
 
-export default function AddReview ({ spot, setShowModal }) {
+export default function AddReview ({user, spot, setShowModal }) {
     const dispatch = useDispatch()
 
-    const [validationErrors, setValidationErrors] = useState([])
     const [errors, setErrors] = useState([])
     const [stars, setStars] = useState(5)
     const [content, setContent] = useState('')
@@ -18,6 +17,7 @@ export default function AddReview ({ spot, setShowModal }) {
       }
 
     useEffect(() => {
+        console.log(content)
         const errors = []
         if (stars < 1 || stars > 5) errors.push('Stars must be between 1 and 5')
         if (content.length < 10) errors.push('Review must be at least 10 characters')
@@ -79,7 +79,7 @@ export default function AddReview ({ spot, setShowModal }) {
                     </ul>
                     <div className='loginForm'>
 
-                        <textarea required className='top-input' placeholder="Review (minimum 10 characters)" value={content} onChange={contentChange} ></textarea>
+                        <input type="text" required className='top-input' placeholder="Review (minimum 10 characters)" value={content} onChange={contentChange} ></input>
                         <input type="number" min="1" max="5" className='bottom-input' maxLength="1" required placeholder="Rating (1-5)" value={stars} onChange={starsChange}></input>
                         <button type="submit" id='submit-review-button' disabled={disableSubmit} onClick={onSubmit} >Leave Review</button>
                     </div>

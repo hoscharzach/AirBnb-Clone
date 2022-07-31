@@ -41,14 +41,15 @@ h1 {
 /* spot image container */
 .spot-images-container {
     overflow: hidden;
-    border-radius: 12px;
-    width: 560px;
+    /* border-radius: 12px; */
+    max-width: 650px;
     height: 431px;
     display: flex;
     justify-content: center;
 
 }
 .main-spot-image {
+    border-radius: 12px;
     flex: 1;
     height: 100%
 }
@@ -61,8 +62,6 @@ h1 {
     height: 110px;
     justify-content: space-between;
     align-items: center;
-    margin: 5px 0px;
-    border-bottom: 1px solid lightgrey;
 }
 
 .hosted-by-price-container {
@@ -111,12 +110,17 @@ h1 {
 }
 
 .spot-display-review-header {
-    margin-top: 25px;
+    border-top: 1px solid lightgrey;
+    padding-top: 15px;
+    margin-bottom: 15px;
     display: flex;
     justify-content: flex-start;
+    align-items: center;
+    width: 70%;
 }
 
-.reviews-footer-info {
+.spot-reviews-display {
+    width: 60%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-column-gap: 20px;
@@ -125,11 +129,18 @@ h1 {
 
 
   /* for add, edit, delete reviews button */
-  .spot-delete-button {
+.add-review-modal-button {
     background-color: white;
     padding: 13px 23px;
+    margin-left: 20px;
     border-radius: 8px;
-    margin-top: 20px;
     font-weight: bold;
     border: 1px solid black;
+}
+
+.add-review-modal-button:hover {
+    cursor: pointer;
+}
+.add-review-modal-button:active {
+    transform: scale(0.9);
 }

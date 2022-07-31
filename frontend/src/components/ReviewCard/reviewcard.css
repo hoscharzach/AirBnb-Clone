@@ -1,3 +1,62 @@
 .review-card {
-    margin: 10px;
+    padding: 5px;
+}
+
+h4 {
+    margin: 0px;
+}
+
+.review-card {
+    width: 450px;
+}
+.place-holder-button {
+    visibility: hidden;
+}
+.review-card-stars-icon {
+    display: flex;
+    align-items: center;
+}
+.review-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.review-card-user-info-container {
+    display: flex;
+}
+.review-card-user-icon {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.review-card-star {
+    width: 13px;
+    height: 13px;
+    padding-bottom: 3px;
+}
+.review-card-user-icon-image {
+    width: 40px;
+    height: 40px;
+}
+
+.edit-review-modal-button, .delete-review-modal-button {
+    margin-top: 5px;
+    background-color: white;
+    padding: 13px 23px;
+    margin-left: 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    border: 1px solid black;
+}
+
+.edit-review-modal-button:hover, .delete-review-modal-button:hover {
+    cursor: pointer;
+}
+.edit-review-modal-button:active, .delete-review-modal-button:active {
+    transform: scale(0.9);
+}
+
+.review-card-body {
+    margin-top: 16px;
 }

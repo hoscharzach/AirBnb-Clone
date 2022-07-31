@@ -41,6 +41,11 @@ export default function EditReview ({review, setShowModal}) {
                     if (data && data.errors) setErrors(data.errors);
                 })
         }
+
+        if (errors.length === 0) {
+            setShowModal(false)
+
+        }
     }
 
     const contentChange = (e) => setContent(e.target.value)
