@@ -19,6 +19,12 @@ export default function SpotDisplay () {
     const owner = spot?.['Owner.firstName']
     // console.log(spot)
 
+    const [userOwnsSpot, setUserOwnsSpot] = useState(false)
+
+    useEffect(() => {
+        sessionUser?.id === spot?.ownerId ? setUserOwnsSpot(true) : setUserOwnsSpot(false)
+    }, sessionUser, spot)
+
     useEffect(() => {
         dispatch(spotActions.thunkLoadAllSpots())
     },[dispatch])
@@ -27,10 +33,8 @@ export default function SpotDisplay () {
     const reviews = Object.values(allReviews).filter(review => review?.spotId === spot?.id)
 
     let userReview
-    let userOwnsSpot
 
     if (sessionUser) {
-       userOwnsSpot = spot?.ownerId === sessionUser?.id
        userReview = reviews.find(review => review?.userId === sessionUser?.id)
     }
 
@@ -70,7 +74,7 @@ export default function SpotDisplay () {
         reviewsHeader = (
             <div className="spot-display-review-header">
                 <h2>No Reviews</h2>
-                {sessionUser && <AddReviewModal user={sessionUser} spot={spot} />}
+                {!userOwnsSpot && sessionUser && <AddReviewModal user={sessionUser} spot={spot} />}
             </div>
         )
     } else {
