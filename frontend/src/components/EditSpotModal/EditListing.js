@@ -20,6 +20,7 @@ export default function EditListing ({spot, setShowModal}) {
     useEffect(() => {
             const errors = []
             if (name.length < 5) errors.push('Name must be at least 5 characters')
+            if (name.length > 20) errors.push('Name must be less than 20 characters')
             if (description.length < 5) errors.push('Description must be at least 5 characters')
             if (address.length < 3) errors.push('Address must be at least 2 characters')
 
@@ -72,7 +73,7 @@ export default function EditListing ({spot, setShowModal}) {
             </ul>
         <h1 className='host-form-title'>Edit Listing</h1>
             <form onSubmit={onSubmit}>
-                <input required type="text" placeholder="Name" value={name} onChange={nameChange} ></input>
+                <input required type="text" placeholder="Name" value={name} minLength="5" maxLength="20" onChange={nameChange} ></input>
                 <textarea required className='description-field' placeholder="Description" value={description} onChange={descriptionChange} ></textarea>
                 <input type="number" required placeholder="Price" value={price} onChange={priceChange}></input>
                 <input required type="text" placeholder="Address" value={address} onChange={addressChange}></input>

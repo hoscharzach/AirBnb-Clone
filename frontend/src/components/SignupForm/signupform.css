@@ -4,10 +4,6 @@ form {
     align-items: center;
 }
 
-#sign-up-form > input {
-    border-radius: 12px;
-    margin: 0px 0px;
-}
 
 .signup-form-title {
     text-align: center;

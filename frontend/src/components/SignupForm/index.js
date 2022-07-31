@@ -64,19 +64,19 @@ export default function SignupForm() {
     return (
         <>
         <h1 className='signup-form-title'>Create an Account</h1>
-        <form onSubmit={onSubmit} id="sign-up-form">
+        <form className="create-listing-form" onSubmit={onSubmit} id="sign-up-form">
             <ul>
                 {hasSubmitted && errors.map((el, i) => (
                     <li key={i}>{el}</li>
                 ))}
             </ul>
-            <input value={username} minlength="5" required onChange={(e) => setUsername(e.target.value)} type="text" placeholder="Username"></input>
+            <input id="create-listing-top-input" value={username} minLength="5" required onChange={(e) => setUsername(e.target.value)} type="text" placeholder="Username"></input>
             <input value={firstName} required onChange={(e) => setFirstName(e.target.value)} type="text" placeholder="First name"></input>
             <input value={lastName} required onChange={(e) => setLastName(e.target.value)} type="text" placeholder="Last name"></input>
             <input value={email} required onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email"></input>
             <input value={password} minLength="6" required onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password"></input>
-            <input value={confirmPassword} required onChange={(e) => setConfirmPassword(e.target.value)} type="password" placeholder="Confirm password"></input>
-            <button disableSubmit={disableSubmit} type='submit' id='signup-submit-button'>Sign Up</button>
+            <input id='create-listing-bottom-input' value={confirmPassword} required onChange={(e) => setConfirmPassword(e.target.value)} type="password" placeholder="Confirm password"></input>
+            <button disabled={disableSubmit} type='submit' id='signup-submit-button'>Sign Up</button>
         </form>
         </>
     )

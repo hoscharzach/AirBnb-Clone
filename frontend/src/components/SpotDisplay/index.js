@@ -21,7 +21,7 @@ export default function SpotDisplay () {
 
     useEffect(() => {
         dispatch(spotActions.thunkLoadAllSpots())
-    },[])
+    },[dispatch])
 
     const allReviews = useSelector(state => state.reviews.normalizedReviews)
     const reviews = Object.values(allReviews).filter(review => review?.spotId === spot?.id)
@@ -63,7 +63,7 @@ export default function SpotDisplay () {
     if (reviews.length > 0) {
         reviewsHeader = (
             <div className="spot-display-review-header">
-            <h2><img className="bottom-reviews-star" src={star}></img> {avgStarRating} · {numReviews} Reviews</h2>
+            <h2><img className="bottom-reviews-star" src={star} alt="" ></img> {avgStarRating} · {numReviews} Reviews</h2>
             {!userOwnsSpot && showAddReview && sessionUser && <AddReviewModal user={sessionUser} spot={spot} />}
             </div>
         )
