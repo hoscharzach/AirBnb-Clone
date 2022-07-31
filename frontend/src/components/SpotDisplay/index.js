@@ -25,7 +25,6 @@ export default function SpotDisplay () {
 
     const allReviews = useSelector(state => state.reviews.normalizedReviews)
     const reviews = Object.values(allReviews).filter(review => review?.spotId === spot?.id)
-    console.log(reviews)
 
     let userReview
     let userOwnsSpot
@@ -71,7 +70,7 @@ export default function SpotDisplay () {
         reviewsHeader = (
             <div className="spot-display-review-header">
                 <h2>No Reviews</h2>
-                <AddReviewModal user={sessionUser} spot={spot} />
+                {sessionUser && <AddReviewModal user={sessionUser} spot={spot} />}
             </div>
         )
     } else {
