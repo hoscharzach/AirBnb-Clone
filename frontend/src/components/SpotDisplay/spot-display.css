@@ -104,9 +104,16 @@ h1 {
 /* reviews at bottom of page */
 .spot-display-review-wrapper {
     width: 100%;
-    margin-top: 50px;
+    /* margin-top: 50px; */
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.spot-display-review-header {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-start;
 }
 
 .reviews-footer-info {
@@ -115,3 +122,14 @@ h1 {
     grid-column-gap: 20px;
     grid-row-gap: 10px;
   }
+
+
+  /* for add, edit, delete reviews button */
+  .spot-delete-button {
+    background-color: white;
+    padding: 13px 23px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-weight: bold;
+    border: 1px solid black;
+}

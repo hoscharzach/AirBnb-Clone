@@ -32,8 +32,9 @@ function App() {
 
 
   return (
+    <>
+    <Navigation isLoaded={isLoaded} />
     <div className='whole-page-container'>
-      <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
           <Route exact path="/">
@@ -60,6 +61,7 @@ function App() {
         </Switch>
       )}
     </div>
+      </>
   );
 }
 

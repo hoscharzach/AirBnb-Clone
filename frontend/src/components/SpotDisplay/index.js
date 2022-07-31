@@ -56,6 +56,24 @@ export default function SpotDisplay () {
 
     if (!spot) return null
 
+    let reviewsHeader
+
+    // <div className="spot-display-review-title">
+    // {reviews.length > 0 && (<h2><img className="bottom-reviews-star" src={star}></img> {avgStarRating} · {numReviews} Reviews</h2>)}
+    // {reviews.length === 0 && !userOwnsSpot && <h4>Be the first to review this spot</h4>}
+    // { sessionUser && showAddReview && !userOwnsSpot && <AddReviewModal spot={spot} />}
+    // </div>
+
+    if (reviews.length > 0) {
+        reviewsHeader = (
+            <h2><img className="bottom-reviews-star" src={star}></img> {avgStarRating} · {numReviews} Reviews</h2>
+        )
+    } else if (reviews.length === 0 && !userOwnsSpot) {
+        reviewsHeader = (
+            <h3>Be the first to review this spot</h3>
+        )
+    }
+
     return (
         <div className="main-display-container">
 
@@ -82,20 +100,21 @@ export default function SpotDisplay () {
                 </div>
                 <div className="avatar-and-buttons-wrapper">
                     <img className="user-avatar" src={avatar} alt=""></img>
+                    {/* {if logged in and there's a spot and the user owns this location, render buttons} */}
+                    {sessionUser && spot && sessionUser.id === spot.ownerId &&
                     <div className="edit-delete-buttons">
-                        {sessionUser && spot && sessionUser.id === spot.ownerId && <EditListingModal spot={spot}/>}
-                        {sessionUser && spot && sessionUser.id === spot.ownerId && <DeleteListingModal redirect={'/'} spot={spot} />}
-                    </div>
+                        <EditListingModal spot={spot}/>
+                        <DeleteListingModal redirect={'/'} spot={spot} />
+                    </div>}
                 </div>
             </div>
             <div className="spot-display-review-wrapper">
-                <div className="review-total">
-
-                </div>
-                <div className="reviews-footer-info">
+                <div className="spot-display-review-header">
                 {reviews.length > 0 && (<h2><img className="bottom-reviews-star" src={star}></img> {avgStarRating} · {numReviews} Reviews</h2>)}
                 {reviews.length === 0 && !userOwnsSpot && <h4>Be the first to review this spot</h4>}
                 { sessionUser && showAddReview && !userOwnsSpot && <AddReviewModal spot={spot} />}
+                </div>
+                <div className="reviews-footer-info">
                     {reviews.length > 0 && reviews.map((review, i) => (
                         <ReviewCard key={i} className="review-component" review={review}/>
                         ))}
