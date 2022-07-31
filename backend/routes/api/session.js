@@ -6,18 +6,6 @@ const { handleValidationErrors } = require('../../utils/validation')
 
 const router = express.Router()
 
-
-
-router.get('/', restoreUser, async (req, res, next) => {
-    const { user } = req
-    if (user) {
-        return res.json({
-            user: user.toSafeObject()
-
-        })
-    } else return res.json({message: "You are not logged in."})
-})
-
 const validateLogin = [
     check('credential')
       .exists({ checkFalsy: true })
@@ -28,6 +16,20 @@ const validateLogin = [
       .withMessage('Please provide a password.'),
     handleValidationErrors
   ];
+
+router.get("/", restoreUser, (req, res) => {
+	const { user } = req;
+	const token = req.cookies.token;
+	if (user) {
+		return res.json({
+			user: user.toSafeObject(),
+			token,
+		});
+	}
+
+	return res.json({});
+});
+
 
 router.post('/', validateLogin, async (req, res, next) => {
     const { credential, password } = req.body

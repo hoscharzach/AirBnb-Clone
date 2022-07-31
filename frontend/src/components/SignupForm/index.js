@@ -33,7 +33,7 @@ export default function SignupForm() {
     if (user) return <Redirect to="/" />
 
 
-    function onSubmit (e) {
+    async function onSubmit (e) {
         e.preventDefault()
 
         setHasSubmitted(true)
@@ -51,7 +51,7 @@ export default function SignupForm() {
                 password,
             }
 
-            dispatch(thunkSignup(payload))
+            await dispatch(thunkSignup(payload))
             .catch(async (res) => {
                 const data = await res.json();
                 if (data && data.errors) setErrors(data.errors);

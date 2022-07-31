@@ -9,20 +9,16 @@ import SpotCard from "../SpotCards";
 export default function MangageListings () {
     const sessionUser = useSelector(state => state.session.user)
     const allSpots = useSelector(state => state.spots.normalizedSpots)
-    // const allReviews = useSelector(state => state.reviews.normalizedReviews)
-
-    let userSpots
-    // let userReviews
-
-    if(sessionUser) {
-        userSpots = Object.values(allSpots).filter(el => el.ownerId === sessionUser.id)
-        // userReviews = Object.values(allReviews).filter(el => el.userId === sessionUser.id)
-    }
 
     if(!sessionUser) {
         return (
             <Redirect to="/"></Redirect>
-        )
+            )
+        }
+
+    let userSpots
+    if(sessionUser) {
+        userSpots = Object.values(allSpots).filter(el => el.ownerId === sessionUser.id)
     }
 
     return (

@@ -7,7 +7,7 @@ import star from '../../assets/images/icons/svgexport-14.svg'
 
 export default function ReviewCard ({review}) {
     const sessionUser = useSelector(state => state.session.user)
-    const reviews = useSelector(state => state.reviews.normalizedReviews)
+    // const reviews = useSelector(state => state.reviews.normalizedReviews)
 
     let reviewButtons
     if (sessionUser?.id === review?.userId) {
@@ -26,10 +26,10 @@ export default function ReviewCard ({review}) {
         <div className="review-card">
             <div className="review-card-header">
                 <div className="review-card-user-info-container">
-                    <div className="review-card-user-icon"><img className="review-card-user-icon-image" src={icon}></img></div>
+                    <div className="review-card-user-icon"><img className="review-card-user-icon-image" src={icon} alt="" ></img></div>
                     <div className="review-card-username-rating">
                         <div><h4>{review.User.firstName}</h4></div>
-                        <div className='review-card-stars-icon'>{review.stars} <img className="review-card-star" src={star}></img></div>
+                        <div className='review-card-stars-icon'>{review.stars} <img className="review-card-star" src={star} alt="" ></img></div>
                     </div>
                 </div>
                 <div className="review-card-buttons">

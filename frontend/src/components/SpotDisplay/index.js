@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import AddReviewModal from "../AddReviewModal"
@@ -8,37 +8,38 @@ import ReviewCard from "../ReviewCard"
 import './spot-display.css'
 import star from '../../assets/images/icons/svgexport-14.svg'
 import avatar from '../../assets/images/icons/svgexport-7.svg'
-import * as spotActions from '../../store/spots'
+// import * as spotActions from '../../store/spots'
 
 
 export default function SpotDisplay () {
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
     const { spotId } = useParams()
+
     const sessionUser = useSelector(state => state.session.user)
+
     const spot = useSelector(state => state.spots.normalizedSpots[Number(spotId)])
     const owner = spot?.['Owner.firstName']
-    // console.log(spot)
-
-    const [userOwnsSpot, setUserOwnsSpot] = useState(false)
-
-    useEffect(() => {
-        sessionUser?.id === spot?.ownerId ? setUserOwnsSpot(true) : setUserOwnsSpot(false)
-    }, sessionUser, spot)
-
-    useEffect(() => {
-        dispatch(spotActions.thunkLoadAllSpots())
-    },[dispatch])
 
     const allReviews = useSelector(state => state.reviews.normalizedReviews)
     const reviews = Object.values(allReviews).filter(review => review?.spotId === spot?.id)
 
-    let userReview
-
-    if (sessionUser) {
-       userReview = reviews.find(review => review?.userId === sessionUser?.id)
-    }
-
+    const [userOwnsSpot, setUserOwnsSpot] = useState(false)
     const [showAddReview, setShowAddReview] = useState(true)
+
+    // every time sessionUser or current spot state change, check if sessionUser owns the spot
+    useEffect(() => {
+        if (sessionUser && spot) {
+            sessionUser.id === spot.ownerId ? setUserOwnsSpot(true) : setUserOwnsSpot(false)
+        }
+    }, [sessionUser, spot])
+
+    // check for reviews that exist by user
+    useEffect(() => {
+        if (reviews && sessionUser) {
+            const userReview = reviews.find(review => review?.userId === sessionUser?.id)
+            userReview !== undefined ? setShowAddReview(false) : setShowAddReview(true)
+        }
+    }, [sessionUser, reviews])
 
     let avgStarRating
     let numReviews
@@ -52,13 +53,12 @@ export default function SpotDisplay () {
         if(avgStarRating === Math.floor(avgStarRating)) avgStarRating += ".0"
     }
 
-    // check for reviews that exist by user
-    useEffect(() => {
-        userReview !== undefined ? setShowAddReview(false) : setShowAddReview(true)
-    }, [userReview])
 
-    if (!spot) return null
-
+    if (!spot) return (
+        <div style={{display: 'flex', justifyContent: 'center', height: '500px', alignItems: 'center'}}>
+            <h1>Spot doesn't exit</h1>
+        </div>
+    )
 
     //determine what reviews header will look like, depending on if user owns spot or has already left a review
     let reviewsHeader
