@@ -77,12 +77,12 @@ export default function AddReview ({user, spot, setShowModal }) {
                             <li key={i}>{error}</li>
                             ))}
                     </ul>
-                    <div className='loginForm'>
+                    <form className='create-listing-form'>
 
-                        <input type="text" required className='top-input' placeholder="Review (minimum 10 characters)" value={content} onChange={contentChange} ></input>
-                        <input type="number" min="1" max="5" className='bottom-input' maxLength="1" required placeholder="Rating (1-5)" value={stars} onChange={starsChange}></input>
+                        <input id='create-listing-top-input' type="text" required className='top-input' placeholder="Review (minimum 10 characters)" value={content} onChange={contentChange} ></input>
+                        <input id='create-listing-bottom-input' type="number" min="1" max="5" className='bottom-input' maxLength="1" required placeholder="Rating (1-5)" value={stars} onChange={starsChange}></input>
                         <button type="submit" id='submit-review-button' disabled={disableSubmit} onClick={onSubmit} >Leave Review</button>
-                    </div>
+                    </form>
 
                 </div>
             </div>

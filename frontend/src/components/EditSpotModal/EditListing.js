@@ -79,7 +79,7 @@ export default function EditListing ({spot, setShowModal}) {
             <div className="header-text">
               Edit Listing
             </div>
-          </div>
+        </div>
         <div className='modal-body-wrapper'>
             <div className='host-form-container'>
                 <ul className='host-form-errors'>

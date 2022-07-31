@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import * as reviewActions from '../../store/reviews'
+import x from '../../assets/images/icons/x-symbol-svgrepo-com.svg'
 
 export default function EditReview ({review, setShowModal}) {
     const dispatch = useDispatch()
@@ -48,24 +49,44 @@ export default function EditReview ({review, setShowModal}) {
         }
     }
 
+    const clickX = (e) => {
+        setShowModal(false)
+      }
+
+
     const contentChange = (e) => setContent(e.target.value)
     const starsChange = (e) => setStars(e.target.value)
 
 
     return (
+        <>
+            <div className="close-out-button" onClick={clickX}>
+                <img className="x" src={x} alt=""></img>
+            </div>
 
-        <div className='edit-review-modal-container'>
-            <ul className='edit-review-modal-errors'>
-                {hasSubmitted && errors.map((error, i) => (
-                    <li key={i}>{error}</li>
-                ))}
-            </ul>
-        <h1 className='edit-review-modal-form'>Edit Review</h1>
-            <form onSubmit={onSubmit}>
-                <input required placeholder="Description" value={content} onChange={contentChange} ></input>
-                <input type="number" maxLength="1" required placeholder="Rating (1-5)" value={stars} onChange={starsChange}></input>
-                <button type="submit" disabled={disableSubmit}>Submit Changes</button>
-            </form>
-        </div>
+            <div className="entire-modal-wrapper">
+
+                <div className="modal-header">
+                    <div className="header-text">
+                        Edit Review
+                    </div>
+                </div>
+                <div className='modal-body-wrapper'>
+
+                    <div className='host-form-container'>
+                        <ul className='host-form-errors'>
+                            {hasSubmitted && errors.map((error, i) => (
+                                <li key={i}>{error}</li>
+                                ))}
+                        </ul>
+                        <form className="create-listing-form" onSubmit={onSubmit}>
+                            <input id='create-listing-top-input' required placeholder="Description" value={content} onChange={contentChange} ></input>
+                            <input id='create-listing-bottom-input' type="number" maxLength="1" required placeholder="Rating (1-5)" value={stars} onChange={starsChange}></input>
+                            <button id='signup-submit-button' type="submit" disabled={disableSubmit}>Submit Changes</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </>
     )
 }
