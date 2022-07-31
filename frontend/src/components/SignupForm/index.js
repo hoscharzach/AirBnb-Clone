@@ -22,25 +22,21 @@ export default function SignupForm() {
         const errors = []
         if (username.length < 5) errors.push('Username must be at least 5 characters')
         if (password.length < 6) errors.push('Password must be at least 5 characters')
+        if (password !== confirmPassword) errors.push('Passwords do not match')
 
         setErrors(errors)
         if (errors.length > 0 && hasSubmitted === true) {
             setDisableSubmit(true)
         } else setDisableSubmit(false)
 
-}, [username, email, password])
+}, [username, email, password, confirmPassword])
 
     if (user) return <Redirect to="/" />
 
 
     async function onSubmit (e) {
         e.preventDefault()
-
         setHasSubmitted(true)
-        if (password !== confirmPassword) {
-            setErrors(...errors, ['Passwords do not match'])
-            return
-        }
 
         if (errors.length === 0) {
             const payload = {
@@ -51,13 +47,12 @@ export default function SignupForm() {
                 password,
             }
 
-            await dispatch(thunkSignup(payload))
-            .catch(async (res) => {
-                const data = await res.json();
-                if (data && data.errors) setErrors(data.errors);
-              });
+        await dispatch(thunkSignup(payload))
+        .catch(async (res) => {
+            const data = await res.json();
+            if (data && data.errors) setErrors(data.errors);
+          });
         }
-
     }
 
     return (

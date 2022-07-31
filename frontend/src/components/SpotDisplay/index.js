@@ -8,8 +8,6 @@ import ReviewCard from "../ReviewCard"
 import './spot-display.css'
 import star from '../../assets/images/icons/svgexport-14.svg'
 import avatar from '../../assets/images/icons/svgexport-7.svg'
-// import * as spotActions from '../../store/spots'
-
 
 export default function SpotDisplay () {
     // const dispatch = useDispatch()
