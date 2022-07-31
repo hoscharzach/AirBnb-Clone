@@ -89,8 +89,8 @@ export default function SpotDisplay () {
                         <h1>{spot.name}</h1>
                     </div>
                     <div className="spot-reviews-and-location">
-                        {reviews.length > 0 && <span className="reviews-location-text"><img className="top-div-star" src={star}></img> {avgStarRating} · {numReviews}  Review(s) <span className="dot-add-padding">·</span> {spot.city}, {spot.state}, {spot.country}</span>}
-                        {!reviews.length > 0 && <span className="reviews-location-text"><img className="top-div-star" src={star}></img> No Reviews <span className="dot-add-padding">·</span> {spot.city}, {spot.state}, {spot.country}</span>}
+                        {reviews.length > 0 && <span className="reviews-location-text"><img className="top-div-star" src={star} alt="" ></img> {avgStarRating} · {numReviews}  Review(s) <span className="dot-add-padding">·</span> {spot.city}, {spot.state}, {spot.country}</span>}
+                        {!reviews.length > 0 && <span className="reviews-location-text"><img className="top-div-star" src={star} alt=""></img> No Reviews <span className="dot-add-padding">·</span> {spot.city}, {spot.state}, {spot.country}</span>}
                     </div>
                 </div>
             </div>

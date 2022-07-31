@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import DeleteListingModal from "../DeleteListingModal";
-import EditListingModal from "../EditSpotModal";
+// import DeleteListingModal from "../DeleteListingModal";
+// import EditListingModal from "../EditSpotModal";
 import './profile.css'
 import SpotCard from "../SpotCards";
 

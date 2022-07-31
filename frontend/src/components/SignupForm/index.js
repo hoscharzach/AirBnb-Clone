@@ -28,7 +28,7 @@ export default function SignupForm() {
             setDisableSubmit(true)
         } else setDisableSubmit(false)
 
-}, [username, password])
+}, [username, email, password])
 
     if (user) return <Redirect to="/" />
 
