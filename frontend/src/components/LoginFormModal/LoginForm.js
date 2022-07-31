@@ -43,17 +43,14 @@ function LoginForm({ setShowModal, showModal }) {
           <div className="title-text-container">
             <h3>Welcome to Airbnb</h3>
           </div>
-        {/* <form className="loginForm" onSubmit={handleSubmit}> */}
-        <div className="loginForm">
+        <form onSubmit={handleSubmit}className="create-listing-form">
 
           <ul>
             {errors.map((error, i) => (
               <li key={i}>{error}</li>
               ))}
           </ul>
-
-            {/* Username or Email */}
-            <input className="top-input"
+            <input id="create-listing-top-input"
               type="text"
               placeholder="Username or Email"
               value={credential}
@@ -63,7 +60,7 @@ function LoginForm({ setShowModal, showModal }) {
 
 
             {/* Password */}
-            <input className="bottom-input"
+            <input id="create-listing-bottom-input"
               type="password"
               placeholder="Password"
               value={password}
@@ -71,9 +68,8 @@ function LoginForm({ setShowModal, showModal }) {
               required
               />
 
-          <button id="login-button" type="submit" onClick={handleSubmit}>Continue</button>
-        </div>
-        {/* </form> */}
+          <button id="login-button" type="submit">Continue</button>
+        </form>
       </div>
     </div>
     </>

@@ -10,7 +10,7 @@ export default function ReviewCard ({review}) {
     const updateReview = useSelector(state => state.reviews.normalizedReviews[review.id])
 
     let reviewButtons
-    if (sessionUser.id === review.userId) {
+    if (sessionUser?.id === review?.userId) {
         reviewButtons = (
             <>
             <EditReviewModal review={review} />

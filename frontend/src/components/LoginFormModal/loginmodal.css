@@ -22,11 +22,7 @@ h3 {
     align-items: center;
 }
 
-.top-input {
-    border-bottom: 0px;
-    border-top-left-radius: 12px;
-    border-top-right-radius: 12px;
-}
+
 .modal-header {
     display: flex;
     align-items: center;
@@ -65,11 +61,6 @@ h3 {
 .close-out-button:hover {
     background-color: rgba(0, 0, 0, 0.15);
     cursor: pointer;
-}
-
-.bottom-input {
-    border-bottom-left-radius: 12px;
-    border-bottom-right-radius: 12px;
 }
 
 ::placeholder {
