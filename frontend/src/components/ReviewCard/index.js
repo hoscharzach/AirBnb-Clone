@@ -7,7 +7,7 @@ import star from '../../assets/images/icons/svgexport-14.svg'
 
 export default function ReviewCard ({review}) {
     const sessionUser = useSelector(state => state.session.user)
-    const updateReview = useSelector(state => state.reviews.normalizedReviews[review.id])
+    const reviews = useSelector(state => state.reviews.normalizedReviews)
 
     let reviewButtons
     if (sessionUser?.id === review?.userId) {
@@ -44,14 +44,3 @@ export default function ReviewCard ({review}) {
 
         )
     }
-{/*
-        // <div className="review-card">
-
-        //     <div className='review-user-info-container'></div>
-        //     <div className='review-user-icon'><i className="fa-solid fa-user-check"></i></div>
-        //     <div>Rating: {review.stars}</div>
-        //     <div>User: {review.User.firstName}</div>
-        //     <div>Review: {review.content}</div>
-        //     {sessionUser && review.userId === sessionUser.id && <EditReviewModal review={review} spotId={review.spotId} type={type}/>}
-        //     {sessionUser && review.userId === sessionUser.id && <DeleteReviewModal review={review} />}
-        // </div> */}

@@ -17,9 +17,7 @@ function Navigation({ isLoaded }){
         credential: 'Demo-lition',
         password: 'password'
       }))
-      .then(() => {
-        history.push('/')
-      })
+
     }
 
     let sessionLinks;

@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import * as spotActions from '../../store/spots'
+import x from '../../assets/images/icons/x-symbol-svgrepo-com.svg'
 
 export default function EditListing ({spot, setShowModal}) {
     const dispatch = useDispatch()
@@ -53,6 +54,9 @@ export default function EditListing ({spot, setShowModal}) {
 
         }
     }
+    const clickX = (e) => {
+        setShowModal(false)
+      }
 
     const nameChange = (e) => setName(e.target.value)
     const descriptionChange = (e) => setDescription(e.target.value)
@@ -64,25 +68,39 @@ export default function EditListing ({spot, setShowModal}) {
     const imageUrlChange = (e) => setImageUrl(e.target.value)
 
     return (
-
-        <div className='host-form-container'>
-            <ul className='host-form-errors'>
-                {hasSubmitted && errors.map((error, i) => (
-                    <li key={i}>{error}</li>
-                ))}
-            </ul>
-        <h1 className='host-form-title'>Edit Listing</h1>
-            <form onSubmit={onSubmit}>
-                <input required type="text" placeholder="Name" value={name} minLength="5" maxLength="20" onChange={nameChange} ></input>
-                <textarea required className='description-field' placeholder="Description" value={description} onChange={descriptionChange} ></textarea>
-                <input type="number" required placeholder="Price" value={price} onChange={priceChange}></input>
-                <input required type="text" placeholder="Address" value={address} onChange={addressChange}></input>
-                <input required type="text" placeholder="City" value={city} onChange={cityChange}></input>
-                <input required type="text" placeholder="State" value={state} onChange={stateChange} ></input>
-                <input required type="text" placeholder="Country" value={country} onChange={countryChange} ></input>
-                <input required type="url" placeholder="Image Link" value={imageUrl} onChange={imageUrlChange}></input>
-                <button type="submit" disabled={disableSubmit}>Submit Changes</button>
-            </form>
+    <>
+        <div className="close-out-button" onClick={clickX}>
+          <img className="x" src={x} alt=""></img>
         </div>
+
+        <div className="entire-modal-wrapper">
+
+        <div className="modal-header">
+            <div className="header-text">
+              Edit Listing
+            </div>
+          </div>
+        <div className='modal-body-wrapper'>
+            <div className='host-form-container'>
+                <ul className='host-form-errors'>
+                    {hasSubmitted && errors.map((error, i) => (
+                        <li key={i}>{error}</li>
+                        ))}
+                </ul>
+                <form className='create-listing-form' onSubmit={onSubmit}>
+                    <input id='create-listing-top-input' required type="text" placeholder="Name" value={name} minLength="5" maxLength="20" onChange={nameChange} ></input>
+                    <input types="text" required className='description-field' placeholder="Description" value={description} onChange={descriptionChange} ></input>
+                    <input type="number" required placeholder="Price" value={price} onChange={priceChange}></input>
+                    <input required type="text" placeholder="Address" value={address} onChange={addressChange}></input>
+                    <input required type="text" placeholder="City" value={city} onChange={cityChange}></input>
+                    <input required type="text" placeholder="State" value={state} onChange={stateChange} ></input>
+                    <input required type="text" placeholder="Country" value={country} onChange={countryChange} ></input>
+                    <input id='create-listing-bottom-input' required type="url" placeholder="Image Link" value={imageUrl} onChange={imageUrlChange}></input>
+                    <button id='signup-submit-button' type="submit" disabled={disableSubmit}>Submit Changes</button>
+                </form>
+            </div>
+            </div>
+        </div>
+    </>
     )
 }

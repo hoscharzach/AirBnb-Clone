@@ -8,6 +8,7 @@
 .entire-modal-wrapper * {
     box-sizing: border-box;
 }
+
 h3 {
     font-size: 22px;
     margin: 0px;
@@ -21,7 +22,6 @@ h3 {
     flex-direction: column;
     align-items: center;
 }
-
 
 .modal-header {
     display: flex;

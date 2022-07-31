@@ -11,7 +11,7 @@ import SpotDisplay from './components/SpotDisplay'
 import SpotIndex from './components/SpotIndex';
 import MangageListings from './components/Profile/ProfilePage';
 import * as reviewActions from './store/reviews'
-import HostForm from './components/NewSpotForm';
+import HostForm from './components/NewSpotForm'
 
 
 function App() {
