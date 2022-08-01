@@ -5,3 +5,17 @@ This is my full stack AirBnB clone project. Created using node, express, sequeli
 You can read, create, update and delete data about all locations, users, reviews, images, and bookings (depending on authorization that is).
 
 The backend was made with node and express, and the frontend was made using react-redux.
+
+Technologeis used:
+
+- SQLite3
+- Sequelize
+- Postgres
+- JavaScript
+- HTML
+- CSS
+- Node.js
+- Express.js
+- React
+- Redux
+- Heroku
