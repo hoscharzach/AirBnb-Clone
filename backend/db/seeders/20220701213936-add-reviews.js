@@ -39,6 +39,12 @@ module.exports = {
         userId: 1,
         spotId: 3, // altus owned by 3
       },
+      {
+        content: "Beautiful park, highly recommend checking this place out!",
+        stars: 1,
+        userId: 1,
+        spotId: 6, // yellowstone owned by 3
+      },
     ])
   },
 
