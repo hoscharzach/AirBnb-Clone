@@ -6,7 +6,7 @@ You can read, create, update and delete data about all locations, users, reviews
 
 The backend was made with node and express, and the frontend was made using react-redux.
 
-Technologeis used:
+Technologies used:
 
 - SQLite3
 - Sequelize
