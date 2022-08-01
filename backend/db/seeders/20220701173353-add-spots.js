@@ -5,7 +5,7 @@ module.exports = {
     await queryInterface.bulkInsert('Spots', [
       {
         ownerId: 1,
-        address: "123 Disney Lane",
+        address: "456 Python Lane",
         city: "San Francisco",
         state: "California",
         country: "United States of America",
@@ -30,7 +30,7 @@ module.exports = {
         previewImage: "https://mediaim.expedia.com/localexpert/459711/39b0311d-043d-4aaa-93c7-d0e0dde7eb6b.jpg?impolicy=resizecrop&rw=1005&rh=565"
       },
       {
-        ownerId: 1,
+        ownerId: 3,
         address: "Altus Plateau",
         city: "Mount",
         state: "Gelmir",
@@ -43,7 +43,7 @@ module.exports = {
         previewImage: "https://www.gamespot.com/a/uploads/scale_super/1647/16470614/3950788-eldenringburntminorerdtree.jpg"
       },
       {
-        ownerId: 2,
+        ownerId: 1,
         address: "301 Main St",
         city: "Graysville",
         state: "Alabama",
@@ -57,7 +57,7 @@ module.exports = {
 
       },
       {
-        ownerId: 3,
+        ownerId: 2,
         address: "1331 Pennsylvania Avenue",
         city: "Washington",
         state: "DC",
@@ -72,7 +72,7 @@ module.exports = {
       },
       {
         // id: 2,
-        ownerId: 1,
+        ownerId: 3,
         address: "2 Officers Row",
         city: "Yellowstone Park",
         state: "Wyoming",

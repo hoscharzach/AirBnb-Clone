@@ -7,37 +7,37 @@ module.exports = {
         content: "Here's a review of Disney World. It was pretty great. Went on Space Mountain",
         stars: 5,
         userId: 1,
-        spotId: 2,
+        spotId: 2, // disney owned by 2
       },
       {
         content: "Here's a review of App Academy: Very stressful, but very fun. Learned a lot.",
-        stars: 4.6,
+        stars: 4,
         userId: 2,
-        spotId: 1,
+        spotId: 1, // app owned by 1
       },
       {
         content: "Great experience, highly recommend this place.",
         stars: 5,
         userId: 3,
-        spotId: 1,
+        spotId: 1, // app owned by 1
       },
       {
         content: "Here's a review of Disney World: Hated it, was straight up terrible. Seagull stole my lunch.",
         stars: 1,
-        userId: 2,
-        spotId: 2,
+        userId: 3,
+        spotId: 2, // disney owned by 2
       },
       {
-        content: "Went to Disney World to see Donald Duck, he wasn't there because he had food poisoning or something. The food was overpriced, but at least they had chicken.",
-        stars: 3,
-        userId: 3,
-        spotId: 2,
+        content: "There was a dog at the top of the mountain. 'nuff said.",
+        stars: 5,
+        userId: 2,
+        spotId: 3, // altus owned by 3
       },
       {
         content: "Thought the slicy rolling coffins thing was just a gag, but no those things are DANGEROUS. Avoid this place at all costs, I don't even know how this listing is legal...",
         stars: 1,
-        userId: 2,
-        spotId: 3,
+        userId: 1,
+        spotId: 3, // altus owned by 3
       },
     ])
   },
