@@ -5,19 +5,32 @@ import './reviewcard.css'
 import icon from '../../assets/images/icons/svgexport-7.svg'
 import star from '../../assets/images/icons/svgexport-14.svg'
 
-export default function ReviewCard ({review}) {
+export default function ReviewCard ({review, from}) {
     const sessionUser = useSelector(state => state.session.user)
+    const allSpots = useSelector(state => state.spots.normalizedSpots)
     // const reviews = useSelector(state => state.reviews.normalizedReviews)
 
     let reviewButtons
-    if (sessionUser?.id === review?.userId) {
+    if (from === 'profile') {
+        const spotName = Object.values(allSpots).find(el => el.id === review.spotId)?.name
+        reviewButtons = (
+            <div>
+               Location:
+               <br></br>
+               {spotName}
+            </div>
+        )
+    }
+    else if (sessionUser?.id === review?.userId) {
         reviewButtons = (
             <>
             <EditReviewModal review={review} />
             <DeleteReviewModal review={review} />
             </>
         )
-    } else {
+    }
+
+    else {
         reviewButtons = (
             <button className='place-holder-button'></button>
         )

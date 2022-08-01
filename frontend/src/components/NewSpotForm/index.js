@@ -28,13 +28,15 @@ export default function HostForm () {
         if (name.length > 20) errors.push('Name must be less than 20 characters')
         if (description.length < 5) errors.push('Description must be at least 5 characters')
         if (address.length < 3) errors.push('Address must be at least 3 characters')
+        if (price > 100000) errors.push('Price must be less than $100,000')
+        if (imageUrl.length > 150) errors.push('Image url is too long')
 
         setErrors(errors)
         if (errors.length > 0 && hasSubmitted === true) {
             setDisableSubmit(true)
         } else setDisableSubmit(false)
 
-}, [name, description, address, city, state, country])
+}, [name, description, address, city, state, country, price, imageUrl])
 
     const reset = () => {
         setErrors([])
@@ -67,6 +69,7 @@ export default function HostForm () {
             }
 
             const spotId = await dispatch(spotActions.thunkCreateSpot(payload))
+
             reset()
             history.push(`/spots/${spotId}`)
 
@@ -98,13 +101,13 @@ export default function HostForm () {
         <h1 className='host-form-title'>Create New Listing</h1>
             <form className='create-listing-form' onSubmit={onSubmit}>
                 <input id='create-listing-top-input' required type="text" minLength="5" maxLength="20" placeholder="Name" value={name} onChange={nameChange} ></input>
-                <input type="text" minLength="5" required className='description-field' placeholder="Description" value={description} onChange={descriptionChange} ></input>
-                <input type="number" required placeholder="Price" value={price} onChange={priceChange}></input>
-                <input required type="text" placeholder="Address" minLength="3" value={address} onChange={addressChange}></input>
-                <input required type="text" placeholder="City" value={city} onChange={cityChange}></input>
-                <input required type="text" placeholder="State" value={state} onChange={stateChange} ></input>
-                <input required type="text" placeholder="Country" value={country} onChange={countryChange} ></input>
-                <input id='create-listing-bottom-input' required type="text" placeholder="https://image.url" value={imageUrl} onChange={imageUrlChange}></input>
+                <input type="text" minLength="5" maxLength="200" required className='description-field' placeholder="Description" value={description} onChange={descriptionChange} ></input>
+                <input type="number" min="0" max="200000" required placeholder="Price" value={price} onChange={priceChange}></input>
+                <input required type="text" maxLength="150" placeholder="Address" minLength="3" value={address} onChange={addressChange}></input>
+                <input required type="text" maxLength="50" placeholder="City" value={city} onChange={cityChange}></input>
+                <input required type="text" maxLength="50" placeholder="State" value={state} onChange={stateChange} ></input>
+                <input required type="text" maxLength="40" placeholder="Country" value={country} onChange={countryChange} ></input>
+                <input id='create-listing-bottom-input' maxLength="150" required type="text" placeholder="https://image.url" value={imageUrl} onChange={imageUrlChange}></input>
                 <button disabled={disableSubmit} type='submit' id='create-new-listing-button'>Create Listing</button>
             </form>
         </div>

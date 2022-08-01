@@ -8,11 +8,11 @@ import * as spotActions from '../../store/spots'
 
 export default function SpotIndex () {
     const spots = useSelector(state => state.spots.normalizedSpots)
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
-    useEffect(() => {
-        dispatch(spotActions.thunkLoadAllSpots())
-      },[dispatch])
+    // useEffect(() => {
+    //     dispatch(spotActions.thunkLoadAllSpots())
+    //   },[dispatch])
 
     return (
         <div className="spot-display-container">

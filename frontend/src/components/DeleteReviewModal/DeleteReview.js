@@ -18,7 +18,6 @@ export default function DeleteReview ({setShowModal, review}) {
           );
 
         if (res && errors.length === 0) {
-            // window.alert("Review successfully deleted")
             setShowModal(false)
         }
     }

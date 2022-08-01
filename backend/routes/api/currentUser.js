@@ -58,7 +58,7 @@ const validateSpot = [
       .exists({checkFalsy:true})
       .withMessage('Description is required'),
     check('price')
-      .exists({checkFalsy:true})
+      // .exists({checkFalsy:true})
       .isFloat()
       .withMessage('Price per day is required'),
     handleValidationErrors

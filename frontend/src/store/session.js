@@ -1,10 +1,5 @@
 import { csrfFetch } from "./csrf"
 
-// const LOGIN = 'users/login'
-// const LOGOUT = 'users/logout'
-// const RESTORE = 'users/restore'
-// const SIGNUP = 'users/signup'
-
 const SET_USER = 'user/set'
 const DELETE_USER = 'user/delete'
 
@@ -34,7 +29,6 @@ export const thunkSignup = (body) => async dispatch => {
         body: JSON.stringify(body)
     })
         const data = await response.json()
-        // console.log(data)
         dispatch(setUser(data.returnUser))
         return data
 

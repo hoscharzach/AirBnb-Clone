@@ -4,6 +4,9 @@ import './spot-cards.css'
 import star from '../../assets/images/icons/svgexport-14.svg'
 import EditListingModal from "../EditSpotModal"
 import DeleteListingModal from "../DeleteListingModal"
+import { useEffect } from "react"
+import { useRadioGroup } from "@mui/material"
+
 
 export default function SpotCard({spotId, spot, type}) {
 

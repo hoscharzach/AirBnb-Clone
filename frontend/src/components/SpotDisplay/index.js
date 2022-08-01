@@ -10,13 +10,14 @@ import star from '../../assets/images/icons/svgexport-14.svg'
 import avatar from '../../assets/images/icons/svgexport-7.svg'
 
 export default function SpotDisplay () {
-    // const dispatch = useDispatch()
     const { spotId } = useParams()
-
     const sessionUser = useSelector(state => state.session.user)
-
     const spot = useSelector(state => state.spots.normalizedSpots[Number(spotId)])
-    const owner = spot?.['Owner.firstName']
+
+    let owner
+    if (spot) {
+       owner = spot['Owner.firstName']
+    }
 
     const allReviews = useSelector(state => state.reviews.normalizedReviews)
     const reviews = Object.values(allReviews).filter(review => review?.spotId === spot?.id)
