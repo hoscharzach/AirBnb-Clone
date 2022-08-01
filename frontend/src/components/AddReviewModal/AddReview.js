@@ -7,7 +7,7 @@ export default function AddReview ({user, spot, setShowModal }) {
     const dispatch = useDispatch()
 
     const [errors, setErrors] = useState([])
-    const [stars, setStars] = useState(5)
+    const [stars, setStars] = useState('')
     const [content, setContent] = useState('')
     const [disableSubmit, setDisableSubmit] = useState(false)
     const [hasSubmitted, setHasSubmitted] = useState(false)
@@ -17,9 +17,9 @@ export default function AddReview ({user, spot, setShowModal }) {
       }
 
     useEffect(() => {
-        console.log(content)
         const errors = []
-        if (stars < 1 || stars > 5) errors.push('Stars must be between 1 and 5')
+        const validRatings = ['1','2','3','4','5']
+        if (!validRatings.includes(stars)) errors.push('Rating must be whole number between 1 and 5')
         if (content.length < 10) errors.push('Review must be at least 10 characters')
 
         setErrors(errors)
@@ -80,7 +80,7 @@ export default function AddReview ({user, spot, setShowModal }) {
                     <form className='create-listing-form'>
 
                         <input id='create-listing-top-input' type="text" required className='top-input' placeholder="Review (minimum 10 characters)" value={content} onChange={contentChange} ></input>
-                        <input id='create-listing-bottom-input' type="number" min="1" max="5" className='bottom-input' maxLength="1" required placeholder="Rating (1-5)" value={stars} onChange={starsChange}></input>
+                        <input id='create-listing-bottom-input'  type="number" className='bottom-input' maxLength={1} required placeholder="Rating (1-5)" value={stars} onChange={starsChange}></input>
                         <button type="submit" id='submit-review-button' disabled={disableSubmit} onClick={onSubmit} >Leave Review</button>
                     </form>
 

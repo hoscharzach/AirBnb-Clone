@@ -75,11 +75,10 @@ export const thunkCreateReview = (review) => async dispatch => {
 
 export const thunkLoadReviews = () => async dispatch => {
     const response = await csrfFetch('/api/reviews')
+    const allReviews = await response.json()
+        dispatch(loadReviews(allReviews))
+        return response
 
-    if (response) {
-        const allReviews = await response.json()
-        return dispatch(loadReviews(allReviews))
-    } else throw response
 }
 const initialState = {normalizedReviews: {}}
 
@@ -96,15 +95,14 @@ export function reviewsReducer (state = initialState, action) {
             return newState
         case POST:
             newState = structuredClone(state)
-            newState.normalizedReviews[action.review.id] =
-            action.review
+            newState.normalizedReviews[action.review.id] = action.review
             return newState
         case LOAD:
-            newState = structuredClone(state)
-            action.reviews.forEach(review => {
-                newState.normalizedReviews[review.id] = review
+            const test = {normalizedReviews: {}}
+                action.reviews.forEach(review => {
+                test.normalizedReviews[review.id] = review
             })
-            return newState
+            return test
         default:
             return state
     }

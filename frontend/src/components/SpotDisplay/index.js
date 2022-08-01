@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import AddReviewModal from "../AddReviewModal"
@@ -8,34 +8,37 @@ import ReviewCard from "../ReviewCard"
 import './spot-display.css'
 import star from '../../assets/images/icons/svgexport-14.svg'
 import avatar from '../../assets/images/icons/svgexport-7.svg'
-import * as spotActions from '../../store/spots'
-
 
 export default function SpotDisplay () {
-    const dispatch = useDispatch()
     const { spotId } = useParams()
     const sessionUser = useSelector(state => state.session.user)
     const spot = useSelector(state => state.spots.normalizedSpots[Number(spotId)])
-    const owner = spot?.['Owner.firstName']
-    // console.log(spot)
 
-    useEffect(() => {
-        dispatch(spotActions.thunkLoadAllSpots())
-    },[dispatch])
+    let owner
+    if (spot) {
+       owner = spot['Owner.firstName']
+    }
 
     const allReviews = useSelector(state => state.reviews.normalizedReviews)
     const reviews = Object.values(allReviews).filter(review => review?.spotId === spot?.id)
-    console.log(reviews)
 
-    let userReview
-    let userOwnsSpot
-
-    if (sessionUser) {
-       userOwnsSpot = spot?.ownerId === sessionUser?.id
-       userReview = reviews.find(review => review?.userId === sessionUser?.id)
-    }
-
+    const [userOwnsSpot, setUserOwnsSpot] = useState(false)
     const [showAddReview, setShowAddReview] = useState(true)
+
+    // every time sessionUser or current spot state change, check if sessionUser owns the spot
+    useEffect(() => {
+        if (sessionUser && spot) {
+            sessionUser.id === spot.ownerId ? setUserOwnsSpot(true) : setUserOwnsSpot(false)
+        }
+    }, [sessionUser, spot])
+
+    // check for reviews that exist by user
+    useEffect(() => {
+        if (reviews && sessionUser) {
+            const userReview = reviews.find(review => review?.userId === sessionUser?.id)
+            userReview !== undefined ? setShowAddReview(false) : setShowAddReview(true)
+        }
+    }, [sessionUser, reviews])
 
     let avgStarRating
     let numReviews
@@ -49,13 +52,12 @@ export default function SpotDisplay () {
         if(avgStarRating === Math.floor(avgStarRating)) avgStarRating += ".0"
     }
 
-    // check for reviews that exist by user
-    useEffect(() => {
-        userReview !== undefined ? setShowAddReview(false) : setShowAddReview(true)
-    }, [userReview])
 
-    if (!spot) return null
-
+    if (!spot) return (
+        <div style={{display: 'flex', justifyContent: 'center', height: '500px', alignItems: 'center'}}>
+            <h1>Spot doesn't exit</h1>
+        </div>
+    )
 
     //determine what reviews header will look like, depending on if user owns spot or has already left a review
     let reviewsHeader
@@ -71,7 +73,7 @@ export default function SpotDisplay () {
         reviewsHeader = (
             <div className="spot-display-review-header">
                 <h2>No Reviews</h2>
-                <AddReviewModal user={sessionUser} spot={spot} />
+                {!userOwnsSpot && sessionUser && <AddReviewModal user={sessionUser} spot={spot} />}
             </div>
         )
     } else {
@@ -112,6 +114,20 @@ export default function SpotDisplay () {
                         <EditListingModal spot={spot}/>
                         <DeleteListingModal redirect={'/'} spot={spot} />
                     </div>}
+                </div>
+            </div>
+            <div className="description-container">
+                <div className="inner-description-container">
+
+                    <div className="description-header">
+                        <h2>Description</h2>
+                    </div>
+                    <div>
+                        <p className="description-body">
+                            {spot.description}
+                        </p>
+                    </div>
+
                 </div>
             </div>
             <div className="spot-display-review-wrapper">

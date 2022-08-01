@@ -1,40 +1,23 @@
 import { csrfFetch } from "./csrf"
 
-const LOGIN = 'users/login'
-const LOGOUT = 'users/logout'
-const RESTORE = 'users/restore'
-const SIGNUP = 'users/signup'
+const SET_USER = 'user/set'
+const DELETE_USER = 'user/delete'
 
+export const setUser = (user) => {
+    return {
+        type: SET_USER,
+        user
+    }
+}
+
+export const deleteUser = () => {
+    return {
+        type: DELETE_USER,
+    }
+}
 
 const initialState = {
     user: null
-}
-
-export const signup = (user) => {
-    return {
-        type: SIGNUP,
-        user
-    }
-}
-
-export const login = (user) => {
-    return {
-        type: LOGIN,
-        user
-    }
-}
-
-export const logout = () => {
-    return {
-        type: LOGOUT
-    }
-}
-
-export const restore = (user) => {
-    return {
-        type: RESTORE,
-        user
-    }
 }
 
 export const thunkSignup = (body) => async dispatch => {
@@ -45,35 +28,24 @@ export const thunkSignup = (body) => async dispatch => {
         },
         body: JSON.stringify(body)
     })
-
-    if (response) {
         const data = await response.json()
-        const { returnUser:user } = data
-        dispatch(signup(user))
+        dispatch(setUser(data.returnUser))
         return data
-    } else throw response
+
 }
 
 export const thunkRestoreSession = () => async dispatch => {
     const response = await csrfFetch('/api/session')
-
-    if (response) {
-        const user = await response.json()
-        if (user.message) return user.message
-        else {
-            return dispatch(restore(user))
-        }
-    }
+    const data = await response.json()
+    return dispatch(setUser(data.user))
 }
 
 export const thunkLogout = () => async dispatch => {
     const response = await csrfFetch('/api/session', {
         method: 'DELETE'
     })
-
-    if (response) {
-        dispatch(logout())
-    } else throw response
+   dispatch(deleteUser())
+   return response
 }
 
 
@@ -88,12 +60,9 @@ export const thunkLogin = (credentials) => async dispatch => {
             password: credentials.password
         })
     })
-
-    if (response) {
         const data = await response.json()
-        dispatch(login(data))
-        return data
-    } else throw response
+        dispatch(setUser(data.safeUser))
+        return response
 }
 
 
@@ -101,32 +70,14 @@ export const thunkLogin = (credentials) => async dispatch => {
 export const sessionReducer = (state = initialState, action) => {
     let newState
     switch (action.type) {
-        case SIGNUP:
-            newState = {...initialState}
-            newState.user = {
-                id: action.user.id,
-                email: action.user.email,
-                username: action.user.username
-            }
-            return newState
-        case RESTORE:
-            newState = {...initialState}
-            newState.user = {
-                id: action.user.user.id,
-                email: action.user.user.email,
-                username: action.user.user.username
-            }
-            return newState
-        case LOGOUT:
-            return {...initialState}
-        case LOGIN:
-            newState = {...state}
-            newState.user = {
-                id: action.user.safeUser.id,
-                email: action.user.safeUser.email,
-                username: action.user.safeUser.username
-            }
-            return newState
+            case SET_USER:
+                newState = structuredClone(state)
+                newState.user = action.user
+                return newState
+            case DELETE_USER:
+                newState = structuredClone(state)
+                newState.user = null
+                return newState
         default:
             return state
     }
