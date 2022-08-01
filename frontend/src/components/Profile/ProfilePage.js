@@ -13,9 +13,9 @@ import { thunkLoadReviews } from "../../store/reviews";
 export default function MangageListings () {
     const dispatch = useDispatch()
 
-    // useEffect(() => {
-    //     dispatch(thunkLoadReviews())
-    // }, [dispatch])
+    useEffect(() => {
+        dispatch(thunkLoadReviews())
+    }, [dispatch])
 
     const sessionUser = useSelector(state => state.session.user)
     const allSpots = useSelector(state => state.spots.normalizedSpots)
