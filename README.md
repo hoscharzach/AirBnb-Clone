@@ -4,8 +4,6 @@ This is my full stack AirBnB clone project. Users can create listings for others
 
 You can read, create, update and delete data about all locations, users, reviews, images, and bookings (depending on authorization that is).
 
-The backend was made with node and express, and the frontend was made using react-redux.
-
 Technologies used:
 
 - SQLite3
@@ -19,3 +17,5 @@ Technologies used:
 - React
 - Redux
 - Heroku
+
+![Home Page](https://i.imgur.com/26POWTW.png)
