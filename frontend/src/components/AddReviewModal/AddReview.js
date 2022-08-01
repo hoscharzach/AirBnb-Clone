@@ -19,7 +19,7 @@ export default function AddReview ({user, spot, setShowModal }) {
     useEffect(() => {
         const errors = []
         const validRatings = ['1','2','3','4','5']
-        if (!validRatings.includes(stars)) errors.push('Stars must be whole number between 1 and 5')
+        if (!validRatings.includes(stars)) errors.push('Rating must be whole number between 1 and 5')
         if (content.length < 10) errors.push('Review must be at least 10 characters')
 
         setErrors(errors)
