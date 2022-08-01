@@ -18,4 +18,15 @@ Technologies used:
 - Redux
 - Heroku
 
+
+## The Landing Page
+
 ![Home Page](https://i.imgur.com/26POWTW.png)
+
+Here, users can see all of the current listings or click on the profile icon in the top right to sign up or log in. After doing so they can check out their profile or create a listing of their own. Their profile contains a reference to all of their own listings and reviews for quick editing or deleting.
+
+## The more details page
+
+![More details page](https://i.imgur.com/f3PaRgF.png)
+
+Here is where users can see all reviews and more details of a spot.
