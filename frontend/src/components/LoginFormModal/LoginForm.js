@@ -17,7 +17,7 @@ function LoginForm({ setShowModal, showModal }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-    return dispatch(sessionActions.thunkLogin({ credential, password })).catch(
+    dispatch(sessionActions.thunkLogin({ credential, password })).catch(
       async (res) => {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);

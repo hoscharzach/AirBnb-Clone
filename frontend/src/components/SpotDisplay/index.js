@@ -116,6 +116,20 @@ export default function SpotDisplay () {
                     </div>}
                 </div>
             </div>
+            <div className="description-container">
+                <div className="inner-description-container">
+
+                    <div className="description-header">
+                        <h2>Description</h2>
+                    </div>
+                    <div>
+                        <p className="description-body">
+                            {spot.description}
+                        </p>
+                    </div>
+
+                </div>
+            </div>
             <div className="spot-display-review-wrapper">
                 {reviewsHeader}
                 <div className="spot-reviews-display">
