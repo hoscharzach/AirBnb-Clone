@@ -16,7 +16,7 @@ export default function EditReview ({review, setShowModal}) {
         const errors = []
         const validStars = ['1', '2', '3', '4', '5']
             if (content.length < 10) errors.push('Review must be at least 10 characters')
-            if (!validStars.includes(stars)) errors.push('Rating must be a whole number')
+            if (!validStars.includes(String(stars))) errors.push('Rating must be a whole number')
             setErrors(errors)
 
             if (errors.length > 0 && hasSubmitted === true) {
