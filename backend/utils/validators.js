@@ -3,45 +3,35 @@ const { handleValidationErrors} = require('../utils/validation')
 
 exports.validateSpot = [
     check('address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price')
-      .exists({checkFalsy: true})
-      .withMessage('Missing a value.'),
+        .exists({checkFalsy: true})
+        .withMessage('Missing a value.'),
     check('address')
-      .isAlphanumeric()
-      .withMessage('Address must be letters or numbers')
-      .isLength({min: 3, max: 15})
-      .withMessage('Address must be between 3 and 15 characters'),
+        .isAlphanumeric()
+        .withMessage('Address must be letters or numbers')
+        .isLength({min: 3, max: 15})
+        .withMessage('Address must be between 3 and 15 characters'),
     check('city')
-      .isAlpha()
-      .withMessage('City must only contain letters')
-      .isLength({ min: 3, max: 15})
-      .withMessage('City must be between 3 and 15 characters'),
-    //   .exists({checkFalsy:true})
-    //   .withMessage('City is required'),
-    // check('state')
-    //   .exists({checkFalsy: true})
-    //   .withMessage('State is required'),
-    // check('country')
-    // //   .exists({checkFalsy: true})
-    //   .withMessage('State is required'),
+        .isAlpha()
+        .withMessage('City must only contain letters')
+        .isLength({ min: 3, max: 15})
+        .withMessage('City must be between 3 and 15 characters'),
     check('lat')
-    //   .exists({checkFalsy: true})
-      .isFloat()
-      .withMessage('Latitude is not valid'),
+        .isFloat()
+        .withMessage('Latitude is not valid'),
     check('lng')
-    //   .exists({checkFalsy: true})
-      .isFloat()
-      .withMessage('Longitude is not valid'),
+        .isFloat()
+        .withMessage('Longitude is not valid'),
     check('name')
-    //   .exists({checkFalsy: true})
-      .isLength({ max: 20})
-      .withMessage('Name must be less than 20 characters'),
-    // check('description')
-    //   .exists({checkFalsy:true})
-    //   .withMessage('Description is required'),
+        .isLength({ min:5, max: 20})
+        .withMessage('Name must be between 5 and 20 characters.')
+        .isAlphanumeric()
+        .withMessage('Name cannot contain symbols'),
+    check('description')
+        .isLength({min: 10, max: 200})
+        .withMessage('Description cannot be more than 200 characters.'),
     check('price')
-      // .exists({checkFalsy:true})
-      .isFloat({ min: 1 })
-      .withMessage('Price must be a number greater than 0.'),
+        .isFloat({ min: 1 })
+        .withMessage('Price must be a number greater than 0.'),
     handleValidationErrors
   ];
 
