@@ -90,7 +90,7 @@ export default function EditListing ({spot, setShowModal}) {
                 <form className='create-listing-form' onSubmit={onSubmit}>
                     <input id='create-listing-top-input' required type="text" placeholder="Name" value={name} minLength="5" maxLength="20" onChange={nameChange} ></input>
                     <input types="text" required className='description-field' placeholder="Description" value={description} onChange={descriptionChange} ></input>
-                    <input type="number" required placeholder="Price" value={price} onChange={priceChange}></input>
+                    <input type="number" min="0" required placeholder="Price" value={price} onChange={priceChange}></input>
                     <input required type="text" placeholder="Address" value={address} onChange={addressChange}></input>
                     <input required type="text" placeholder="City" value={city} onChange={cityChange}></input>
                     <input required type="text" placeholder="State" value={state} onChange={stateChange} ></input>

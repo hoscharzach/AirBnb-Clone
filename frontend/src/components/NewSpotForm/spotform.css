@@ -3,6 +3,16 @@
     margin: 20px 0px;
 }
 
+.host-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.host-form-errors {
+    margin-top: 30px;
+}
+
 .create-listing-form input {
     padding: 0px 15px;
     border-top: 0px;

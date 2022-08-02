@@ -32,7 +32,7 @@ const validateBooking = [
 const validateSpot = [
     check('address')
       .exists({checkFalsy: true})
-      .withMessage('Street address is required'),
+      .withMessage('Address is required'),
     check('city')
       .exists({checkFalsy:true})
       .withMessage('City is required'),
@@ -52,15 +52,16 @@ const validateSpot = [
       .withMessage('Longitude is not valid'),
     check('name')
       .exists({checkFalsy: true})
-      .isLength({ max: 50})
+      .isLength({ max: 20})
       .withMessage('Name must be less than 20 characters'),
     check('description')
       .exists({checkFalsy:true})
       .withMessage('Description is required'),
     check('price')
+      .isNumeric()
       // .exists({checkFalsy:true})
-      .isFloat()
-      .withMessage('Price per day is required'),
+      .isFloat({ min: 0 })
+      .withMessage('Price must be a number greater than 0.'),
     handleValidationErrors
   ];
 
