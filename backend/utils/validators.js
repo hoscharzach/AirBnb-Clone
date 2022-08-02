@@ -2,41 +2,45 @@ const {check, query } = require('express-validator')
 const { handleValidationErrors} = require('../utils/validation')
 
 exports.validateSpot = [
-    check('address')
+    check('address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price')
       .exists({checkFalsy: true})
-      .withMessage('Address is required')
+      .withMessage('Missing a value.'),
+    check('address')
       .isAlphanumeric()
       .withMessage('Address must be letters or numbers')
       .isLength({min: 3, max: 15})
       .withMessage('Address must be between 3 and 15 characters'),
     check('city')
-      .exists({checkFalsy:true})
-      .withMessage('City is required'),
-    check('state')
-      .exists({checkFalsy: true})
-      .withMessage('State is required'),
-    check('country')
-      .exists({checkFalsy: true})
-      .withMessage('State is required'),
+      .isAlpha()
+      .withMessage('City must only contain letters')
+      .isLength({ min: 3, max: 15})
+      .withMessage('City must be between 3 and 15 characters'),
+    //   .exists({checkFalsy:true})
+    //   .withMessage('City is required'),
+    // check('state')
+    //   .exists({checkFalsy: true})
+    //   .withMessage('State is required'),
+    // check('country')
+    // //   .exists({checkFalsy: true})
+    //   .withMessage('State is required'),
     check('lat')
-      .exists({checkFalsy: true})
+    //   .exists({checkFalsy: true})
       .isFloat()
       .withMessage('Latitude is not valid'),
     check('lng')
-      .exists({checkFalsy: true})
+    //   .exists({checkFalsy: true})
       .isFloat()
       .withMessage('Longitude is not valid'),
     check('name')
-      .exists({checkFalsy: true})
+    //   .exists({checkFalsy: true})
       .isLength({ max: 20})
       .withMessage('Name must be less than 20 characters'),
-    check('description')
-      .exists({checkFalsy:true})
-      .withMessage('Description is required'),
+    // check('description')
+    //   .exists({checkFalsy:true})
+    //   .withMessage('Description is required'),
     check('price')
-      .isNumeric()
       // .exists({checkFalsy:true})
-      .isFloat({ min: 0 })
+      .isFloat({ min: 1 })
       .withMessage('Price must be a number greater than 0.'),
     handleValidationErrors
   ];
