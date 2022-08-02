@@ -1,88 +1,10 @@
 const express = require('express')
 const { User, Spot, Review, Image, Booking } = require('../../db/models')
 const { requireAuth, restoreUser } = require('../../utils/auth')
-const { check } = require('express-validator')
-const { handleValidationErrors} = require('../../utils/validation')
 const {Op} = require('sequelize')
 const { response } = require('express')
 const router = express.Router()
-
-const validateBooking = [
-  check('startDate')
-    .exists({checkFalsy: true})
-    .withMessage("Must provide a start date.")
-    .isDate()
-    .withMessage("Date must be in format YYYY-MM-DD")
-    .isAfter()
-    .withMessage("Date must be in the future."),
-  check('endDate')
-    .exists({checkFalsy:true})
-    .withMessage("Must provide an end date.")
-    .isDate()
-    .withMessage("Date must be in format YYYY-MM-DD")
-    .isAfter()
-    .withMessage('Past bookings cannot be created or modified')
-    .custom(async function(endDate, { req }) {
-      if (endDate < req.body.startDate) throw new Error
-    })
-    .withMessage("End date must be after start date"),
-  handleValidationErrors
-];
-
-const validateSpot = [
-    check('address')
-      .exists({checkFalsy: true})
-      .withMessage('Address is required'),
-    check('city')
-      .exists({checkFalsy:true})
-      .withMessage('City is required'),
-    check('state')
-      .exists({checkFalsy: true})
-      .withMessage('State is required'),
-    check('country')
-      .exists({checkFalsy: true})
-      .withMessage('State is required'),
-    check('lat')
-      .exists({checkFalsy: true})
-      .isFloat()
-      .withMessage('Latitude is not valid'),
-    check('lng')
-      .exists({checkFalsy: true})
-      .isFloat()
-      .withMessage('Longitude is not valid'),
-    check('name')
-      .exists({checkFalsy: true})
-      .isLength({ max: 20})
-      .withMessage('Name must be less than 20 characters'),
-    check('description')
-      .exists({checkFalsy:true})
-      .withMessage('Description is required'),
-    check('price')
-      .isNumeric()
-      // .exists({checkFalsy:true})
-      .isFloat({ min: 0 })
-      .withMessage('Price must be a number greater than 0.'),
-    handleValidationErrors
-  ];
-
-  const validateReview = [
-    check('content')
-      .exists({checkFalsy: true})
-      .isLength({ min: 10 })
-      .withMessage('Review text must be at least 10 characters'),
-    check('stars')
-      .exists({checkFalsy:true})
-      .isFloat({min: 1, max: 5})
-      .withMessage('Stars must be a number between 1-5'),
-    handleValidationErrors
-  ];
-
-  const validateImage = [
-    check('imageUrl')
-    .exists({checkFalsy:true})
-    .withMessage("Must provide image URL."),
-    handleValidationErrors
-  ]
+const { validateSpot, validateQuery, validateBooking, validateReview, validateImage} = require('../../utils/validators')
 
 router.delete('/images/:imageId', requireAuth, async (req, res, next) => {
   const image = await Image.findByPk(req.params.imageId)
