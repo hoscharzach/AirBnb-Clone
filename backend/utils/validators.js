@@ -4,7 +4,7 @@ const { handleValidationErrors} = require('../utils/validation')
 exports.validateSpot = [
     check('address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price')
         .exists({checkFalsy: true})
-        .withMessage('Missing a value.'),
+        .withMessage('All values are required.'),
     check('address')
         .isAlphanumeric()
         .withMessage('Address must be letters or numbers')
@@ -32,9 +32,19 @@ exports.validateSpot = [
     check('price')
         .isFloat({ min: 1 })
         .withMessage('Price must be a number greater than 0.'),
-    handleValidationErrors
+        handleValidationErrors
   ];
 
+ exports.validateLogin = [
+    check('credential')
+      .exists({ checkFalsy: true })
+      .notEmpty()
+      .withMessage('Please provide a valid email or username.'),
+    check('password')
+      .exists({ checkFalsy: true })
+      .withMessage('Please provide a password.'),
+    handleValidationErrors
+  ];
   exports.validateBooking = [
     check('startDate')
     .exists({checkFalsy: true})
@@ -89,3 +99,28 @@ exports.validateQuery = [
     .withMessage("Must provide image URL."),
     handleValidationErrors
   ]
+
+  exports.validateSignup = [
+    check('email')
+      .exists({ checkFalsy: true })
+      .isEmail()
+      .withMessage('Please provide a valid email.'),
+    check('username')
+      .exists({ checkFalsy: true })
+      .isLength({ min: 4, max: 20 })
+      .withMessage('Please provide a username between 4 and 20 characters.'),
+    check('username')
+      .isAlphanumeric()
+      .withMessage("Username must consist of letters and numbers"),
+    check('firstName')
+      .exists({checkFalsy:true})
+      .withMessage('First name is required.'),
+    check('lastName')
+      .exists({checkFalsy:true})
+      .withMessage('Last name is required.'),
+    check('password')
+      .exists({ checkFalsy: true })
+      .isLength({ min: 6 })
+      .withMessage('Password must be 6 characters or more.'),
+    handleValidationErrors
+  ];

@@ -39,16 +39,14 @@ export default function AddReview ({user, spot, setShowModal }) {
             }
 
             dispatch(reviewActions.thunkCreateReview(payload))
-                .then((res) => {
-                    setShowModal(false)
+            .then(() => setShowModal(false))
+            .catch(
+                async (res) => {
+                    const data = await res.json();
+                    if (data && data.errors) {
+                        setErrors(data.errors);
+                    }
                 })
-                .catch(
-                    async (res) => {
-                        const data = await res.json();
-                        if (data && data.errors) {
-                            setErrors(data.errors);
-                        }
-                    })
 
     }
 
