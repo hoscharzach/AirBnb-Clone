@@ -43,6 +43,8 @@ export default function EditListing ({spot, setShowModal}) {
                 description,
                 price,
                 address,
+                lat: 1.00,
+                lng: 1.00,
                 city,
                 state,
                 country,

@@ -28,10 +28,10 @@ exports.validateSpot = [
         .withMessage('Name cannot contain symbols'),
     check('description')
         .isLength({min: 10, max: 200})
-        .withMessage('Description cannot be more than 200 characters.'),
+        .withMessage('Description must be between 10 and 200 characters.'),
     check('price')
         .isFloat({ min: 1 })
-        .withMessage('Price must be a number greater than 0.'),
+        .withMessage('Price must be a number greater than 1.'),
         handleValidationErrors
   ];
 

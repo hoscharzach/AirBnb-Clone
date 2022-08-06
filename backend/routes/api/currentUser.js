@@ -249,7 +249,7 @@ router.delete('/spots/:spotId', requireAuth, async (req, res, next) => {
 
   if (req.user.id !== spot?.ownerId) {
     const err = new Error("You are not authorized to delete this spot.")
-    err.erros = [err.message]
+    err.errors = [err.message]
     err.status = 401
     return next(err)
   }
@@ -261,17 +261,38 @@ router.delete('/spots/:spotId', requireAuth, async (req, res, next) => {
 router.put('/spots/:spotId', [requireAuth, validateSpot], async (req, res, next) => {
   const currUserId = req.user.id
   const editSpot = await Spot.findByPk(req.params.spotId)
-  if (!editSpot) return res.json({ message: "Spot couldn't be found", statusCode: 404})
 
-  const { address, city ,state, country, lat, lng, name, description, price, previewImage } = req.body
+  if (!editSpot) {
+    const err = new Error('Spot does not exist')
+    err.errors = [err.message]
+    err.status = 404
+    return next(err)
+  }
 
-  if (currUserId === editSpot.ownerId) {
+  if (currUserId !== editSpot.ownerId) {
+    const err = new Error('You are not authorized to edit this spot.')
+    err.status = 401
+    err.errors = [err.message]
+    return next(err)
+  }
+
+  const {
+    address,
+    city,
+    state,
+    country,
+    name,
+    description,
+    price,
+    previewImage
+   } = req.body
+
     editSpot.address = address
     editSpot.city = city
     editSpot.state = state
     editSpot.country = country
-    editSpot.lat = lat
-    editSpot.lng = lng
+    // editSpot.lat = lat
+    // editSpot.lng = lng
     editSpot.name = name
     editSpot.description = description
     editSpot.price = price
@@ -279,10 +300,6 @@ router.put('/spots/:spotId', [requireAuth, validateSpot], async (req, res, next)
 
     await editSpot.save()
     return res.json(editSpot)
-
-  } else {
-    return res.status(401).json({ stausCode: 401, message: "You cannot edit other user's spots."})
-  }
 
 })
 
