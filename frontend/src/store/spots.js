@@ -43,14 +43,11 @@ export const thunkCreateSpot = (payload) => async dispatch => {
         body: JSON.stringify(payload)
     })
 
-    if (response) {
+    if (response.ok) {
         const data = await response.json()
-        if (data.id) {
-            dispatch(createSpot(data))
-            return data.id
-        }
-
-    }
+        dispatch(createSpot(data))
+        return data.id
+    } else throw response
 }
 
 export const thunkDeleteSpot = (id) => async dispatch => {

@@ -1,5 +1,5 @@
 const express = require('express')
-const {Review, Image, User} = require('../../db/models')
+const {Review, Image, User, Spot} = require('../../db/models')
 
 const router = express.Router()
 
@@ -11,6 +11,17 @@ router.get('/', async (req, res) => {
         ]
     })
     return res.json(reviews)
+})
+
+router.get('/test', async (req, res) => {
+    const spots = await Spot.findAll({
+        include: {
+            model: Review
+        }
+    })
+    // const reviews = await spots.getReviews()
+
+    res.json(spots)
 })
 
 module.exports = router

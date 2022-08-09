@@ -1,87 +1,10 @@
 const express = require('express')
 const { User, Spot, Review, Image, Booking } = require('../../db/models')
 const { requireAuth, restoreUser } = require('../../utils/auth')
-const { check } = require('express-validator')
-const { handleValidationErrors} = require('../../utils/validation')
 const {Op} = require('sequelize')
 const { response } = require('express')
 const router = express.Router()
-
-const validateBooking = [
-  check('startDate')
-    .exists({checkFalsy: true})
-    .withMessage("Must provide a start date.")
-    .isDate()
-    .withMessage("Date must be in format YYYY-MM-DD")
-    .isAfter()
-    .withMessage("Date must be in the future."),
-  check('endDate')
-    .exists({checkFalsy:true})
-    .withMessage("Must provide an end date.")
-    .isDate()
-    .withMessage("Date must be in format YYYY-MM-DD")
-    .isAfter()
-    .withMessage('Past bookings cannot be created or modified')
-    .custom(async function(endDate, { req }) {
-      if (endDate < req.body.startDate) throw new Error
-    })
-    .withMessage("End date must be after start date"),
-  handleValidationErrors
-];
-
-const validateSpot = [
-    check('address')
-      .exists({checkFalsy: true})
-      .withMessage('Street address is required'),
-    check('city')
-      .exists({checkFalsy:true})
-      .withMessage('City is required'),
-    check('state')
-      .exists({checkFalsy: true})
-      .withMessage('State is required'),
-    check('country')
-      .exists({checkFalsy: true})
-      .withMessage('State is required'),
-    check('lat')
-      .exists({checkFalsy: true})
-      .isFloat()
-      .withMessage('Latitude is not valid'),
-    check('lng')
-      .exists({checkFalsy: true})
-      .isFloat()
-      .withMessage('Longitude is not valid'),
-    check('name')
-      .exists({checkFalsy: true})
-      .isLength({ max: 50})
-      .withMessage('Name must be less than 20 characters'),
-    check('description')
-      .exists({checkFalsy:true})
-      .withMessage('Description is required'),
-    check('price')
-      // .exists({checkFalsy:true})
-      .isFloat()
-      .withMessage('Price per day is required'),
-    handleValidationErrors
-  ];
-
-  const validateReview = [
-    check('content')
-      .exists({checkFalsy: true})
-      .isLength({ min: 10 })
-      .withMessage('Review text must be at least 10 characters'),
-    check('stars')
-      .exists({checkFalsy:true})
-      .isFloat({min: 1, max: 5})
-      .withMessage('Stars must be a number between 1-5'),
-    handleValidationErrors
-  ];
-
-  const validateImage = [
-    check('imageUrl')
-    .exists({checkFalsy:true})
-    .withMessage("Must provide image URL."),
-    handleValidationErrors
-  ]
+const { validateSpot, validateQuery, validateBooking, validateReview, validateImage} = require('../../utils/validators')
 
 router.delete('/images/:imageId', requireAuth, async (req, res, next) => {
   const image = await Image.findByPk(req.params.imageId)
@@ -326,7 +249,7 @@ router.delete('/spots/:spotId', requireAuth, async (req, res, next) => {
 
   if (req.user.id !== spot?.ownerId) {
     const err = new Error("You are not authorized to delete this spot.")
-    err.erros = [err.message]
+    err.errors = [err.message]
     err.status = 401
     return next(err)
   }
@@ -338,17 +261,38 @@ router.delete('/spots/:spotId', requireAuth, async (req, res, next) => {
 router.put('/spots/:spotId', [requireAuth, validateSpot], async (req, res, next) => {
   const currUserId = req.user.id
   const editSpot = await Spot.findByPk(req.params.spotId)
-  if (!editSpot) return res.json({ message: "Spot couldn't be found", statusCode: 404})
 
-  const { address, city ,state, country, lat, lng, name, description, price, previewImage } = req.body
+  if (!editSpot) {
+    const err = new Error('Spot does not exist')
+    err.errors = [err.message]
+    err.status = 404
+    return next(err)
+  }
 
-  if (currUserId === editSpot.ownerId) {
+  if (currUserId !== editSpot.ownerId) {
+    const err = new Error('You are not authorized to edit this spot.')
+    err.status = 401
+    err.errors = [err.message]
+    return next(err)
+  }
+
+  const {
+    address,
+    city,
+    state,
+    country,
+    name,
+    description,
+    price,
+    previewImage
+   } = req.body
+
     editSpot.address = address
     editSpot.city = city
     editSpot.state = state
     editSpot.country = country
-    editSpot.lat = lat
-    editSpot.lng = lng
+    // editSpot.lat = lat
+    // editSpot.lng = lng
     editSpot.name = name
     editSpot.description = description
     editSpot.price = price
@@ -356,10 +300,6 @@ router.put('/spots/:spotId', [requireAuth, validateSpot], async (req, res, next)
 
     await editSpot.save()
     return res.json(editSpot)
-
-  } else {
-    return res.status(401).json({ stausCode: 401, message: "You cannot edit other user's spots."})
-  }
 
 })
 

@@ -1,66 +1,10 @@
 const express = require('express')
 const { Spot, User, Image, Review, Booking } = require('../../db/models')
-const sequelize = require('sequelize')
-const {check, query} = require('express-validator')
 const { requireAuth } = require('../../utils/auth')
-const { handleValidationErrors} = require('../../utils/validation')
 const {Op} = require('sequelize')
+const { validateSpot, validateBooking, validateQuery, validateReview, validateImage } = require('../../utils/validators')
 
 const router = express.Router()
-const validateReview = [
-    check('content')
-      .exists({checkFalsy: true})
-      .isLength({ min: 10 })
-      .withMessage('Review text must be at least 10 characters'),
-    check('stars')
-      .exists({checkFalsy:true})
-      .isFloat({min: 1, max: 5})
-      .withMessage('Stars must be a number between 1-5'),
-    handleValidationErrors
-  ];
-const validateBooking = [
-    check('startDate')
-    .exists({checkFalsy: true})
-    .withMessage("Must provide a start date.")
-    .isDate()
-    .withMessage("Date must be in format YYYY-MM-DD")
-    .isAfter()
-    .withMessage("Date must be in the future."),
-  check('endDate')
-    .exists({checkFalsy:true})
-    .withMessage("Must provide an end date.")
-    .isDate()
-    .withMessage("Date must be in format YYYY-MM-DD")
-    .isAfter()
-    .withMessage('Past bookings cannot be created or modified')
-    .custom(async function(endDate, { req }) {
-      if (endDate < req.body.startDate) throw new Error
-    })
-    .withMessage("End date must be after start date"),
-  handleValidationErrors
-  ];
-
-  const validateImage = [
-    check('imageUrl')
-    .exists({checkFalsy:true})
-    .withMessage("Must provide image URL."),
-    handleValidationErrors
-  ]
-
-  const validateQuery = [
-    query('page')
-    .customSanitizer(page => parseInt(page) || 1)
-    .isInt({min: 1, max: 10})
-    .withMessage("Page must be between 1 and 10."),
-    query('size')
-    .customSanitizer(size => parseInt(size) || 20)
-    .isInt({min: 1, max: 20})
-    .withMessage("Size must be between 1 and 20."),
-    query(['minLat', 'maxLat', 'minLng', 'maxLng', 'minPrice', 'maxPrice'])
-    .customSanitizer(val => parseFloat(val)),
-    handleValidationErrors
-  ]
-
 
 router.get('/', validateQuery, async (req,res) => {
     const { page, size, maxLat, minLat, minLng, maxLng, minPrice, maxPrice } = req.query

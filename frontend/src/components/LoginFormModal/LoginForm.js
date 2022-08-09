@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import './loginmodal.css'
 import x from '../../assets/images/icons/x-symbol-svgrepo-com.svg'
 
-function LoginForm({ setShowModal, showModal }) {
+function LoginForm({ setShowModal }) {
   const dispatch = useDispatch();
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
@@ -17,7 +17,8 @@ function LoginForm({ setShowModal, showModal }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-    dispatch(sessionActions.thunkLogin({ credential, password })).catch(
+    dispatch(sessionActions.thunkLogin({ credential, password }))
+    .catch(
       async (res) => {
         const data = await res.json();
         if (data && data.errors) setErrors(data.errors);
