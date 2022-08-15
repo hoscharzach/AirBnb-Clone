@@ -51,7 +51,7 @@ export default function EditListing ({spot, setShowModal}) {
                 previewImage: imageUrl
             }
 
-            await dispatch(spotActions.thunkUpdateSpot(payload))
+            dispatch(spotActions.thunkUpdateSpot(payload))
             setShowModal(false)
 
         }
