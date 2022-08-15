@@ -35,7 +35,7 @@ export default function EditReview ({review, setShowModal}) {
                 content,
                 stars
             }
-            await dispatch(reviewActions.thunkEditReview(payload))
+            dispatch(reviewActions.thunkEditReview(payload))
                 .then(() => setShowModal(false))
                 .catch(
                 async (res) => {
