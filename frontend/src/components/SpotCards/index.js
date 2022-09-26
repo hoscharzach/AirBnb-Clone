@@ -8,6 +8,8 @@ import DeleteListingModal from "../DeleteListingModal"
 
 export default function SpotCard({ spotId, spot, type }) {
 
+    // adding change here
+
     const allReviews = useSelector(state => state.reviews.normalizedReviews)
     const reviews = Object.values(allReviews).filter(review => spot.id === review.spotId)
 
