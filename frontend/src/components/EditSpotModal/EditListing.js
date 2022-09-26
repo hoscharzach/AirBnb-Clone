@@ -52,7 +52,11 @@ export default function EditListing ({spot, setShowModal}) {
             }
 
             dispatch(spotActions.thunkUpdateSpot(payload))
-            setShowModal(false)
+            .then(() => setShowModal(false))
+            .catch(async (res) => {
+                const data = await res.json();
+                if (data && data.errors) setErrors(data.errors);
+            })
 
         }
     }

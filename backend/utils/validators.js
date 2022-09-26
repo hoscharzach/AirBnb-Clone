@@ -6,7 +6,7 @@ exports.validateSpot = [
         .exists({checkFalsy: true})
         .withMessage('All values are required.'),
     check('address')
-        .isAlphanumeric()
+        .isAlphanumeric('en-US', {ignore: ' '})
         .withMessage('Address must be letters or numbers')
         .isLength({min: 3, max: 15})
         .withMessage('Address must be between 3 and 15 characters'),
