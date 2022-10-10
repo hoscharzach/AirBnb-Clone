@@ -89,21 +89,19 @@
     cursor: pointer;
 } */
 
-#profile-dropdown-wrapper {
+/* #profile-dropdown-wrapper {
     background-color: white;
     display: flex;
     position: absolute;
     flex-direction: column;
-    /* right: 0px; */
     margin-top: 10px;
-    /* margin-top: 180px; */
     border-radius: 12px;
     box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.56);
     border: 0;
     width: 200px;
-}
+} */
 
-.profile-icons-container {
+/* .profile-icons-container {
     display: flex;
     border: 1px solid #dddddd;
     border-radius: 23px;
@@ -121,8 +119,8 @@
     height: 16px;
     width: 16px;
     padding-left: 10px;
-}
-
+} */
+/*
 .user-icon {
     height: 30px;
     width: 30px;
@@ -137,5 +135,5 @@
     font-size: 14px;
     font-weight: 450;
     margin-left: 40px;
-    /* letter-spacing: -.3px; */
-}
+
+} */
