@@ -45,7 +45,7 @@ export const thunkEditReview = (review) => async dispatch => {
     const response = await csrfFetch(`/api/currentUser/reviews/${review.id}`, {
         method: 'PUT',
         headers: {
-            "Content-Type":"application/json"
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(review)
     })
@@ -61,7 +61,7 @@ export const thunkCreateReview = (review) => async dispatch => {
     const response = await csrfFetch(`/api/spots/${review.spotId}/reviews`, {
         method: 'POST',
         headers: {
-            "Content-Type":"application/json"
+            "Content-Type": "application/json"
         },
         body: JSON.stringify(review)
     })
@@ -76,33 +76,48 @@ export const thunkCreateReview = (review) => async dispatch => {
 export const thunkLoadReviews = () => async dispatch => {
     const response = await csrfFetch('/api/reviews')
     const allReviews = await response.json()
-        dispatch(loadReviews(allReviews))
-        return response
+    dispatch(loadReviews(allReviews))
+    return response
 
 }
-const initialState = {normalizedReviews: {}}
+const initialState = { normalizedReviews: {} }
 
-export function reviewsReducer (state = initialState, action) {
+export function reviewsReducer(state = initialState, action) {
     let newState
-    switch(action.type) {
+    switch (action.type) {
+
         case DELETE:
-            newState = structuredClone(state)
+            newState = { ...state }
             delete newState.normalizedReviews[action.review.id]
             return newState
         case EDIT:
-            newState = structuredClone(state)
-            newState.normalizedReviews[action.review.id] = action.review
-            return newState
+            return {
+                ...state,
+                normalizedReviews: {
+                    ...state.normalizedReviews,
+                    [action.review.id]: action.review
+                }
+            }
         case POST:
-            newState = structuredClone(state)
-            newState.normalizedReviews[action.review.id] = action.review
-            return newState
+            return {
+                ...state,
+                normalizedReviews: {
+                    ...state.normalizedReviews,
+                    [action.review.id]: action.review
+                }
+            }
         case LOAD:
-            const test = {normalizedReviews: {}}
-                action.reviews.forEach(review => {
-                test.normalizedReviews[review.id] = review
+            const reviews = {}
+            action.reviews.forEach(review => {
+                reviews[review.id] = review
             })
-            return test
+            return {
+                ...state,
+                normalizedReviews: {
+                    ...state.normalizedReviews,
+                    ...reviews
+                }
+            }
         default:
             return state
     }

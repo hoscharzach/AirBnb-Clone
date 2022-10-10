@@ -29,7 +29,7 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      <div className='whole-page-container'>
+      <div className='w-full h-full'>
         {isLoaded && (
           <Switch>
             <Route exact path="/">
