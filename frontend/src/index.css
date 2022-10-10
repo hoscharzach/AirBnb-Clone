@@ -3,20 +3,43 @@
     src: local('Montserrat'), url('./fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf') format('truetype'); */
 /* } */
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --dark-grey: #222222;
+    --light-grey: #717171;
+}
+
+@font-face {
+    font-family: 'cereal';
+    src: local('cereal'), url(./fonts/cereal.woff2) format('woff');
+}
+
+@font-face {
+    font-family: 'cerealM';
+    src: local('cerealM'), url(./fonts/cerealM.woff2) format('woff');
+}
+
 * {
-    font-family: Circular, -apple-system,BlinkMacSystemFont,Roboto,Helvetica Neue,sans-serif;
+    font-family: 'cereal', Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
 }
 
 .whole-page-container {
     /* letter-spacing: -.3px; */
-    width: 99vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
 
 }
-html > * {
+
+html,
+body {
     /* font-family: Montserrat; */
+    font-size: 14px;
+    line-height: 1.43;
     box-sizing: border-box;
-    margin: 0 auto;
+    margin: 0;
 }
 
 a {
@@ -30,12 +53,14 @@ textarea:required {
 }
 
 
-#delete-listing-icon, #edit-listing-icon {
+#delete-listing-icon,
+#edit-listing-icon {
     height: 17px;
     padding-bottom: 3px;
 }
 
-#edit-listing-button, #delete-listing-button {
+#edit-listing-button,
+#delete-listing-button {
     border: 0;
     background-color: white;
 }
@@ -70,7 +95,8 @@ textarea:required {
     cursor: pointer;
 }
 
-input, textarea {
+input,
+textarea {
     height: 52px;
     width: 27.083vw;
     border: 1px solid grey;
