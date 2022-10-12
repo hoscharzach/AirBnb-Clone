@@ -59,15 +59,13 @@ export default function SpotCard({ spotId, spot, type }) {
     }
 
     return (
-        <div className="h-[365px] w-[270px]">
-            <Link className="text-link" to={`/spots/${spotId}`}>
-                <div className="">
-                    <div className="w-32 h-32 ">
-                        <img className="object-cover" src={spot.previewImage} alt="" />
-                    </div>
+        <Link >
+            <div className="h-[365px] w-full">
+                <div className="w-full h-[256px] rounded-md ">
+                    <img className="object-cover w-full h-full rounded-lg " src={spot.previewImage} alt="" />
                 </div>
                 {captionContainer}
-            </Link>
-        </div>
+            </div>
+        </Link>
     )
 }
