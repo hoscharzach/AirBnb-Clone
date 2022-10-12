@@ -39,7 +39,7 @@ function Navigation({ isLoaded }) {
 
   return (
     <div className="w-full h-24 flex justify-center align-middle border-b sticky top-0 bg-white  ">
-      <div className="w-4/5 flex justify-between items-center max-w-[80%] ">
+      <div className="w-4/5 flex justify-between items-center">
         <div className="logo-container">
           <NavLink exact to="/">
             <img className="header-icon" src={mainLogo} alt=" "></img>

@@ -46,29 +46,28 @@ export default function SpotCard({ spotId, spot, type }) {
     } else {
         captionContainer = (
             <div className="spot-card-caption">
-                <Link className="text-link" to={`/spots/${spotId}`}>
-
-                    <div className="location-stars-container">
-                        <span className="city-state-text">{spot.city}, {spot.state}</span> {avgStarRating &&
-                            (<span className="star-rating-container"><img className="star-icon" src={star} alt="" /> {avgStarRating.toFixed(2)} </span>)}
-                        {numReviews === 0 && <span>New</span>}
-                    </div>
-                    <div className="price-container">
-                        <span className="price-text">${spot.price}</span> night
-                    </div>
-                </Link>
+                <div className="location-stars-container">
+                    <span className="city-state-text">{spot.city}, {spot.state}</span> {avgStarRating &&
+                        (<span className="star-rating-container"><img className="star-icon" src={star} alt="" /> {avgStarRating.toFixed(2)} </span>)}
+                    {numReviews === 0 && <span>New</span>}
+                </div>
+                <div className="price-container">
+                    <span className="price-text">${spot.price}</span> night
+                </div>
             </div>
         )
     }
 
     return (
-        <div className="spot-card-container">
+        <div className="h-[365px] w-[270px]">
             <Link className="text-link" to={`/spots/${spotId}`}>
-                <div className="spot-display-image">
-                    <img className="preview-image" src={spot.previewImage} alt="" />
+                <div className="">
+                    <div className="w-32 h-32 ">
+                        <img className="object-cover" src={spot.previewImage} alt="" />
+                    </div>
                 </div>
+                {captionContainer}
             </Link>
-            {captionContainer}
         </div>
     )
 }

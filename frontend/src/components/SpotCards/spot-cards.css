@@ -2,6 +2,7 @@
     height: 12px;
     width: 12px;
 }
+
 .text-link {
     color: inherit;
     text-decoration: inherit;
@@ -10,34 +11,19 @@
 .city-state-text {
     font-weight: 550;
     font-size: 15px;
-    /* letter-spacing: -.3px; */
 }
 
 .price-text {
     font-size: 15px;
     font-weight: 600;
 }
-.spot-display-image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    width: 290px;
-    height: 270px;
-    border-radius: 5%;
-}
-.spot-card-container {
-    margin: 20px 10px;
-}
+
 .star-rating-container {
     width: 50px;
     height: 20px;
 }
 
-.preview-image {
-    flex: 1;
-    height: 100%;
-}
+
 
 .location-stars-container {
     padding-right: 5px;

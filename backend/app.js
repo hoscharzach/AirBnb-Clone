@@ -11,10 +11,8 @@ const { environment } = require('./config')
 // creates a variable that will resolve to true if the environment is in production
 const isProduction = environment === 'production'
 
-
 // intialize the express app by calling the express method in a variable
 const app = express()
-app.set("json spaces", 2)
 
 // logging information about requests and responses
 app.use(morgan('dev'))
@@ -63,7 +61,7 @@ app.use((req, res, next) => {
 
 // if it's a sequelize error, it's a database validation error, so map through all the errors and change the titles to validation errors
 app.use((err, req, res, next) => {
-    if(err instanceof ValidationError) {
+    if (err instanceof ValidationError) {
         err.errors = err.errors.map((e) => e.message)
         err.title = 'Validation Error'
     }

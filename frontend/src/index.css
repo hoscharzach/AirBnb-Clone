@@ -26,12 +26,16 @@
     font-family: 'cereal', Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
 }
 
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 html,
 body {
-    /* font-family: Montserrat; */
     font-size: 14px;
     line-height: 1.43;
-    box-sizing: border-box;
     margin: 0;
 }
 
