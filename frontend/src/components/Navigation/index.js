@@ -38,15 +38,15 @@ function Navigation({ isLoaded }) {
   }
 
   return (
-    <div className="w-full h-24 flex justify-center align-middle border-b sticky top-0 bg-white  ">
+    <div className="w-full h-24 flex justify-center align-middle border-b sticky top-0 bg-white ">
       <div className="w-4/5 flex justify-between items-center">
-        <div className="logo-container">
+        <div className="">
           <NavLink exact to="/">
             <img className="header-icon" src={mainLogo} alt=" "></img>
           </NavLink>
         </div>
 
-        <div className="flex items-center">
+        <div className="flex items-center ">
           {isLoaded && sessionLinks}
         </div>
 

@@ -38,7 +38,7 @@
 /* #login-form-modal {
     background-color: white;
 } */
-#login-form-modal::hover {
+#login-form-modal:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
     transition: 0.2s;
 }
