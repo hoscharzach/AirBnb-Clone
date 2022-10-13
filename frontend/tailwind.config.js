@@ -10,19 +10,20 @@ module.exports = {
       colors: {
         pink: {
           'airbnb-gradient-start': '#FF385C',
-          'airbnb-gradient-end': '#BD1E59'
+          'airbnb-gradient-end': '#BD1E59',
+          'start': '#E61E4D',
+          'end': '#D70666'
         }
       },
       gridTemplateColumns: {
-        // 'image-grid': 'grid-template-columns: minmax(200px, 1fr) minmax(200px, 1fr)',
         'index': 'repeat(auto-fill, minmax(270px, 1fr))',
         'content': 'minmax(0,1fr) max-content',
         'image-grid': 'repeat(2, minmax(200px, 1fr))'
 
       },
       gridAutoRows: {
-        'index': 'minmax(350px, auto)'
-      }
+        'index': 'minmax(300px, 350px)'
+      },
     },
   },
   plugins: [function ({ addVariant }) {

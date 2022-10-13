@@ -68,9 +68,9 @@ function ProfileButton({ user }) {
 
   return (
     <div className='flex relative ml-4'>
-      <button className='rounded-3xl p-4 flex justify-between items-center w-[80px] h-[40px] border hover:shadow-md' onClick={openMenu}>
+      <button className='transition rounded-3xl p-4 flex justify-between items-center w-[80px] h-[40px] border hover:shadow-lg duration-250' onClick={openMenu}>
         <img className='h-[16px] w-[16px]' src={hamburgerIcon} alt="" />
-        <img className='h-[32px] w-[32px]' src={userIcon} alt="" />
+        <img className='h-[30px] w-[30px] ml-1' src={userIcon} alt="" />
       </button>
 
       {showMenu && (
@@ -81,7 +81,9 @@ function ProfileButton({ user }) {
         rounded-md
         border
         shadow-md
-        child:p-3 [&>button:hover]:bg-slate-200'>
+        child:p-3 child:transition
+        [&>button:hover]:bg-slate-200 duration-500'
+        >
           {dropdownItems}
         </div>
       )}

@@ -5,10 +5,10 @@ const POST = '/reviews/post'
 const EDIT = '/reviews/edit'
 const DELETE = '/review/delete'
 
-export const deleteReview = (review) => {
+export const deleteReview = (reviewId) => {
     return {
         type: DELETE,
-        review
+        reviewId
     }
 }
 
@@ -36,7 +36,7 @@ export const thunkDeleteReview = (review) => async dispatch => {
     })
 
     if (response.ok) {
-        return dispatch(deleteReview(review))
+        return dispatch(deleteReview(review.id))
     } else throw response
 }
 
@@ -88,7 +88,7 @@ export function reviewsReducer(state = initialState, action) {
 
         case DELETE:
             newState = { ...state }
-            delete newState.normalizedReviews[action.review.id]
+            delete newState.normalizedReviews[action.reviewId]
             return newState
         case EDIT:
             return {
