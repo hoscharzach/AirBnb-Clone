@@ -8,7 +8,7 @@ export default function SpotIndex() {
 
 
     return (
-        <div className=" w-4/5 grid grid-cols-index gap-5 auto-rows-min">
+        <div className=" w-4/5 grid grid-cols-index gap-5 auto-rows-index">
             {Object.values(spots).map(spot => (
                 <SpotCard key={spot.id} spotId={spot.id} spot={spot} />
             ))}

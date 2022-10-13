@@ -14,13 +14,14 @@ module.exports = {
         }
       },
       gridTemplateColumns: {
-        'image-grid': 'grid-template-columns: minmax(230px, 1fr) minmax(200px, 1fr)',
-        'index': 'repeat(auto-fit, minmax(270px, 1fr))',
-        'content': 'minmax(0,1fr) max-content'
+        // 'image-grid': 'grid-template-columns: minmax(200px, 1fr) minmax(200px, 1fr)',
+        'index': 'repeat(auto-fill, minmax(270px, 1fr))',
+        'content': 'minmax(0,1fr) max-content',
+        'image-grid': 'repeat(2, minmax(200px, 1fr))'
 
       },
       gridAutoRows: {
-        'index': 'minmax(355px, 410px)'
+        'index': 'minmax(350px, auto)'
       }
     },
   },

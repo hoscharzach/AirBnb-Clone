@@ -81,6 +81,8 @@ export default function SpotDisplay() {
             null
         )
     }
+    let test = new Array(4).fill(spot.previewImage)
+
 
     return (
         <div className="w-4/5 lg:max-w-[1200px] flex flex-col justify-start max-w-[1200px] ">
@@ -92,22 +94,31 @@ export default function SpotDisplay() {
                     </div>
                     <div className="flex w-full items-start ">
                         {reviews.length > 0 && <div className="w-full flex items-center h-[24px] ">
-                            <span className="flex items-center mx-0"><div className="flex items-center mr-2"><img className="w-[14px] h-[14px]" src={star} alt="" ></img></div> {avgStarRating} · <span className="underline underline-offset-2">{numReviews} Reviews</span> </span><span className="mx-5">·</span><span className="underline underline-offset-2"> {spot.city}, {spot.state}, {spot.country}</span></div>}
-                        {!reviews.length > 0 && <span className=""><img className="" src={star} alt=""></img> No Reviews <span className="dot-add-padding">·</span> {spot.city}, {spot.state}, {spot.country}</span>}
+                            <span className="flex items-center flex-nowrap overflow-ellipsis ">
+                                <div className="flex items-center mr-2">
+                                    <img className="w-[14px] h-[14px]" src={star} alt="" ></img>
+                                </div> {avgStarRating} · <span className="underline underline-offset-2">{numReviews} Reviews</span>
+                            </span>
+                            <span className="hidden sm:block mx-5">·</span>
+                            <span className="hidden sm:block underline underline-offset-2"> {spot.city}, {spot.state}, {spot.country}
+                            </span>
+                        </div>}
+                        {!reviews.length > 0 && <span className="w-full flex items-center h-[24px]"><img className="" src={star} alt=""></img> No Reviews <span className="dot-add-padding">·</span> {spot.city}, {spot.state}, {spot.country}</span>}
                     </div>
                 </div>
             </div>
             {/* lg:grid-cols-2 gap-2 mt-6  */}
-            <div className="flex max-w-4/5 before:content-[''] before:h-0 before:w-0 before:pb-[75%] md:grid md:grid-cols-2">
-                <img className="w-full h-full rounded-2xl object-cover" src={spot.previewImage} alt="" ></img>
-                <img src={spot.previewImage} ></img>
-                {/* <div className="hidden grid-cols-2 gap-2 h-[500px] child:object-cover child:rounded-xl lg:grid xl:grid 2xl:grid child:h-full" >
-
-                    <img src={spot.previewImage} ></img>
-                    <img src={spot.previewImage} ></img>
-                    <img src={spot.previewImage} ></img>
-
-                </div> */}
+            <div className="mt-2 flex gap-1 max-w-4/5 max-h-[500px] before:content-[''] before:h-0 before:w-0 before:pb-[75%]">
+                <div className="w-full h-full lg:w-6/12 lg:grid lg:grid-col-2 gap-1">
+                    <img className="w-full h-full rounded-2xl object-cover" src={spot.previewImage} alt="" ></img>
+                </div>
+                <div className="hidden lg:grid lg:grid-cols-image-grid lg:w-6/12 lg:gap-1" >
+                    {test.map(el => (
+                        <div className="">
+                            <img className="object-cover h-full rounded-lg object-center " src={el}></img>
+                        </div>
+                    ))}
+                </div>
             </div>
 
             <div className="grid grid-cols-2">

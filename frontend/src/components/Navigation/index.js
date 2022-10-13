@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { NavLink, Link } from "react-router-dom"
+import { NavLink, Link, useLocation } from "react-router-dom"
 import ProfileButton from "./ProfileButton"
 import './navigation.css'
 import * as sessionActions from '../../store/session'
@@ -11,6 +11,7 @@ function Navigation({ isLoaded }) {
 
   const dispatch = useDispatch()
 
+  const location = useLocation()
   const demoLogin = () => {
     dispatch(sessionActions.thunkLogin({
       credential: 'Demo-lition',
@@ -31,7 +32,7 @@ function Navigation({ isLoaded }) {
   else {
     sessionLinks = (
       <>
-        <button id="demo-user-button" onClick={demoLogin}>Demouser</button>
+        <button id="demo-user-button" onClick={demoLogin}>Demo User</button>
         <ProfileButton user={sessionUser} />
       </>
     );
@@ -39,7 +40,7 @@ function Navigation({ isLoaded }) {
 
   return (
     <div className="w-full h-24 flex justify-center align-middle border-b sticky top-0 bg-white ">
-      <div className="w-4/5 flex justify-between items-center">
+      <div style={location.pathname.includes('/spots/') ? { maxWidth: '1200px' } : null} className="w-4/5 flex justify-between items-center">
         <div className="">
           <NavLink exact to="/">
             <img className="header-icon" src={mainLogo} alt=" "></img>
