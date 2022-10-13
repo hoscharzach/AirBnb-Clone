@@ -9,8 +9,18 @@ module.exports = {
     extend: {
       colors: {
         pink: {
-          'airbnb-brand-color': '#FF385C',
+          'airbnb-gradient-start': '#FF385C',
+          'airbnb-gradient-end': '#BD1E59'
         }
+      },
+      gridTemplateColumns: {
+        'image-grid': 'grid-template-columns: minmax(230px, 1fr) minmax(200px, 1fr)',
+        'index': 'repeat(auto-fit, minmax(270px, 1fr))',
+        'content': 'minmax(0,1fr) max-content'
+
+      },
+      gridAutoRows: {
+        'index': 'minmax(355px, 410px)'
       }
     },
   },
@@ -19,12 +29,3 @@ module.exports = {
     addVariant('child-hover', '& > *:hover');
   }],
 }
-
-// radial-gradient(circle at center,
-//   #FF385C 0%,
-//   #E61E4D 27.5%,
-//   #E31C5F 40%,
-//   #D70466 57.5%,
-//   #BD1E59 75%,
-//   #BD1E59 100%
-// ) !important

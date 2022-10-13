@@ -83,34 +83,34 @@ export default function SpotDisplay() {
     }
 
     return (
-        <div className="w-4/5 flex flex-col justify-start ">
+        <div className="w-4/5 lg:max-w-[1200px] flex flex-col justify-start max-w-[1200px] ">
 
-            <div className="">
+            <div className="text-base font-semibold" >
                 <div className="w-full">
                     <div className="spot-name-container">
                         <h1 className="font-bold text-4xl pb-2" >{spot.name}</h1>
                     </div>
-                    <div className="flex w-full ">
-                        {reviews.length > 0 && <div className="w-full flex items-center child:pr-1 ">
-                            <img className="w-[16px] h-[16px] inline-block" src={star} alt="" ></img> {avgStarRating} · {numReviews}  Review(s) <span className="dot-add-padding">·</span> {spot.city}, {spot.state}, {spot.country}
-                        </div>}
+                    <div className="flex w-full items-start ">
+                        {reviews.length > 0 && <div className="w-full flex items-center h-[24px] ">
+                            <span className="flex items-center mx-0"><div className="flex items-center mr-2"><img className="w-[14px] h-[14px]" src={star} alt="" ></img></div> {avgStarRating} · <span className="underline underline-offset-2">{numReviews} Reviews</span> </span><span className="mx-5">·</span><span className="underline underline-offset-2"> {spot.city}, {spot.state}, {spot.country}</span></div>}
                         {!reviews.length > 0 && <span className=""><img className="" src={star} alt=""></img> No Reviews <span className="dot-add-padding">·</span> {spot.city}, {spot.state}, {spot.country}</span>}
                     </div>
                 </div>
             </div>
+            {/* lg:grid-cols-2 gap-2 mt-6  */}
+            <div className="flex max-w-4/5 before:content-[''] before:h-0 before:w-0 before:pb-[75%] md:grid md:grid-cols-2">
+                <img className="w-full h-full rounded-2xl object-cover" src={spot.previewImage} alt="" ></img>
+                <img src={spot.previewImage} ></img>
+                {/* <div className="hidden grid-cols-2 gap-2 h-[500px] child:object-cover child:rounded-xl lg:grid xl:grid 2xl:grid child:h-full" >
 
-            <div className="grid lg:grid-cols-2 gap-2 mt-8 sm:grid-cols-1 md:grid-cols-1 ">
-                <img className="w-full rounded-2xl object-cover h-[500px] sm:w-full md:w-full" src={spot.previewImage} alt="" ></img>
-                <div className="grid grid-cols-2 gap-2 h-[500px] child:object-cover child:rounded-xl lg:grid xl:grid 2xl:grid child:h-full md:hidden sm:hidden " >
-                    <img src={spot.previewImage} ></img>
                     <img src={spot.previewImage} ></img>
                     <img src={spot.previewImage} ></img>
                     <img src={spot.previewImage} ></img>
 
-                </div>
+                </div> */}
             </div>
 
-            <div className="below-image-container">
+            <div className="grid grid-cols-2">
                 <div className="hosted-by-price-container">
                     <div className="hosted-by-text">{spot.name} hosted by {owner}</div>
                     <div className="under-image-price-text"><span className="under-image-spot-price-text">${spot.price}</span> night</div>
@@ -124,8 +124,8 @@ export default function SpotDisplay() {
                             <DeleteListingModal redirect={'/'} spot={spot} />
                         </div>}
                 </div>
-            </div>
-            <div className="description-container">
+                <div className="description-container">
+                </div>
                 <div className="inner-description-container">
 
                     <div className="description-header">
@@ -139,7 +139,7 @@ export default function SpotDisplay() {
 
                 </div>
             </div>
-            <div className="spot-display-review-wrapper">
+            <div className="flex sm:grid-cols-2">
                 {reviewsHeader}
                 <div className="spot-reviews-display">
                     {reviews.length > 0 && reviews.map((review, i) => (
