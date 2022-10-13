@@ -110,12 +110,12 @@ export default function SpotDisplay() {
             {/* lg:grid-cols-2 gap-2 mt-6  */}
             <div className="mt-2 flex gap-1 max-w-4/5 max-h-[500px] before:content-[''] before:h-0 before:w-0 before:pb-[75%]">
                 <div className="w-full h-full lg:w-6/12 lg:grid lg:grid-col-2 gap-1">
-                    <img className="w-full h-full rounded-2xl object-cover" src={spot.previewImage} alt="" ></img>
+                    <img className="rounded-2xl w-full h-full md:rounded-l-2xl lg:rounded-r-none object-cover" src={spot.previewImage} alt="" ></img>
                 </div>
                 <div className="hidden lg:grid lg:grid-cols-image-grid lg:w-6/12 lg:gap-1" >
                     {test.map(el => (
                         <div className="">
-                            <img className="object-cover h-full rounded-lg object-center " src={el}></img>
+                            <img className="object-cover h-full rounded-md object-center" src={el}></img>
                         </div>
                     ))}
                 </div>

@@ -47,10 +47,12 @@ function ProfileButton({ user }) {
   if (user) {
     dropdownItems = (
       <>
-        <div className='menu-item'>{user.username}</div>
-        <div className='menu-item menu-item-hover' onClick={() => history.push('/my-profile')} >My Profile</div>
-        <div className='menu-item menu-item-hover' onClick={() => history.push('/create-listing')} >Create Listing</div>
-        <div className='menu-item menu-item-hover' onClick={logout}>Log out</div>
+        <div>{user.username}</div>
+        <div className=''>{user.email}</div>
+        <hr style={{ padding: 0 }} className='my-2'></hr>
+        <button className='flex items-start' onClick={() => history.push('/my-profile')} >My Profile</button>
+        <button className='flex items-start' onClick={() => history.push('/create-listing')} >Create Listing</button>
+        <button className='flex items-start' onClick={logout}>Log out</button>
       </>
     )
   }
@@ -65,15 +67,21 @@ function ProfileButton({ user }) {
   }
 
   return (
-    <div className='flex'>
-      <div className="flex" onClick={openMenu}>
-        <button className='flex items-center'>
-          <img className='hamburger-icon' src={hamburgerIcon} alt="" />
-          <img className='user-icon' src={userIcon} alt="" />
-        </button>
-      </div>
+    <div className='flex relative ml-4'>
+      <button className='rounded-3xl p-4 flex justify-between items-center w-[80px] h-[40px] border hover:shadow-md' onClick={openMenu}>
+        <img className='h-[16px] w-[16px]' src={hamburgerIcon} alt="" />
+        <img className='h-[32px] w-[32px]' src={userIcon} alt="" />
+      </button>
+
       {showMenu && (
-        <div id="profile-dropdown-wrapper">
+        <div className='
+        flex flex-col
+        absolute top-[42px] right-[8px] w-[220px]
+        bg-slate-50
+        rounded-md
+        border
+        shadow-md
+        child:p-3 [&>button:hover]:bg-slate-200'>
           {dropdownItems}
         </div>
       )}
