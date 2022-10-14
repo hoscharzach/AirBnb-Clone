@@ -16,7 +16,7 @@ module.exports = {
         }
       },
       gridTemplateColumns: {
-        'index': 'repeat(auto-fit, minmax(270px, 1fr))',
+        'index': 'repeat(auto-fit, minmax(300px, 1fr))',
         'content': 'minmax(0,1fr) max-content',
         'image-grid': 'repeat(2, minmax(200px, 1fr))'
 
@@ -25,7 +25,7 @@ module.exports = {
         'index': 'minmax(300px, 1fr)'
       },
       gridAutoRows: {
-        'index': 'minmax(290px, 350px)'
+        'index': '1fr'
       },
     },
   },

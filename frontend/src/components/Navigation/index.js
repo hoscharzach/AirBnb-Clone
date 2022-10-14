@@ -20,6 +20,18 @@ function Navigation({ isLoaded }) {
 
   }
 
+  let navStyles
+  if (location.pathname === '/') {
+    navStyles = {
+      width: '92%',
+    }
+  } else {
+    navStyles = {
+      width: '80%',
+      maxWidth: '1200px'
+    }
+  }
+
   let sessionLinks;
   if (sessionUser) {
     sessionLinks = (
@@ -40,7 +52,7 @@ function Navigation({ isLoaded }) {
 
   return (
     <div className="w-full h-24 flex justify-center align-middle border-b sticky top-0 bg-white ">
-      <div style={location.pathname.includes('/spots/') ? { maxWidth: '1200px' } : null} className="w-11/12 flex justify-between items-center">
+      <div style={navStyles} className="w-4/5 flex justify-between items-center">
         <div className="">
           <NavLink exact to="/">
             <img className="header-icon" src={mainLogo} alt=" "></img>
