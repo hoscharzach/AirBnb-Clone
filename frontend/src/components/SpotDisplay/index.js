@@ -89,8 +89,8 @@ export default function SpotDisplay() {
                                 <h1 className="font-bold text-4xl pb-2" >{spot.name}</h1>
                             </div>
                             <div className="flex w-full items-center justify-between ">
-                                <div className="w-full flex items-center h-[24px] ">
-                                    <span className="flex items-center flex-nowrap overflow-ellipsis ">
+                                <div className="w-full flex items-center h-[24px] whitespace-nowrap overflow-hidden ">
+                                    <span className="flex items-center ">
                                         <div className="flex items-center mr-2">
                                             <img className="w-[14px] h-[14px]" src={star} alt="" ></img>
                                         </div><span className="mr-1"> {avgStarRating} · </span><span className="underline underline-offset-2">{reviews.length > 0 ? numReviews + ' Reviews' : 'No Reviews'} </span>
@@ -125,49 +125,42 @@ export default function SpotDisplay() {
                     </div>
 
                     {/* Under image container */}
-                    <div className="w-full mt-4 gap-3 flex flex-col md:grid grid-cols-2">
-                        <div>
-                            <div className="">Info Title and User Icon</div>
+                    <div className="w-full mt-12 gap-3 flex flex-col md:flex-row">
+                        {/* information container */}
+                        <div className="w-full lg:w-3/5">
+                            <h2 className="text-2xl font-semibold">Entire guest suite hosted by Brad</h2>
                             <div className="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
                         </div>
-                        <div className="flex justify-center md:justify-end">
-                            <div className="w-4/5 border h-[485px] max-w-[372px] rounded-xl shadow-xl"></div>
+                        {/* bookings container */}
+                        <div className="w-full lg:w-2/5 flex justify-center md:justify-end">
+                            {/* bookings box */}
+                            <div className="mt-6  md:m-0 w-full border h-[485px] max-w-[372px] rounded-2xl p-6 shadow-xl child:my-4">
+                                {/* price and star reviews */}
+                                <div className="flex items-center w-full justify-between">
+                                    <div>$139 night</div>
+                                    <div className="flex items-center"><img alt="" className="w-[14px] h-[14px]" src={star}></img>4.81 · 53 reviews</div>
+                                </div>
+                                {/* booking date inputs*/}
+                                <div className="w-full border h-[56px] rounded-2xl "></div>
+                                {/* reserve button */}
+                                <button className="button-text w-full airbnb-button text-white h-[48px] rounded-lg active:translate-x-0.5 active:translate-y-0.5">Reserve</button>
+                                <div>You won't be charged yet</div>
+                                <div className="flex justify-between">
+                                    <span>$607 x 5 nights</span>
+                                    <span>$3,306</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span>Long stay discount</span>
+                                    <span>-$607</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    {/* <div className="grid grid-cols-2">
-                        <div className="flex flex-col">
-                            <div className="hosted-by-text">{spot.name} hosted by {spot['Owner.firstName']}</div>
-                            <div className="under-image-price-text"><span className="under-image-spot-price-text">${spot.price}</span> night</div>
-                        </div>
-                        <div className="avatar-and-buttons-wrapper">
-                            <img className="user-avatar" src={avatar} alt=""></img>
-
-                        </div>
-                        <div className="description-container">
-                        </div>
-                        <div className="inner-description-container">
-
-                            <div className="description-header">
-                                <h2>Description</h2>
-                            </div>
-                            <div>
-                                <p className="description-body">
-                                    {spot.description}
-                                </p>
-                            </div>
-
-                        </div>
-                    </div> */}
 
                     {/* reviews container */}
-                    {/* <div className="flex sm:grid-cols-2">
-                        {reviewsHeader}
-                        <div className="spot-reviews-display">
-                            {reviews.length > 0 && reviews.map((review) => (
-                                <ReviewCard key={review.id} className="review-component" review={review} />
-                            ))}
-                        </div>
-                    </div> */}
+                    <div className="h-[150px] w-full flex items-center justify-center border mt-5">
+                        Reviews
+                    </div>
                 </div>
             }</>
     )

@@ -35,7 +35,7 @@ export default function SpotCard({ spot }) {
             {/* card container */}
             <div className="h-full w-full before:h-0 before:w-0 before:pb-[calc(3/4 * 100%)] ">
                 {/* card image */}
-                <div className="rounded-xl h-[85%]">
+                <div className="grow rounded-xl h-[85%]">
                     <img className="object-cover w-full h-full rounded-xl flex flex-col  " src={spot.previewImage} alt="" />
                 </div>
                 <div className="flex flex-col pt-2 grow">

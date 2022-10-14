@@ -11,6 +11,7 @@
     --light-grey: #717171;
 }
 
+
 #root {
     height: 100%;
     width: 100%;
@@ -24,6 +25,13 @@
 @font-face {
     font-family: 'cerealM';
     src: local('cerealM'), url(./fonts/cerealM.woff2) format('woff');
+}
+
+.button-text {
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 600;
+    font-family: 'cereal';
 }
 
 * {

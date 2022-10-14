@@ -29,7 +29,7 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      <div className='w-full h-full flex justify-center mt-6 '>
+      <div className='w-full min-h-[100vh] flex justify-center mt-6 '>
         {isLoaded && (
           <Switch>
             <Route exact path="/">
