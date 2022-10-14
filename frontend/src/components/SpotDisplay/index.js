@@ -19,6 +19,9 @@ export default function SpotDisplay() {
 
     const [userOwnsSpot, setUserOwnsSpot] = useState(false)
     const [showAddReview, setShowAddReview] = useState(true)
+    const [startDate, setStartDate] = useState('')
+    const [endDate, setEndDate] = useState('')
+
 
     // every time sessionUser or current spot state change, check if sessionUser owns the spot
     useEffect(() => {
@@ -35,9 +38,9 @@ export default function SpotDisplay() {
         }
     }, [sessionUser, reviews])
 
-    useEffect(() => {
-        window.scrollTo(0, 0)
-    }, [])
+    // useEffect(() => {
+    //     window.scrollTo(0, 0)
+    // }, [])
 
     let avgStarRating
     let numReviews
@@ -82,6 +85,8 @@ export default function SpotDisplay() {
     }
     let test = new Array(4).fill(spot.previewImage)
 
+    console.log(startDate, endDate)
+
     return (
         <>
             {spot &&
@@ -115,11 +120,11 @@ export default function SpotDisplay() {
                     </div>
 
                     {/* image container */}
-                    <div className="mt-2 flex gap-1 max-w-4/5 max-h-[500px] before:content-[''] before:h-0 before:w-0 before:pb-[75%]">
-                        <div className="w-full h-full lg:w-6/12 lg:grid lg:grid-col-2 gap-1">
-                            <img className="rounded-2xl w-full h-full md:rounded-l-2xl lg:rounded-r-none object-cover" src={spot.previewImage} alt="" ></img>
+                    <div className="mt-2 flex gap-1 max-w-4/5 max-h-[550px] h-auto before:content-[''] before:h-0 before:w-0 before:pb-[75%]">
+                        <div className="w-full h-full lg:w-5/12  ">
+                            <img className="rounded-2xl w-full h-full md:rounded-l-2xl lg:rounded-r-none object-cover object-center " src={spot.previewImage} alt="" ></img>
                         </div>
-                        <div className="hidden lg:grid lg:grid-cols-image-grid lg:w-6/12 lg:gap-1" >
+                        <div className="hidden lg:grid lg:grid-cols-image-grid lg:auto-rows-image-grid lg:w-7/12 lg:gap-1" >
                             {test.map((el, i) => (
                                 <div key={i} className="">
                                     <img className="object-cover h-full rounded-md object-center" src={el}></img>
@@ -133,7 +138,9 @@ export default function SpotDisplay() {
                         {/* information container */}
                         <div className="w-full lg:w-3/5 md:mr-10">
                             <h2 className="text-2xl font-semibold">Entire guest suite hosted by Brad</h2>
-                            <span>4 guests1 bedroom2 beds1 bath</span>
+                            <div className="my-5">
+                                <span>4 guests<span className="mx-2">·</span>1 bedroom<span className="mx-2">·</span>2 beds<span className="mx-2">·</span>1 bath</span>
+                            </div>
                             <hr className="my-5"></hr>
                             <div className="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
                         </div>
@@ -153,7 +160,20 @@ export default function SpotDisplay() {
                                     </div>
                                 </div>
                                 {/* booking date inputs*/}
-                                <div className="w-full border h-[56px] rounded-2xl "></div>
+                                <div className="w-full h-[56px] rounded-2xl flex ">
+                                    <div className="w-2/4">
+                                        <label>Check-in</label>
+                                        <input className="w-full" type="date" id="start" name="trip-start"
+                                            value={startDate} onChange={(e) => setStartDate(e.target.value)}
+                                        />
+                                    </div>
+                                    <div className="w-2/4">
+                                        <label>Check-out</label>
+                                        <input className="w-full" type="date" id="end" name="trip-end"
+                                            value={endDate} onChange={(e) => setEndDate(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
                                 {/* reserve button */}
                                 <button className="button-text w-full airbnb-button text-white h-[48px] rounded-lg active:translate-x-0.5 active:translate-y-0.5">Reserve</button>
                                 {/* various price divs */}

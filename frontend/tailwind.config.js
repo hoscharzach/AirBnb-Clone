@@ -25,7 +25,8 @@ module.exports = {
         'index': 'minmax(300px, 1fr)'
       },
       gridAutoRows: {
-        'index': 'minmax(300px, 1fr)'
+        'index': 'minmax(300px, 1fr)',
+        'image-grid': 'minmax(180px, 1fr)'
       },
       translate: {
         'click': 'translate-x-0.5 translate-y-0.5'
