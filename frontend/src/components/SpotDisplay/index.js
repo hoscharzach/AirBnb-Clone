@@ -77,11 +77,6 @@ export default function SpotDisplay() {
         )
     }
     let test = new Array(4).fill(spot.previewImage)
-    // {sessionUser && spot && sessionUser.id === spot.ownerId &&
-    {/* <div className="edit-delete-buttons">
-<EditListingModal spot={spot} />
-<DeleteListingModal redirect={'/'} spot={spot} />
-</div>} */}
 
     return (
         <>
@@ -128,13 +123,15 @@ export default function SpotDisplay() {
                             ))}
                         </div>
                     </div>
+
                     {/* Under image container */}
                     <div className="w-full mt-4 gap-3 flex flex-col md:grid grid-cols-2">
                         <div>
                             <div className="">Info Title and User Icon</div>
                             <div className="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
                         </div>
-                        <div className="">Bookings container
+                        <div className="flex justify-center md:justify-end">
+                            <div className="w-4/5 border h-[485px] max-w-[372px] rounded-xl shadow-xl"></div>
                         </div>
                     </div>
                     {/* <div className="grid grid-cols-2">

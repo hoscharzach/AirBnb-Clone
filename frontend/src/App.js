@@ -56,7 +56,7 @@ function App() {
           </Switch>
         )}
       </div>
-      {/* <div className='w-full h-full border-y'></div> */}
+      <div className='w-full h-20 sticky bottom-0 mt-7 border-y bg-white flex items-center justify-center'>Footer</div>
     </>
   );
 }

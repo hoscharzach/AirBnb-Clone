@@ -32,23 +32,7 @@ function Navigation({ isLoaded }) {
     }
   }
 
-  let sessionLinks;
-  if (sessionUser) {
-    sessionLinks = (
-      <>
-        <Link to="/create-listing">Become a Host</Link>
-        <ProfileButton user={sessionUser} />
-      </>
-    );
-  }
-  else {
-    sessionLinks = (
-      <>
-        <button id="demo-user-button" onClick={demoLogin}>Demo User</button>
-        <ProfileButton user={sessionUser} />
-      </>
-    );
-  }
+  if (!isLoaded) return (null)
 
   return (
     <div className="w-full h-24 flex justify-center align-middle border-b sticky top-0 bg-white ">
@@ -60,7 +44,8 @@ function Navigation({ isLoaded }) {
         </div>
 
         <div className="flex items-center ">
-          {isLoaded && sessionLinks}
+          {sessionUser ? <Link to="/create-listing">Become a Host</Link> : <button id="demo-user-button" onClick={demoLogin}>Demo User</button>}
+          <ProfileButton user={sessionUser} />
         </div>
 
       </div>
