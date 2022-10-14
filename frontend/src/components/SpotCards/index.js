@@ -2,12 +2,10 @@ import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import './spot-cards.css'
 import star from '../../assets/images/icons/svgexport-14.svg'
-import EditListingModal from "../EditSpotModal"
-import DeleteListingModal from "../DeleteListingModal"
 import { useEffect, useState } from "react"
 
 
-export default function SpotCard({ spot, type }) {
+export default function SpotCard({ spot }) {
 
     const allReviews = useSelector(state => state.reviews.normalizedReviews)
     const reviews = Object.values(allReviews).filter(review => spot.id === review.spotId)
@@ -35,15 +33,18 @@ export default function SpotCard({ spot, type }) {
     return (
         <Link to={`/spots/${spot.id}`} >
             {/* card container */}
-            <div className="h-full before:content-[''] before:h-0 before:w-0 before:pb-[75%] max-w-[420px]">
+            <div className="h-full w-full before:h-0 before:w-0 before:pb-[calc(3/4 * 100%)] ">
                 {/* card image */}
-                <div className="w-full h-[80%] rounded-xl ">
-                    <img className="object-cover w-full h-full rounded-xl " src={spot.previewImage} alt="" />
+                <div className="rounded-xl h-[85%]">
+                    <img className="object-cover w-full h-full rounded-xl flex flex-col  " src={spot.previewImage} alt="" />
                 </div>
-                <div className="grid grid-cols-content gap-1 pt-2">
-                    <div className="font-bold">{spot.city}, {spot.state}</div>
-                    {avgStarRating && <div className="flex items-center"><img className="h-[12px] w-[12px] mr-1" src={star} alt="" /> {avgStarRating} </div>}
-                    {!avgStarRating && <span>New!</span>}
+                <div className="flex flex-col pt-2 grow">
+                    <div className="flex items-center justify-between">
+
+                        <div className="font-bold">{spot.city}, {spot.state}</div>
+                        {avgStarRating && <div className="flex items-center"><img className="h-[12px] w-[12px] mr-1" src={star} alt="" /> {avgStarRating} </div>}
+                        {!avgStarRating && <span>New!</span>}
+                    </div>
                     <div className="price-container">
                         <span className="font-bold">${spot.price}</span> night
                     </div>

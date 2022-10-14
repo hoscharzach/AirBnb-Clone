@@ -56,7 +56,7 @@ function App() {
           </Switch>
         )}
       </div>
-      <div className='w-full h-32 border-y'></div>
+      {/* <div className='w-full h-full border-y'></div> */}
     </>
   );
 }

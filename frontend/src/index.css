@@ -2,7 +2,6 @@
     font-family: 'Montserrat';
     src: local('Montserrat'), url('./fonts/Montserrat/Montserrat-Italic-VariableFont_wght.ttf') format('truetype'); */
 /* } */
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -10,6 +9,11 @@
 :root {
     --dark-grey: #222222;
     --light-grey: #717171;
+}
+
+#root {
+    height: 100%;
+    width: 100%;
 }
 
 @font-face {

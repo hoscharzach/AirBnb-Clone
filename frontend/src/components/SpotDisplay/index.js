@@ -131,10 +131,11 @@ export default function SpotDisplay() {
                     {/* Under image container */}
                     <div className="w-full mt-4 gap-3 flex flex-col md:grid grid-cols-2">
                         <div>
-                            <div className="w-7/12">Info Title and User Icon</div>
-                            <div className="w-7/12">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                            <div className="">Info Title and User Icon</div>
+                            <div className="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
                         </div>
-                        <div className="w-5/12">Bookings container</div>
+                        <div className="">Bookings container
+                        </div>
                     </div>
                     {/* <div className="grid grid-cols-2">
                         <div className="flex flex-col">
