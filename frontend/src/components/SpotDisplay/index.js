@@ -35,6 +35,10 @@ export default function SpotDisplay() {
         }
     }, [sessionUser, reviews])
 
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
+
     let avgStarRating
     let numReviews
 
@@ -125,34 +129,57 @@ export default function SpotDisplay() {
                     </div>
 
                     {/* Under image container */}
-                    <div className="w-full mt-12 gap-3 flex flex-col md:flex-row">
+                    <div className="w-full mt-12 gap-3 flex flex-col md:flex-row text-lg">
                         {/* information container */}
-                        <div className="w-full lg:w-3/5">
+                        <div className="w-full lg:w-3/5 md:mr-10">
                             <h2 className="text-2xl font-semibold">Entire guest suite hosted by Brad</h2>
+                            <span>4 guests1 bedroom2 beds1 bath</span>
+                            <hr className="my-5"></hr>
                             <div className="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
                         </div>
                         {/* bookings container */}
                         <div className="w-full lg:w-2/5 flex justify-center md:justify-end">
                             {/* bookings box */}
-                            <div className="mt-6  md:m-0 w-full border h-[485px] max-w-[372px] rounded-2xl p-6 shadow-xl child:my-4">
+                            <div className="mt-6  md:m-0 w-full border max-w-[372px] rounded-2xl p-6 shadow-xl child:text-lg child:my-4">
                                 {/* price and star reviews */}
-                                <div className="flex items-center w-full justify-between">
-                                    <div>$139 night</div>
-                                    <div className="flex items-center"><img alt="" className="w-[14px] h-[14px]" src={star}></img>4.81 · 53 reviews</div>
+                                <div className="flex items-center w-full justify-between my-0">
+                                    <div>
+                                        <span className="text-2xl font-bold">${spot.price}</span><span> night</span>
+                                    </div>
+                                    <div className="flex items-center">
+                                        <span><img alt="" className="mb-1 mr-1 w-[14px] h-[14px]" src={star}></img></span>
+                                        {reviews.length > 0 && <><span className="font-semibold">{avgStarRating}</span><span><span className="mx-2">·</span>{reviews.length} reviews</span></>}
+                                        {reviews.length === 0 && <><span className="font-semibold">New!</span><span><span className="mx-2">·</span>No reviews</span></>}
+                                    </div>
                                 </div>
                                 {/* booking date inputs*/}
                                 <div className="w-full border h-[56px] rounded-2xl "></div>
                                 {/* reserve button */}
                                 <button className="button-text w-full airbnb-button text-white h-[48px] rounded-lg active:translate-x-0.5 active:translate-y-0.5">Reserve</button>
-                                <div>You won't be charged yet</div>
+                                {/* various price divs */}
+                                <div className="flex justify-center">You won't be charged yet</div>
                                 <div className="flex justify-between">
-                                    <span>$607 x 5 nights</span>
+                                    <span className="underline">$607 x 5 nights</span>
                                     <span>$3,306</span>
                                 </div>
                                 <div className="flex justify-between">
-                                    <span>Long stay discount</span>
+                                    <span className="underline">Long stay discount</span>
                                     <span>-$607</span>
                                 </div>
+                                <div className="flex justify-between">
+                                    <span className="underline">Cleaning Fee</span>
+                                    <span>$120</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="underline">Service Fee</span>
+                                    <span>$360</span>
+                                </div>
+                                <hr></hr>
+                                <div className="flex justify-between my-0">
+                                    <span>Total before taxes</span>
+                                    <span>$5000</span>
+                                </div>
+
                             </div>
                         </div>
                     </div>
