@@ -17,11 +17,15 @@ export default function SpotDisplay() {
     const allReviews = useSelector(state => state.reviews.normalizedReviews)
     const reviews = Object.values(allReviews).filter(review => review?.spotId === spot?.id)
 
+    const today = new Date()
+    console.log(today, "TODAY")
+
     const [userOwnsSpot, setUserOwnsSpot] = useState(false)
     const [showAddReview, setShowAddReview] = useState(true)
-    const [startDate, setStartDate] = useState('')
-    const [endDate, setEndDate] = useState('')
+    const [startDate, setStartDate] = useState(today)
+    const [endDate, setEndDate] = useState(today)
 
+    console.log(startDate)
 
     // every time sessionUser or current spot state change, check if sessionUser owns the spot
     useEffect(() => {
@@ -50,8 +54,11 @@ export default function SpotDisplay() {
         let sum = reviews.reduce((acc, review) => {
             return acc + review.stars
         }, 0)
-        avgStarRating = (sum / numReviews).toFixed(2)
-        if (avgStarRating === Math.floor(avgStarRating)) avgStarRating += ".0"
+        if (avgStarRating === Math.floor(avgStarRating)) {
+            avgStarRating = (sum / numReviews).toFixed(1)
+        } else {
+            avgStarRating = (sum / numReviews).toFixed(2)
+        }
     }
 
 
@@ -136,20 +143,20 @@ export default function SpotDisplay() {
                     {/* Under image container */}
                     <div className="w-full mt-12 gap-3 flex flex-col md:flex-row text-lg">
                         {/* information container */}
-                        <div className="w-full lg:w-3/5 md:mr-10">
+                        <div className="w-full md:w-3/5 md:mr-10">
                             <h2 className="text-2xl font-semibold">Entire guest suite hosted by Brad</h2>
                             <div className="my-5">
                                 <span>4 guests<span className="mx-2">·</span>1 bedroom<span className="mx-2">·</span>2 beds<span className="mx-2">·</span>1 bath</span>
                             </div>
                             <hr className="my-5"></hr>
-                            <div className="">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                            <div className="break-words">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quisnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
                         </div>
                         {/* bookings container */}
-                        <div className="w-full lg:w-2/5 flex justify-center md:justify-end">
+                        <div className="w-full md:w-2/5 flex justify-center md:justify-end">
                             {/* bookings box */}
                             <div className="mt-6  md:m-0 w-full border max-w-[372px] rounded-2xl p-6 shadow-xl child:text-lg child:my-4">
                                 {/* price and star reviews */}
-                                <div className="flex items-center w-full justify-between my-0">
+                                <div className="flex items-center w-full justify-between md:flex-col md:items-start lg:flex-row lg:justify-between lg:items-center my-0">
                                     <div>
                                         <span className="text-2xl font-bold">${spot.price}</span><span> night</span>
                                     </div>
@@ -161,15 +168,15 @@ export default function SpotDisplay() {
                                 </div>
                                 {/* booking date inputs*/}
                                 <div className="w-full h-[56px] rounded-2xl flex ">
-                                    <div className="w-2/4">
-                                        <label>Check-in</label>
-                                        <input className="w-full" type="date" id="start" name="trip-start"
+                                    <div className="flex justify-start flex-col w-2/4 border rounded-l-lg">
+                                        <label className="pl-3">Check-in</label>
+                                        <input className="w-full test" type="date" id="start" name="trip-start"
                                             value={startDate} onChange={(e) => setStartDate(e.target.value)}
                                         />
                                     </div>
-                                    <div className="w-2/4">
+                                    <div className="w-2/4 border">
                                         <label>Check-out</label>
-                                        <input className="w-full" type="date" id="end" name="trip-end"
+                                        <input className="w-full test" type="date" id="end" name="trip-end"
                                             value={endDate} onChange={(e) => setEndDate(e.target.value)}
                                         />
                                     </div>

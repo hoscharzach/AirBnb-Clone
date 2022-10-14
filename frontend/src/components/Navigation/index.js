@@ -44,7 +44,7 @@ function Navigation({ isLoaded }) {
         </div>
 
         <div className="flex items-center ">
-          {sessionUser ? <Link to="/create-listing">Become a Host</Link> : <button id="demo-user-button" onClick={demoLogin}>Demo User</button>}
+          {sessionUser ? null : <button id="demo-user-button" onClick={demoLogin}>Demo User</button>}
           <ProfileButton user={sessionUser} />
         </div>
 
