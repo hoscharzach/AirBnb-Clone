@@ -18,11 +18,12 @@ module.exports = {
       gridTemplateColumns: {
         'index': 'repeat(auto-fit, minmax(290px, 1fr))',
         'content': 'minmax(0,1fr) max-content',
-        'image-grid': 'repeat(2, minmax(200px, 1fr))'
+        'image-grid': '1fr 1fr'
 
       },
       gridTemplateRows: {
-        'index': 'minmax(300px, 1fr)'
+        'index': 'minmax(300px, 1fr)',
+        'image-grid': '1fr 1fr'
       },
       gridAutoRows: {
         'index': 'minmax(300px, 1fr)',

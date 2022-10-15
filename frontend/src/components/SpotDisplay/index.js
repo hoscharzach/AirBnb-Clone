@@ -133,23 +133,22 @@ export default function SpotDisplay() {
                     </div>
 
                     {/* image container */}
-                    <div className="mt-2 flex gap-1 max-w-4/5 max-h-[550px] h-auto before:content-[''] before:h-0 before:w-0 before:pb-[75%]">
-                        <div className="w-full h-full lg:w-5/12  ">
+                    <div className="mt-2 flex gap-1 max-h-[750px] h-auto">
+                        <div className="w-full h-full lg:w-6/12  ">
                             <img className="rounded-2xl w-full h-full md:rounded-l-2xl lg:rounded-r-none object-cover object-center " src={spot.previewImage} alt="" ></img>
                         </div>
-                        <div className="hidden lg:grid lg:grid-cols-image-grid lg:auto-rows-image-grid lg:w-7/12 lg:gap-1" >
+                        <div className="hidden lg:grid lg:grid-cols-image-grid lg:auto-rows-image-grid lg:w-6/12 lg:gap-1 aspect-square " >
                             {test.map((el, i) => (
-                                <div key={i} className="">
-                                    <img className="object-cover h-full rounded-md object-center" src={el}></img>
-                                </div>
+                                <img className="object-cover h-full rounded-md object-center aspect-square" src={el}></img>
+
                             ))}
                         </div>
                     </div>
 
                     {/* Under image container */}
-                    <div className="w-full mt-12 gap-3 flex flex-col md:flex-row text-lg">
+                    <div className="w-full mt-12 flex flex-col md:flex-row text-lg">
                         {/* information container */}
-                        <div className="w-full md:w-3/5 md:mr-10">
+                        <div className="w-full md:w-3/5 md:pr-10">
                             <h2 className="text-2xl font-semibold">Entire guest suite hosted by Brad</h2>
                             <div className="my-5">
                                 <span>4 guests<span className="mx-2">·</span>1 bedroom<span className="mx-2">·</span>2 beds<span className="mx-2">·</span>1 bath</span>
@@ -158,7 +157,7 @@ export default function SpotDisplay() {
                             <div className="break-words">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quisnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
                         </div>
                         {/* bookings container */}
-                        <div className="w-full md:w-2/5 flex justify-center md:justify-end">
+                        <div className="w-full mt-12 md:mt-0 md:w-2/5 flex justify-center md:justify-end">
                             {/* bookings box */}
                             <div className="mt-6  md:m-0 w-full border max-w-[372px] rounded-2xl p-6 shadow-xl child:text-lg child:my-4">
                                 {/* price and star reviews */}
