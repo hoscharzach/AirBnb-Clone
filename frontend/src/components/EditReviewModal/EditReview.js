@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import * as reviewActions from '../../store/reviews'
 import x from '../../assets/images/icons/x-symbol-svgrepo-com.svg'
 
-export default function EditReview ({review, setShowModal}) {
+export default function EditReview({ review, setShowModal }) {
     const dispatch = useDispatch()
 
     const [errors, setErrors] = useState([])
@@ -14,14 +14,14 @@ export default function EditReview ({review, setShowModal}) {
 
     useEffect(() => {
         const errors = []
-        const validStars = ['1','2','3','4','5']
-            if (content.length < 10) errors.push('Review must be at least 10 characters')
-            if (!validStars.includes(String(stars))) errors.push('Rating must be a whole number between 1 and 5')
-            setErrors(errors)
+        const validStars = ['1', '2', '3', '4', '5']
+        if (content.length < 10) errors.push('Review must be at least 10 characters')
+        if (!validStars.includes(String(stars))) errors.push('Rating must be a whole number between 1 and 5')
+        setErrors(errors)
 
-            if (errors.length > 0 && hasSubmitted === true) {
-                setDisableSubmit(true)
-            } else setDisableSubmit(false)
+        if (errors.length > 0 && hasSubmitted === true) {
+            setDisableSubmit(true)
+        } else setDisableSubmit(false)
 
     }, [content, stars])
 
@@ -38,10 +38,10 @@ export default function EditReview ({review, setShowModal}) {
             dispatch(reviewActions.thunkEditReview(payload))
                 .then(() => setShowModal(false))
                 .catch(
-                async (res) => {
-                    const data = await res.json();
-                    if (data && data.errors) setErrors(data.errors);
-                })
+                    async (res) => {
+                        const data = await res.json();
+                        if (data && data.errors) setErrors(data.errors);
+                    })
         }
 
         if (errors.length === 0) {
@@ -52,7 +52,7 @@ export default function EditReview ({review, setShowModal}) {
 
     const clickX = (e) => {
         setShowModal(false)
-      }
+    }
 
 
     const contentChange = (e) => setContent(e.target.value)
@@ -78,7 +78,7 @@ export default function EditReview ({review, setShowModal}) {
                         <ul className='host-form-errors'>
                             {hasSubmitted && errors.map((error, i) => (
                                 <li key={i}>{error}</li>
-                                ))}
+                            ))}
                         </ul>
                         <form className="create-listing-form" onSubmit={onSubmit}>
                             <input id='create-listing-top-input' required placeholder="Description" value={content} onChange={contentChange} ></input>

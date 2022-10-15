@@ -1,7 +1,7 @@
 .entire-modal-wrapper {
     margin: 0;
     padding: 0;
-    width: 29.583vw;
+    /* width: 29.583vw; */
     font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
 }
 
@@ -17,6 +17,7 @@ h3 {
 .modal-body-wrapper {
     padding: 25px;
 }
+
 .loginForm {
     display: flex;
     flex-direction: column;

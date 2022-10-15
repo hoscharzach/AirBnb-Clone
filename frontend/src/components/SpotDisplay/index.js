@@ -17,7 +17,12 @@ export default function SpotDisplay() {
     const allReviews = useSelector(state => state.reviews.normalizedReviews)
     const reviews = Object.values(allReviews).filter(review => review?.spotId === spot?.id)
 
-    const today = new Date()
+    const todayDateObject = new Date()
+    console.log(todayDateObject, "TODAY DATE OBJECT")
+    const options = { year: 'numeric', month: 'numeric', day: 'numeric' }
+    const todayUTC = todayDateObject.toUTCString(options)
+    console.log(todayUTC, 'TODAY UTC')
+    const today = todayUTC
     console.log(today, "TODAY")
 
     const [userOwnsSpot, setUserOwnsSpot] = useState(false)
@@ -25,7 +30,7 @@ export default function SpotDisplay() {
     const [startDate, setStartDate] = useState(today)
     const [endDate, setEndDate] = useState(today)
 
-    console.log(startDate, endDate)
+    console.log(startDate, "START DATE", endDate, "END DATE")
 
     // every time sessionUser or current spot state change, check if sessionUser owns the spot
     useEffect(() => {
@@ -115,15 +120,13 @@ export default function SpotDisplay() {
                                     <span className="hidden sm:block underline underline-offset-2"> {spot.city}, {spot.state}, {spot.country}
                                     </span>
                                 </div>
-                                {/* {!reviews.length > 0 && <span className="w-full flex items-center h-[24px]"><img className="w-[14px] h-[14px]" src={star} alt=""></img> No Reviews <span className="dot-add-padding">·</span> {spot.city}, {spot.state}, {spot.country}</span>} */}
+
+                                {/* Edit and Delete Buttons */}
                                 {sessionUser.id === spot.ownerId &&
                                     <div className="child:ml-2 flex justify-evenly">
                                         <EditListingModal spot={spot} />
                                         <DeleteListingModal spot={spot} />
-                                        {/* <button className="min-w-[64px] airbnb-button p-2 rounded-xl text-white active:translate-y-0.5 active:translate-x-0.5">Edit</button> */}
-                                        {/* <button className="min-w-[64px] active:translate-x-0.5 active:translate-y-0.5 airbnb-button p-2 rounded-xl text-white">Delete</button> */}
-                                    </div>
-                                }
+                                    </div>}
 
                             </div>
                         </div>
