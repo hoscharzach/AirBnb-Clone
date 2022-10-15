@@ -2,73 +2,50 @@ import { Link } from "react-router-dom"
 import { useSelector } from "react-redux"
 import './spot-cards.css'
 import star from '../../assets/images/icons/svgexport-14.svg'
-import EditListingModal from "../EditSpotModal"
-import DeleteListingModal from "../DeleteListingModal"
+import { useEffect, useState } from "react"
 
 
-export default function SpotCard({ spotId, spot, type }) {
-
-    // adding change here
+export default function SpotCard({ spot }) {
 
     const allReviews = useSelector(state => state.reviews.normalizedReviews)
     const reviews = Object.values(allReviews).filter(review => spot.id === review.spotId)
+    const [avgStarRating, setAvgStarRating] = useState(null)
 
-    let numReviews = 0
-    let avgStarRating
-
-    if (reviews.length > 0) {
-        numReviews = reviews.length
-        let sum = reviews.reduce((acc, review) => {
-            return acc + review.stars
-        }, 0)
-        avgStarRating = (sum / numReviews)
-    }
-
-    let captionContainer
-    if (type === 'profile') {
-        captionContainer = (
-            <div className="profile-spot-caption">
-
-                <div className="profile-caption-top-line">
-                    <div>{spot.name}</div>
-                    <div className="profile-edit-delete-buttons-container">
-                        <EditListingModal spot={spot} />
-                        <DeleteListingModal spot={spot} />
-                    </div>
-                </div>
-
-                <div className="profile-caption-bottom-line">
-                    <div>{spot.city}, {spot.state}</div>
-                </div>
-            </div>
-        )
-
-    } else {
-        captionContainer = (
-            <div className="spot-card-caption">
-                <Link className="text-link" to={`/spots/${spotId}`}>
-
-                    <div className="location-stars-container">
-                        <span className="city-state-text">{spot.city}, {spot.state}</span> {avgStarRating &&
-                            (<span className="star-rating-container"><img className="star-icon" src={star} alt="" /> {avgStarRating.toFixed(2)} </span>)}
-                        {numReviews === 0 && <span>New</span>}
-                    </div>
-                    <div className="price-container">
-                        <span className="price-text">${spot.price}</span> night
-                    </div>
-                </Link>
-            </div>
-        )
-    }
+    useEffect(() => {
+        if (reviews.length > 0) {
+            let numReviews = reviews.length
+            let sum = reviews.reduce((acc, review) => {
+                return acc + review.stars
+            }, 0)
+            let rating = (sum / numReviews)
+            if (rating - Math.floor(rating) === 0) {
+                setAvgStarRating(rating.toFixed(1))
+            } else {
+                setAvgStarRating(rating.toFixed(2))
+            }
+        }
+    }, [reviews])
 
     return (
-        <div className="spot-card-container">
-            <Link className="text-link" to={`/spots/${spotId}`}>
-                <div className="spot-display-image">
-                    <img className="preview-image" src={spot.previewImage} alt="" />
+        <Link to={`/spots/${spot.id}`} >
+            {/* card container */}
+            <div className="h-full w-full before:h-0 before:w-0 before:pb-[calc(3/4 * 100%)] lg:max-h-[390px] ">
+                {/* card image */}
+                <div className="grow rounded-xl h-[85%]">
+                    <img className="object-cover w-full h-full rounded-xl flex flex-col  " src={spot.previewImage} alt="" />
                 </div>
-            </Link>
-            {captionContainer}
-        </div>
+                <div className="flex flex-col pt-2 grow">
+                    <div className="flex items-center justify-between">
+
+                        <div className="font-bold">{spot.city}, {spot.state}</div>
+                        {avgStarRating && <div className="flex items-center"><img className="h-[12px] w-[12px] mr-1" src={star} alt="" /> {avgStarRating} </div>}
+                        {!avgStarRating && <span>New!</span>}
+                    </div>
+                    <div className="price-container">
+                        <span className="font-bold">${spot.price}</span> night
+                    </div>
+                </div>
+            </div>
+        </Link>
     )
 }

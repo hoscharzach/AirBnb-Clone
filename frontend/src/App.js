@@ -20,49 +20,44 @@ function App() {
 
 
   useEffect(() => {
-    dispatch(sessionActions.thunkRestoreSession()).then(() => setIsLoaded(true));
+    dispatch(sessionActions.thunkRestoreSession())
+      .then(a => dispatch(spotActions.thunkLoadAllSpots()))
+      .then(a => dispatch(reviewActions.thunkLoadReviews()))
+      .then(() => setIsLoaded(true))
   }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(spotActions.thunkLoadAllSpots())
-  },[dispatch])
-
-  useEffect(() => {
-    dispatch(reviewActions.thunkLoadReviews())
-  }, [dispatch])
-
 
   return (
     <>
-    <Navigation isLoaded={isLoaded} />
-    <div className='whole-page-container'>
-      {isLoaded && (
-        <Switch>
-          <Route exact path="/">
-            <SpotIndex />
-          </Route>
-          <Route path="/spots/:spotId">
-            <SpotDisplay />
-          </Route>
-          <Route path="/login">
-            <LoginFormPage />
-          </Route>
-          <Route path="/signup">
-            <SignupForm />
-          </Route>
-          <Route path="/my-profile">
-            <MangageListings />
-          </Route>
-          <Route path="/create-listing">
-            <HostForm />
-          </Route>
-          <Route>
-            <h1>404 Not Found</h1>
-          </Route>
-        </Switch>
-      )}
-    </div>
-      </>
+      <Navigation isLoaded={isLoaded} />
+      <div className='w-full min-h-[100vh] flex justify-center mt-6 '>
+        {isLoaded && (
+          <Switch>
+            <Route exact path="/">
+              <SpotIndex />
+            </Route>
+            <Route path="/spots/:spotId">
+              <SpotDisplay />
+            </Route>
+            <Route path="/login">
+              <LoginFormPage />
+            </Route>
+            <Route path="/signup">
+              <SignupForm />
+            </Route>
+            <Route path="/my-profile">
+              <MangageListings />
+            </Route>
+            <Route path="/create-listing">
+              <HostForm />
+            </Route>
+            <Route>
+              <h1>404 Not Found</h1>
+            </Route>
+          </Switch>
+        )}
+      </div>
+      <div className='w-full h-20 sticky bottom-0 mt-7 border-y bg-white flex items-center justify-center'>Footer</div>
+    </>
   );
 }
 

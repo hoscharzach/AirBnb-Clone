@@ -1,26 +1,18 @@
 import { useSelector } from "react-redux"
 import './spot-index.css'
 import SpotCard from "../SpotCards"
-import { useEffect } from "react"
-import { useDispatch } from "react-redux"
-import * as spotActions from '../../store/spots'
 
 
-export default function SpotIndex () {
+export default function SpotIndex() {
     const spots = useSelector(state => state.spots.normalizedSpots)
-    // const dispatch = useDispatch()
 
-    // useEffect(() => {
-    //     dispatch(spotActions.thunkLoadAllSpots())
-    //   },[dispatch])
 
     return (
-        <div className="spot-display-container">
-            <div className="spot-cards-container">
+        <div className=" w-11/12 grid grid-cols-index gap-4 grid-rows-index auto-rows-index">
             {Object.values(spots).map(spot => (
-                <SpotCard key={spot.id} spotId={spot.id} spot={spot}/>
-                ))}
-            </div>
+                <SpotCard key={spot.id} spotId={spot.id} spot={spot} />
+            ))}
+
         </div>
     )
 }

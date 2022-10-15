@@ -1,4 +1,4 @@
-.header-container {
+/* .header-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -15,7 +15,7 @@
     top: 0;
     height: 80px;
     position: sticky;
-}
+} */
 
 #demo-user-button {
     background: linear-gradient(0.25turn, #E61E4D, #D70666);
@@ -28,6 +28,7 @@
     border-radius: 12px;
     transition: all 0.2s ease-in-out;
 }
+
 #demo-user-button:active {
     transform: scale(0.9);
     /* box-shadow: 0 3px #666;
@@ -37,11 +38,12 @@
 /* #login-form-modal {
     background-color: white;
 } */
-#login-form-modal::hover {
+#login-form-modal:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
-	transition: 0.2s;
+    transition: 0.2s;
 }
-.logo-container {
+
+/* .logo-container {
     width: 599px;
     display: flex;
     justify-content: flex-start;
@@ -54,6 +56,7 @@
     align-items: center;
 
 }
+
 .profile-icons {
     display: flex;
     align-items: center;
@@ -75,30 +78,30 @@
     position: relative;
     display: inline-block;
 }
+
 .menu-item {
     padding: 10px;
     padding-left: 10px;
 }
+
 .menu-item-hover:hover {
     background-color: rgba(0, 0, 0, 0.15);
     cursor: pointer;
-}
+} */
 
-#profile-dropdown-wrapper {
+/* #profile-dropdown-wrapper {
     background-color: white;
     display: flex;
     position: absolute;
     flex-direction: column;
-    /* right: 0px; */
     margin-top: 10px;
-    /* margin-top: 180px; */
     border-radius: 12px;
     box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.56);
     border: 0;
     width: 200px;
-}
+} */
 
-.profile-icons-container {
+/* .profile-icons-container {
     display: flex;
     border: 1px solid #dddddd;
     border-radius: 23px;
@@ -108,15 +111,16 @@
 }
 
 .profile-icons-container:hover {
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
-	transition: 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.18);
+    transition: 0.2s;
 }
 
 .hamburger-icon {
     height: 16px;
     width: 16px;
     padding-left: 10px;
-}
+} */
+/*
 .user-icon {
     height: 30px;
     width: 30px;
@@ -131,5 +135,5 @@
     font-size: 14px;
     font-weight: 450;
     margin-left: 40px;
-    /* letter-spacing: -.3px; */
-}
+
+} */

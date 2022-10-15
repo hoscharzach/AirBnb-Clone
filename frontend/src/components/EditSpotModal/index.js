@@ -3,15 +3,15 @@ import { Modal } from '../../context/Modal';
 import EditListing from './EditListing'
 import editButton from '../../assets/images/icons/edit-svgrepo-com.svg'
 
-function EditListingModal({spot}) {
+function EditListingModal({ spot }) {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <button id="edit-listing-button" onClick={(e) => {
+      <button onClick={(e) => {
         e.stopPropagation()
         setShowModal(true)
-        }}><img id="edit-listing-icon" src={editButton} /></button>
+      }} className="min-w-[64px] airbnb-button p-2 rounded-xl text-white active:translate-y-0.5 active:translate-x-0.5">Edit</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <EditListing setShowModal={setShowModal} spot={spot} />

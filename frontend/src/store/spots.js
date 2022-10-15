@@ -87,27 +87,41 @@ export const thunkLoadAllSpots = () => async dispatch => {
 }
 
 
-const initialState = {normalizedSpots: {}}
+const initialState = { normalizedSpots: {} }
 
-export function spotsReducer (state = initialState, action) {
+export function spotsReducer(state = initialState, action) {
     let newState
-    switch(action.type) {
+    switch (action.type) {
         case DELETE:
-            newState = structuredClone(state)
+            newState = { ...state }
             delete newState.normalizedSpots[action.id]
             return newState
         case UPDATE:
-            newState = structuredClone(state)
-            newState.normalizedSpots[action.spot.id] = action.spot
-            return newState
+            return {
+                ...state,
+                normalizedSpots: {
+                    ...state.normalizedSpots,
+                    [action.spot.id]: action.spot
+                }
+            }
         case LOAD:
-            newState = structuredClone(state)
-            action.spots.forEach(spot => newState.normalizedSpots[spot.id] = spot)
-            return newState
+            let spots = {}
+            action.spots.forEach(spot => spots[spot.id] = spot)
+            return {
+                ...state,
+                normalizedSpots: {
+                    ...state.normalizedSpots,
+                    ...spots
+                }
+            }
         case CREATE:
-            newState = structuredClone(state)
-            newState.normalizedSpots[action.spot.id] = action.spot
-            return newState
+            return {
+                ...state,
+                normalizedSpots: {
+                    ...state.normalizedSpots,
+                    [action.spot.id]: action.spot
+                }
+            }
         default:
             return state
     }

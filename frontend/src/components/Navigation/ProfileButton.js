@@ -8,77 +8,87 @@ import LoginFormModal from '../LoginFormModal'
 
 
 function ProfileButton({ user }) {
-    const sessionUser = useSelector(state => state.session.user)
-    const dispatch = useDispatch();
-    const [showMenu, setShowMenu] = useState(false);
-    const history = useHistory()
+  const sessionUser = useSelector(state => state.session.user)
+  const dispatch = useDispatch();
+  const [showMenu, setShowMenu] = useState(false);
+  const history = useHistory()
 
-    const openMenu = () => {
-      if (showMenu) return;
-      setShowMenu(true);
+  const openMenu = () => {
+    if (showMenu) return;
+    setShowMenu(true);
+  };
+
+  useEffect(() => {
+    if (!showMenu) return;
+
+    const closeMenu = (e) => {
+      const modal = document.getElementById('modal-background')
+      if (modal) return
+
+      if (e.target.id === 'login-form-modal' ||
+        e.target.id === 'signup-form-modal' ||
+        e.target.id === 'modal-background') return
+
+      setShowMenu(false);
     };
 
-    useEffect(() => {
-      if (!showMenu) return;
+    document.addEventListener('click', closeMenu);
 
-      const closeMenu = (e) => {
-        const modal = document.getElementById('modal-background')
-        if( modal) return
+    return () => document.removeEventListener("click", closeMenu);
+  }, [showMenu]);
 
-        if (e.target.id === 'login-form-modal'||
-            e.target.id === 'signup-form-modal' ||
-            e.target.id === 'modal-background') return
+  const logout = (e) => {
+    e.preventDefault();
+    dispatch(sessionActions.thunkLogout());
+    history.push('/')
+  };
 
-        setShowMenu(false);
-      };
-
-      document.addEventListener('click', closeMenu);
-
-      return () => document.removeEventListener("click", closeMenu);
-    }, [showMenu]);
-
-    const logout = (e) => {
-      e.preventDefault();
-      dispatch(sessionActions.thunkLogout());
-      history.push('/')
-    };
-
-    let dropdownItems
-    if (user) {
-      dropdownItems = (
-        <>
-          <div className='menu-item'>{user.username}</div>
-          <div className='menu-item menu-item-hover' onClick={() => history.push('/my-profile')} >My Profile</div>
-          <div className='menu-item menu-item-hover' onClick={() => history.push('/create-listing')} >Create Listing</div>
-          <div className='menu-item menu-item-hover' onClick={logout}>Log out</div>
-        </>
-      )
-    }
-
-    if (!user) {
-      dropdownItems = (
-        <>
-          <LoginFormModal />
-          <div className='menu-item menu-item-hover' onClick={() => history.push('/signup')} >Sign up</div>
-        </>
-      )
-    }
-
-    return (
-      <div id="menu-container">
-        <div className="profile-icons-container" onClick={openMenu}>
-          <button className="profile-icons">
-            <img className='hamburger-icon' src={hamburgerIcon} alt="" />
-            <img className='user-icon' src={userIcon} alt="" />
-          </button>
-        </div>
-        {showMenu && (
-          <div id="profile-dropdown-wrapper">
-            {dropdownItems}
-          </div>
-        )}
-      </div>
-    );
+  let dropdownItems
+  if (user) {
+    dropdownItems = (
+      <>
+        <div>{user.username}</div>
+        <div className=''>{user.email}</div>
+        <hr style={{ padding: 0 }} className='my-2'></hr>
+        <button className='flex items-start' onClick={() => history.push('/my-profile')} >My Profile</button>
+        <button className='flex items-start' onClick={() => history.push('/create-listing')} >Create Listing</button>
+        <button className='flex items-start' onClick={logout}>Log out</button>
+      </>
+    )
   }
 
-  export default ProfileButton;
+  if (!user) {
+    dropdownItems = (
+      <>
+        <LoginFormModal />
+        <div className='menu-item menu-item-hover' onClick={() => history.push('/signup')} >Sign up</div>
+      </>
+    )
+  }
+
+  return (
+    <div className='flex relative ml-4'>
+      <button className='transition rounded-3xl p-4 flex justify-between items-center w-[80px] h-[40px] border hover:shadow-lg duration-250' onClick={openMenu}>
+        <img className='h-[16px] w-[16px]' src={hamburgerIcon} alt="" />
+        <img className='h-[30px] w-[30px] ml-1' src={userIcon} alt="" />
+      </button>
+
+      {showMenu && (
+        <div className='
+        flex flex-col
+        absolute top-[42px] right-[8px] w-[220px]
+        bg-slate-50
+        rounded-md
+        border
+        shadow-md
+        child:p-3 child:transition
+        [&>button:hover]:bg-slate-200 duration-500'
+        >
+          {dropdownItems}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default ProfileButton;

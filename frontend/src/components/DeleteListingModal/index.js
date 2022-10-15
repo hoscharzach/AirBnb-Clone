@@ -2,17 +2,16 @@ import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
 import DeleteListing from './DeleteListing'
 import './deletelistingmodal.css'
-import deleteButton from '../../assets/images/icons/delete-svgrepo-com.svg'
 
-export default function DeleteListingModal ({spot, redirect}) {
+export default function DeleteListingModal({ spot, redirect }) {
   const [showModal, setShowModal] = useState(false);
 
   return (
     <>
-      <button id="delete-listing-button" onClick={() => setShowModal(true)}><img id="delete-listing-icon" src={deleteButton} /></button>
+      <button onClick={(e) => setShowModal(true)} className="min-w-[64px] active:translate-x-0.5 active:translate-y-0.5 airbnb-button p-2 rounded-xl text-white">Delete</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
-          <DeleteListing setShowModal={setShowModal} spot={spot} redirect={redirect}/>
+          <DeleteListing setShowModal={setShowModal} spot={spot} redirect={redirect} />
         </Modal>
       )}
     </>
