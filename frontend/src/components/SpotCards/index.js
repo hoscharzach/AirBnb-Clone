@@ -26,10 +26,6 @@ export default function SpotCard({ spot }) {
         }
     }, [reviews])
 
-    //  <EditListingModal spot={spot} />
-    // <DeleteListingModal spot={spot} />
-
-
     return (
         <Link to={`/spots/${spot.id}`} >
             {/* card container */}

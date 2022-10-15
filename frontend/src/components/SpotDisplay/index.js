@@ -25,7 +25,7 @@ export default function SpotDisplay() {
     const [startDate, setStartDate] = useState(today)
     const [endDate, setEndDate] = useState(today)
 
-    console.log(startDate)
+    console.log(startDate, endDate)
 
     // every time sessionUser or current spot state change, check if sessionUser owns the spot
     useEffect(() => {
@@ -116,11 +116,14 @@ export default function SpotDisplay() {
                                     </span>
                                 </div>
                                 {/* {!reviews.length > 0 && <span className="w-full flex items-center h-[24px]"><img className="w-[14px] h-[14px]" src={star} alt=""></img> No Reviews <span className="dot-add-padding">·</span> {spot.city}, {spot.state}, {spot.country}</span>} */}
-                                <div className="child:ml-2 flex justify-evenly">
-
-                                    <button className="min-w-[64px] airbnb-button p-2 rounded-xl text-white active:translate-y-0.5 active:translate-x-0.5">Edit</button>
-                                    <button className="min-w-[64px] active:translate-x-0.5 active:translate-y-0.5 airbnb-button p-2 rounded-xl text-white">Delete</button>
-                                </div>
+                                {sessionUser.id === spot.ownerId &&
+                                    <div className="child:ml-2 flex justify-evenly">
+                                        <EditListingModal spot={spot} />
+                                        <DeleteListingModal spot={spot} />
+                                        {/* <button className="min-w-[64px] airbnb-button p-2 rounded-xl text-white active:translate-y-0.5 active:translate-x-0.5">Edit</button> */}
+                                        {/* <button className="min-w-[64px] active:translate-x-0.5 active:translate-y-0.5 airbnb-button p-2 rounded-xl text-white">Delete</button> */}
+                                    </div>
+                                }
 
                             </div>
                         </div>
