@@ -174,14 +174,14 @@ export default function SpotDisplay() {
                                 {/* booking date inputs*/}
                                 <div className="w-full h-[56px] rounded-2xl flex ">
                                     <div className="flex justify-start flex-col w-2/4 border rounded-l-lg">
-                                        <label className="pl-3">Check-in</label>
-                                        <input className="w-full test" type="date" id="start" name="trip-start"
+                                        <label className="w-full">Check-in</label>
+                                        <input className="w-full" type="date" id="start" name="trip-start"
                                             value={startDate} onChange={(e) => setStartDate(e.target.value)}
                                         />
                                     </div>
                                     <div className="w-2/4 border">
                                         <label>Check-out</label>
-                                        <input className="w-full test" type="date" id="end" name="trip-end"
+                                        <input className="" type="date" id="end" name="trip-end"
                                             value={endDate} onChange={(e) => setEndDate(e.target.value)}
                                         />
                                     </div>
@@ -208,7 +208,7 @@ export default function SpotDisplay() {
                                 </div>
                                 <hr></hr>
                                 <div className="flex justify-between my-0">
-                                    <span>Total before taxes</span>
+                                    <span className="font-semibold">Total before taxes</span>
                                     <span>$5000</span>
                                 </div>
 

@@ -101,8 +101,14 @@ router.post('/:spotId/images', [validateImage, requireAuth], async (req, res, ne
 
 // create new booking
 router.post('/:spotId/bookings', [requireAuth, validateBooking], async (req, res, next) => {
+
     const spot = await Spot.findByPk(req.params.spotId)
-    if (!spot) return res.json({ message: "Spot couldn't be found", statusCode: 404 })
+    if (!spot) {
+        const err = new Error('Spot does not exist.')
+        err.status = 404
+        err.errors = [err.message]
+        return next(err)
+    }
 
     // grab the startDate and endDate from the body and alias them
     const { startDate: start, endDate: end } = req.body

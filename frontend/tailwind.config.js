@@ -16,21 +16,24 @@ module.exports = {
         }
       },
       gridTemplateColumns: {
-        'index': 'repeat(auto-fit, minmax(290px, 1fr))',
+        'index': 'repeat(auto-fit, minmax(300px, 1fr))',
         'content': 'minmax(0,1fr) max-content',
         'image-grid': '1fr 1fr'
 
       },
       gridTemplateRows: {
-        'index': 'minmax(300px, 1fr)',
+        'index': 'minmax(250px, 1fr)',
         'image-grid': '1fr 1fr'
       },
       gridAutoRows: {
-        'index': 'minmax(300px, 1fr)',
+        'index': 'min-content',
         'image-grid': 'minmax(180px, 1fr)'
       },
       translate: {
         'click': 'translate-x-0.5 translate-y-0.5'
+      },
+      aspectRatio: {
+        'card': '3 / 4'
       }
     },
   },
