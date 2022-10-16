@@ -27,7 +27,7 @@ module.exports = {
       },
       gridAutoRows: {
         'index': 'min-content',
-        'image-grid': 'minmax(180px, 1fr)'
+        'image-grid': 'min-content'
       },
       translate: {
         'click': 'translate-x-0.5 translate-y-0.5'

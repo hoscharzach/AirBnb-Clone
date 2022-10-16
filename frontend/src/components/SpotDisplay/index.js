@@ -103,7 +103,7 @@ export default function SpotDisplay() {
         <>
             {spot &&
 
-                <div className="w-4/5 lg:max-w-[1200px] flex flex-col justify-start max-w-[1200px] ">
+                <div className="w-4/5 flex flex-col justify-start max-w-[1200px] ">
                     <div className="text-base font-semibold" >
                         <div className="w-full">
                             <div className="flex justify-start items-center spot-name-container">
@@ -133,8 +133,8 @@ export default function SpotDisplay() {
                     </div>
 
                     {/* image container */}
-                    <div className="mt-2 flex gap-1 max-h-[750px] h-auto">
-                        <div className="w-full h-full lg:w-6/12  ">
+                    <div className="mt-2 flex gap-1 max-h-[600px] h-auto">
+                        <div className="w-full max-h-[400px] lg:max-h-[600px] lg:h-full aspect-square lg:w-6/12  ">
                             <img className="rounded-2xl w-full h-full md:rounded-l-2xl lg:rounded-r-none object-cover object-center " src={spot.previewImage} alt="" ></img>
                         </div>
                         <div className="hidden lg:grid lg:grid-cols-image-grid lg:auto-rows-image-grid lg:w-6/12 lg:gap-1 aspect-square " >
@@ -172,16 +172,16 @@ export default function SpotDisplay() {
                                     </div>
                                 </div>
                                 {/* booking date inputs*/}
-                                <div className="w-full h-[56px] rounded-2xl flex ">
-                                    <div className="flex justify-start flex-col w-2/4 border rounded-l-lg">
+                                <div className="w-full gap-2 rounded-2xl flex flex-col lg:flex-row ">
+                                    <div className="flex justify-start flex-col ">
                                         <label className="w-full">Check-in</label>
                                         <input className="w-full" type="date" id="start" name="trip-start"
                                             value={startDate} onChange={(e) => setStartDate(e.target.value)}
                                         />
                                     </div>
-                                    <div className="w-2/4 border">
-                                        <label>Check-out</label>
-                                        <input className="" type="date" id="end" name="trip-end"
+                                    <div className="flex justify-start flex-col">
+                                        <label className="w-full">Check-out</label>
+                                        <input className="w-full" type="date" id="end" name="trip-end"
                                             value={endDate} onChange={(e) => setEndDate(e.target.value)}
                                         />
                                     </div>
