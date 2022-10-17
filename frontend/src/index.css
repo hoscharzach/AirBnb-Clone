@@ -11,6 +11,10 @@
     --light-grey: #717171;
 }
 
+#booking-errors {
+    margin: 0;
+}
+
 
 #root {
     height: 100%;

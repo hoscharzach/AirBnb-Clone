@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import AddReviewModal from "../AddReviewModal"
@@ -8,29 +8,43 @@ import ReviewCard from "../ReviewCard"
 import './spot-display.css'
 import star from '../../assets/images/icons/svgexport-14.svg'
 import avatar from '../../assets/images/icons/svgexport-7.svg'
+import { thunkAddBooking } from "../../store/spots"
+
 
 export default function SpotDisplay() {
     const { spotId } = useParams()
+    const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
     const spot = useSelector(state => state.spots.normalizedSpots[Number(spotId)])
 
     const allReviews = useSelector(state => state.reviews.normalizedReviews)
     const reviews = Object.values(allReviews).filter(review => review?.spotId === spot?.id)
 
-    const todayDateObject = new Date()
-    console.log(todayDateObject, "TODAY DATE OBJECT")
-    const options = { year: 'numeric', month: 'numeric', day: 'numeric' }
-    const todayUTC = todayDateObject.toUTCString(options)
-    console.log(todayUTC, 'TODAY UTC')
-    const today = todayUTC
-    console.log(today, "TODAY")
+    const todayObj = new Date()
+    const today = todayObj.toISOString().slice(0, 10)
+    let tomorrow = new Date(todayObj.setDate(todayObj.getDate() + 1)).toISOString().slice(0, 10)
+    let nextDay = new Date(todayObj.setDate(todayObj.getDate() + 1)).toISOString().slice(0, 10)
 
     const [userOwnsSpot, setUserOwnsSpot] = useState(false)
     const [showAddReview, setShowAddReview] = useState(true)
-    const [startDate, setStartDate] = useState(today)
-    const [endDate, setEndDate] = useState(today)
+    const [startDate, setStartDate] = useState(tomorrow)
+    const [endDate, setEndDate] = useState(nextDay)
+    const [lengthOfStay, setLengthOfStay] = useState(1)
+    const [errors, setErrors] = useState([])
 
-    console.log(startDate, "START DATE", endDate, "END DATE")
+    useEffect(() => {
+
+        if (startDate > endDate) {
+            setEndDate(startDate)
+        }
+
+        const start = new Date(startDate)
+        const end = new Date(endDate)
+
+        const diff = (end - start) / 86400000
+        setLengthOfStay(diff.toString())
+
+    }, [startDate, endDate])
 
     // every time sessionUser or current spot state change, check if sessionUser owns the spot
     useEffect(() => {
@@ -46,6 +60,27 @@ export default function SpotDisplay() {
             userReview !== undefined ? setShowAddReview(false) : setShowAddReview(true)
         }
     }, [sessionUser, reviews])
+
+    const submitBooking = async () => {
+
+        setErrors([])
+        const payload = {
+            startDate,
+            endDate,
+            spotId: spot.id
+        }
+
+        return dispatch(thunkAddBooking(payload))
+            .catch(async data => {
+                const err = await data.json()
+                if (err && err.error) {
+                    setErrors([
+                        err.error,
+                        `${err.conflictCheck.startDate} - ${err.conflictCheck.endDate}`
+                    ])
+                }
+            })
+    }
 
     // useEffect(() => {
     //     window.scrollTo(0, 0)
@@ -97,7 +132,7 @@ export default function SpotDisplay() {
     }
     let test = new Array(4).fill(spot.previewImage)
 
-    console.log(startDate, endDate)
+    // console.log(startDate, "START DATE", tomorrow, "END DATE")
 
     return (
         <>
@@ -139,7 +174,7 @@ export default function SpotDisplay() {
                         </div>
                         <div className="hidden lg:grid lg:grid-cols-image-grid lg:auto-rows-image-grid lg:w-6/12 lg:gap-1 aspect-square " >
                             {test.map((el, i) => (
-                                <img className="object-cover h-full rounded-md object-center aspect-square" src={el}></img>
+                                <img key={i} className="object-cover h-full rounded-md object-center aspect-square" src={el}></img>
 
                             ))}
                         </div>
@@ -172,31 +207,31 @@ export default function SpotDisplay() {
                                     </div>
                                 </div>
                                 {/* booking date inputs*/}
-                                <div className="w-full gap-2 rounded-2xl flex flex-col lg:flex-row ">
-                                    <div className="flex justify-start flex-col ">
+                                <div className="w-full gap-2 l rounded-2xl flex flex-col lg:flex-row ">
+                                    <div className="flex justify-start flex-col lg:w-2/4">
                                         <label className="w-full">Check-in</label>
-                                        <input className="w-full" type="date" id="start" name="trip-start"
+                                        <input className="w-full rounded-lg" type="date" min={today} id="start" name="trip-start"
                                             value={startDate} onChange={(e) => setStartDate(e.target.value)}
                                         />
                                     </div>
-                                    <div className="flex justify-start flex-col">
+                                    <div className="flex justify-start flex-col lg:w-2/4">
                                         <label className="w-full">Check-out</label>
-                                        <input className="w-full" type="date" id="end" name="trip-end"
+                                        <input className="w-full rounded-lg" type="date" min={startDate} id="end" name="trip-end"
                                             value={endDate} onChange={(e) => setEndDate(e.target.value)}
                                         />
                                     </div>
                                 </div>
+                                {errors &&
+                                    <span id="booking-errors" className="flex flex-col justify-center">{errors.map((err, i) => (
+                                        <span className="text-base flex items-center justify-center text-red-600" key={i}>{err}</span>
+                                    ))}</span>}
                                 {/* reserve button */}
-                                <button className="button-text w-full airbnb-button text-white h-[48px] rounded-lg active:translate-x-0.5 active:translate-y-0.5">Reserve</button>
+                                <button onClick={submitBooking} className="mt-0 button-text w-full airbnb-button text-white h-[48px] rounded-lg active:translate-x-0.5 active:translate-y-0.5">Reserve</button>
                                 {/* various price divs */}
                                 <div className="flex justify-center">You won't be charged yet</div>
                                 <div className="flex justify-between">
-                                    <span className="underline">$607 x 5 nights</span>
-                                    <span>$3,306</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="underline">Long stay discount</span>
-                                    <span>-$607</span>
+                                    <span className="underline">${spot.price} x {lengthOfStay} nights</span>
+                                    <span>${spot.price * lengthOfStay}</span>
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="underline">Cleaning Fee</span>
@@ -204,12 +239,12 @@ export default function SpotDisplay() {
                                 </div>
                                 <div className="flex justify-between">
                                     <span className="underline">Service Fee</span>
-                                    <span>$360</span>
+                                    <span>$3.50</span>
                                 </div>
                                 <hr></hr>
                                 <div className="flex justify-between my-0">
                                     <span className="font-semibold">Total before taxes</span>
-                                    <span>$5000</span>
+                                    <span>${120 + 3.50 + (spot.price * lengthOfStay)}</span>
                                 </div>
 
                             </div>

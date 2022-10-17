@@ -1,7 +1,7 @@
 const express = require('express')
 const { Spot, User, Image, Review, Booking } = require('../../db/models')
 const { requireAuth } = require('../../utils/auth')
-const { Op } = require('sequelize')
+const { Op, Sequelize } = require('sequelize')
 const { validateSpot, validateBooking, validateQuery, validateReview, validateImage } = require('../../utils/validators')
 
 const router = express.Router()
@@ -103,6 +103,7 @@ router.post('/:spotId/images', [validateImage, requireAuth], async (req, res, ne
 router.post('/:spotId/bookings', [requireAuth, validateBooking], async (req, res, next) => {
 
     const spot = await Spot.findByPk(req.params.spotId)
+
     if (!spot) {
         const err = new Error('Spot does not exist.')
         err.status = 404
@@ -114,64 +115,118 @@ router.post('/:spotId/bookings', [requireAuth, validateBooking], async (req, res
     const { startDate: start, endDate: end } = req.body
 
     // if the current user does not own the spot
-    if (spot.ownerId === req.user.id)
-        return res.json({ message: "Can't make booking on your own property.", statusCode: 401 })
-    // and the start date is before the end date
+    if (spot.ownerId === req.user.id) {
+        const err = new Error("Can't make booking on your own property")
+        err.status = 401
+        err.errors = [err.message]
+        return next(err)
+    }
+
     // find all bookings that have dates between the requested start and end
-    const conflictCheck = await spot.getBookings()
-    const response = { message: "Sorry, this spot is already booked for the specified dates.", errors: {} }
-    for (reservation of conflictCheck) {
+    const conflictCheck = await Booking.findOne({
+        where: {
+            [Op.and]: {
+                spotId: req.params.spotId,
 
-        if (reservation.startDate === start && reservation.endDate === end)
-            return res.json({ message: "Booking already exists for the specified dates." })
+                // if any of the following are true
+                [Op.or]: [
 
-        if (reservation.startDate <= start && reservation.endDate >= start) {
-            response.errors.startDate = "Start date conflicts with an existing booking."
+                    // start and end dates are equal to existing booking
+                    { [Op.and]: { startDate: start, endDate: end } },
+
+                    // new booking's start date is in between existing booking's start and end date
+                    {
+                        [Op.and]: [
+                            {
+                                startDate: {
+                                    [Op.lte]: start
+                                }
+                            },
+                            {
+                                endDate: {
+                                    [Op.gte]: start
+                                }
+                            }]
+                    },
+
+                    // new booking's end date is in between existing booking's start or end date
+                    {
+                        [Op.and]: {
+                            startDate: {
+                                [Op.lte]: end
+                            },
+                            endDate: {
+                                [Op.gte]: end
+                            }
+                        }
+                    },
+
+                    // new booking is in the middle of existing booking
+                    {
+                        [Op.and]: [
+                            {
+                                startDate: {
+                                    [Op.lte]: start
+                                }
+                            },
+                            {
+                                endDate: {
+                                    [Op.gte]: end
+                                }
+                            }
+                        ]
+                    },
+
+                    // new booking completely overlaps existing booking
+                    {
+                        [Op.and]: {
+                            startDate: {
+                                [Op.gte]: start
+                            },
+                            endDate: {
+                                [Op.lte]: end
+                            }
+                        }
+                    }
+                ]
+            }
         }
-        if (reservation.startDate <= end && reservation.endDate >= end) {
-            response.errors.endDate = "End date conflicts with an existing booking."
-        }
-        if (start <= reservation.startDate && end >= reservation.endDate) {
-            response.errors.partial = "Part of your booking overlaps another."
-        }
-    }
-    if (response.errors.startDate || response.errors.endDate || response.errors.partial) {
-        return res.json(response)
-    } else {
-        const newBooking = await Booking.create({
-            startDate: start,
-            endDate: end,
-            userId: req.user.id,
-            spotId: req.params.spotId
+    })
+
+    if (conflictCheck) {
+        return res.status(400).json({
+            error: 'Conflicting booking:',
+            conflictCheck
         })
-
-        return res.json(newBooking)
     }
+
+    const newBooking = await Booking.create({
+        startDate: start,
+        endDate: end,
+        userId: req.user.id,
+        spotId: req.params.spotId
+    })
+    return res.status(200).json(newBooking)
 })
 
 // get all bookings for spot based on spot id
-router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
-    const id = req.user.id
+router.get('/:spotId/bookings', async (req, res, next) => {
     const spot = await Spot.findByPk(req.params.spotId)
 
-    if (spot) {
-        if (spot.ownerId === id) {
-            const bookings = await spot.getBookings({
-                include: {
-                    model: User
-                }
-            })
-            return res.json(bookings)
+    if (!spot) {
+        const err = new Error('Spot does not exist.')
+        err.status = 404
+        err.errors = [err.message]
+        return next(err)
+    }
 
-        } else {
-            const bookings = await spot.getBookings({
-                attributes: {
-                    exclude: ['userId', 'createdAt', 'updatedAt']
-                }
-            })
-            return res.json(bookings)
+    const bookings = await spot.getBookings({
+        include: {
+            model: User
         }
-    } else return res.json({ message: "Spot not found.", statusCode: 404 })
+    })
+    return res.status(200).json(bookings)
+
 })
 
 // post a new review to a spot

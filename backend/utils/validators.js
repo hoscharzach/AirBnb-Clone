@@ -52,15 +52,22 @@ exports.validateBooking = [
     .withMessage("Must provide a start date.")
     .isDate()
     .withMessage("Date must be in format YYYY-MM-DD")
-    .isAfter()
-    .withMessage("Date must be in the future."),
+  // .custom(async function (startDate) {
+  //   const today = new Date()
+  //   const start = new Date(startDate)
+  //   if (start < today) {
+  //     throw new Error
+  //   }
+  // })
+  // .withMessage("Date must be in the future.")
+  ,
   check('endDate')
     .exists({ checkFalsy: true })
     .withMessage("Must provide an end date.")
     .isDate()
     .withMessage("Date must be in format YYYY-MM-DD")
-    .isAfter()
-    .withMessage('Past bookings cannot be created or modified')
+    // .isAfter()
+    // .withMessage('Past bookings cannot be created or modified')
     .custom(async function (endDate, { req }) {
       if (endDate < req.body.startDate) throw new Error
     })
