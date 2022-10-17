@@ -252,8 +252,11 @@ export default function SpotDisplay() {
                     </div>
 
                     {/* reviews container */}
-                    <div className="h-[150px] w-full flex items-center justify-center border mt-5">
-                        Reviews
+                    <div className="w-full flex flex-col mt-12">
+                        {reviewsHeader}
+                        <div className="flex flex-col lg:flex-row">
+                            <ReviewCard review={spot.Reviews[0]} />
+                        </div>
                     </div>
                 </div>
             }</>

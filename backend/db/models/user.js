@@ -1,5 +1,5 @@
 'use strict';
-const { Model, Validator} = require('sequelize');
+const { Model, Validator } = require('sequelize');
 const bcrypt = require('bcryptjs')
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     static getCurrentUserById(id) {
       return User.scope('currentUser').findByPk(id)
     }
-    static async login({credential, password}) {
+    static async login({ credential, password }) {
       const { Op } = require('sequelize')
       const user = await User.scope('loginUser').findOne({
         where: {
@@ -41,7 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     }
     static associate(models) {
       User.hasMany(models.Review, {
-        foreignKey: 'userId', hooks:true
+        foreignKey: 'userId', hooks: true
       })
 
       User.hasMany(models.Booking, {
@@ -57,8 +57,8 @@ module.exports = (sequelize, DataTypes) => {
       // User.belongsToMany(models.Spot, {
       //   through: models.Booking,
       //   hooks: true
-        // onDelete: 'CASCADE',
-        // hooks: true
+      // onDelete: 'CASCADE',
+      // hooks: true
       // })
 
       User.hasMany(models.Image, {
@@ -74,8 +74,8 @@ module.exports = (sequelize, DataTypes) => {
       validation: {
         len: [4, 30],
         isNotEmail(val) {
-          if(Validator.isEmail(val)) {
-            throw new Error ("Must not be email.")
+          if (Validator.isEmail(val)) {
+            throw new Error("Must not be email.")
           }
         }
       }

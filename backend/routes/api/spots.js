@@ -3,6 +3,7 @@ const { Spot, User, Image, Review, Booking } = require('../../db/models')
 const { requireAuth } = require('../../utils/auth')
 const { Op, Sequelize } = require('sequelize')
 const { validateSpot, validateBooking, validateQuery, validateReview, validateImage } = require('../../utils/validators')
+const { Reviews } = require('@mui/icons-material')
 
 const router = express.Router()
 
@@ -68,11 +69,11 @@ router.get('/', validateQuery, async (req, res) => {
 
     const result = {}
     result.spots = await Spot.findAll({
+        include: ['Owner',
+            { model: Review, include: { model: User } }],
         where,
         limit: size,
-        offset: (page - 1) * size,
-        raw: true,
-        include: 'Owner'
+        offset: (page - 1) * size
     })
 
     if (Object.keys(errorResult.error).length === 0) {
@@ -312,6 +313,9 @@ router.get('/:spotId', async (req, res, next) => {
         include: [
             {
                 model: User, as: 'Owner', attributes: ['id', 'firstName', 'lastName']
+            },
+            {
+                model: Review
             },
             'Pics',
         ],

@@ -1,27 +1,27 @@
 const express = require('express')
-const {setTokenCookie, restoreUser} = require('../../utils/auth')
-const {User} = require('../../db/models')
+const { setTokenCookie, restoreUser } = require('../../utils/auth')
+const { User, Spot, Booking } = require('../../db/models')
 const { validateLogin } = require('../../utils/validators')
 
 const router = express.Router()
 
 router.get("/", restoreUser, (req, res) => {
-	const { user } = req;
-	const token = req.cookies.token;
-	if (user) {
-		return res.json({
-			user: user.toSafeObject(),
-			token,
-		});
-	}
+    const { user } = req;
+    const token = req.cookies.token;
+    if (user) {
+        return res.json({
+            user: user.toSafeObject(),
+            token,
+        });
+    }
 
-	return res.json({});
+    return res.json({});
 });
 
 router.post('/', validateLogin, async (req, res, next) => {
     const { credential, password } = req.body
 
-    const user = await User.login({credential, password})
+    const user = await User.login({ credential, password })
 
     if (!user) {
         const err = new Error('Login failed')
@@ -41,7 +41,7 @@ router.post('/', validateLogin, async (req, res, next) => {
 
 router.delete('/', async (req, res) => {
     res.clearCookie('token')
-    return res.json({ message: 'Successfully logged out'})
+    return res.json({ message: 'Successfully logged out' })
 })
 
 module.exports = router

@@ -12,6 +12,7 @@ import SpotIndex from './components/SpotIndex';
 import MangageListings from './components/Profile/ProfilePage';
 import * as reviewActions from './store/reviews'
 import HostForm from './components/NewSpotForm'
+import { UserReservations } from './components/Profile/UserReservations';
 
 
 function App() {
@@ -22,7 +23,6 @@ function App() {
   useEffect(() => {
     dispatch(sessionActions.thunkRestoreSession())
       .then(a => dispatch(spotActions.thunkLoadAllSpots()))
-      .then(a => dispatch(reviewActions.thunkLoadReviews()))
       .then(() => setIsLoaded(true))
   }, [dispatch]);
 
@@ -49,6 +49,9 @@ function App() {
             </Route>
             <Route path="/create-listing">
               <HostForm />
+            </Route>
+            <Route>
+              <UserReservations />
             </Route>
             <Route>
               <h1>404 Not Found</h1>

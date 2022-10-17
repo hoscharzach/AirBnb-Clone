@@ -28,9 +28,9 @@ export const thunkSignup = (body) => async dispatch => {
         },
         body: JSON.stringify(body)
     })
-        const data = await response.json()
-        dispatch(setUser(data.returnUser))
-        return data
+    const data = await response.json()
+    dispatch(setUser(data.returnUser))
+    return data
 
 }
 
@@ -44,8 +44,8 @@ export const thunkLogout = () => async dispatch => {
     const response = await csrfFetch('/api/session', {
         method: 'DELETE'
     })
-   dispatch(deleteUser())
-   return response
+    dispatch(deleteUser())
+    return response
 }
 
 
@@ -60,24 +60,21 @@ export const thunkLogin = (credentials) => async dispatch => {
             password: credentials.password
         })
     })
-        const data = await response.json()
-        dispatch(setUser(data.safeUser))
-        return response
+    const data = await response.json()
+    dispatch(setUser(data.safeUser))
+    return response
 }
 
 
 
 export const sessionReducer = (state = initialState, action) => {
-    let newState
     switch (action.type) {
-            case SET_USER:
-                newState = structuredClone(state)
-                newState.user = action.user
-                return newState
-            case DELETE_USER:
-                newState = structuredClone(state)
-                newState.user = null
-                return newState
+        case SET_USER:
+            return {
+                user: action.user
+            }
+        case DELETE_USER:
+            return initialState
         default:
             return state
     }

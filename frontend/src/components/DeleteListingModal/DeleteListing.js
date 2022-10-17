@@ -1,39 +1,32 @@
 import { useDispatch } from "react-redux"
 import * as spotActions from '../../store/spots'
-import { useState } from "react"
 import { useHistory } from "react-router-dom"
 import x from '../../assets/images/icons/x-symbol-svgrepo-com.svg'
-import * as reviewActions from '../../store/reviews'
 
 
-export default function DeleteListing ({spot, setShowModal, redirect}) {
+export default function DeleteListing({ spot, setShowModal, redirect }) {
     const dispatch = useDispatch()
     const history = useHistory()
 
-    async function onClickYes (e) {
+    async function onClickYes(e) {
         e.preventDefault()
-            await dispatch(spotActions.thunkDeleteSpot(spot.id))
-            window.alert("Listing successfully deleted")
+        await dispatch(spotActions.thunkDeleteSpot(spot.id))
 
-            dispatch(reviewActions.thunkLoadReviews())
-            if (redirect === '/my-profile') {
-                setShowModal(false)
-            } else history.push('/')
+        if (redirect === '/my-profile') {
+            setShowModal(false)
+        } else history.push('/')
 
 
     }
 
-    function onClickNo (e) {
+    function close(e) {
         setShowModal(false)
     }
 
-    const clickX = (e) => {
-        setShowModal(false)
-      }
 
     return (
         <>
-            <div className="close-out-button" onClick={clickX}>
+            <div className="close-out-button" onClick={close}>
                 <img className="x" src={x} alt=""></img>
             </div>
 
@@ -43,22 +36,15 @@ export default function DeleteListing ({spot, setShowModal, redirect}) {
                         Delete Listing
                     </div>
                 </div>
-            <div className='modal-body-wrapper'>
+                <div className='modal-body-wrapper'>
 
-{/*
-            <ul>
-            {errors.map((error, i) => (
-                <li key={i}>{error} </li>
-                ))}
-            </ul> */}
-
-            <h2>Are you sure you want to delete this listing?</h2>
-            <div className="yes-or-no-buttons-container">
-                <button className="edit-review-modal-button" onClick={onClickYes}>Confirm</button>
-                <button className="edit-review-modal-button" onClick={onClickNo}>Cancel</button>
-            </div>
+                    <h2>Are you sure you want to delete this listing?</h2>
+                    <div className="yes-or-no-buttons-container">
+                        <button className="edit-review-modal-button" onClick={onClickYes}>Confirm</button>
+                        <button className="edit-review-modal-button" onClick={close}>Cancel</button>
+                    </div>
                 </div>
-        </div>
+            </div>
         </>
     )
 }
