@@ -5,12 +5,25 @@ const { validateLogin } = require('../../utils/validators')
 
 const router = express.Router()
 
-router.get("/", restoreUser, (req, res) => {
+router.get("/", restoreUser, async (req, res) => {
     const { user } = req;
     const token = req.cookies.token;
-    if (user) {
+    const userData = await User.findOne({
+        where: {
+            id: Number(user.id),
+
+        },
+        include: [
+            { model: Booking, include: { model: Spot } }
+        ],
+        exclude: [
+            ['hashedPassword']
+        ]
+    })
+
+    if (userData) {
         return res.json({
-            user: user.toSafeObject(),
+            user: userData,
             token,
         });
     }

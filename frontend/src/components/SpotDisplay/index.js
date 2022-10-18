@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import AddReviewModal from "../AddReviewModal"
 import DeleteListingModal from "../DeleteListingModal"
@@ -9,16 +9,16 @@ import './spot-display.css'
 import star from '../../assets/images/icons/svgexport-14.svg'
 import avatar from '../../assets/images/icons/svgexport-7.svg'
 import { thunkAddBooking } from "../../store/spots"
+import { convertISODateToRange } from "../../utils/functions"
 
 
 export default function SpotDisplay() {
     const { spotId } = useParams()
+
+    const history = useHistory()
     const dispatch = useDispatch()
     const sessionUser = useSelector(state => state.session.user)
     const spot = useSelector(state => state.spots.normalizedSpots[Number(spotId)])
-
-    const allReviews = useSelector(state => state.reviews.normalizedReviews)
-    const reviews = Object.values(allReviews).filter(review => review?.spotId === spot?.id)
 
     const todayObj = new Date()
     const today = todayObj.toISOString().slice(0, 10)
@@ -31,6 +31,10 @@ export default function SpotDisplay() {
     const [endDate, setEndDate] = useState(nextDay)
     const [lengthOfStay, setLengthOfStay] = useState(1)
     const [errors, setErrors] = useState([])
+
+    useEffect(() => {
+
+    }, [spot.Reviews])
 
     useEffect(() => {
 
@@ -55,11 +59,9 @@ export default function SpotDisplay() {
 
     // check for reviews that exist by user
     useEffect(() => {
-        if (reviews && sessionUser) {
-            const userReview = reviews.find(review => review?.userId === sessionUser?.id)
-            userReview !== undefined ? setShowAddReview(false) : setShowAddReview(true)
-        }
-    }, [sessionUser, reviews])
+        // if we find a review, don't show add review button
+        setShowAddReview(!spot.Reviews.find(rev => sessionUser?.id === rev.userId))
+    }, [sessionUser, spot.Reviews])
 
     const submitBooking = async () => {
 
@@ -71,16 +73,18 @@ export default function SpotDisplay() {
         }
 
         return dispatch(thunkAddBooking(payload))
+            .then(data => history.push('/trips'))
             .catch(async data => {
                 const err = await data.json()
                 if (err && err.error) {
                     setErrors([
                         err.error,
-                        `${err.conflictCheck.startDate} - ${err.conflictCheck.endDate}`
+                        `${convertISODateToRange(err.conflictCheck.startDate, err.conflictCheck.endDate)}`
                     ])
                 }
             })
     }
+
 
     // useEffect(() => {
     //     window.scrollTo(0, 0)
@@ -89,9 +93,9 @@ export default function SpotDisplay() {
     let avgStarRating
     let numReviews
 
-    if (reviews && reviews.length > 0) {
-        numReviews = reviews.length
-        let sum = reviews.reduce((acc, review) => {
+    if (spot.Reviews && spot.Reviews.length > 0) {
+        numReviews = spot.Reviews.length
+        let sum = spot.Reviews.reduce((acc, review) => {
             return acc + review.stars
         }, 0)
         if (avgStarRating === Math.floor(avgStarRating)) {
@@ -111,16 +115,16 @@ export default function SpotDisplay() {
     //determine what reviews header will look like, depending on if user owns spot or has already left a review
     let reviewsHeader
 
-    if (reviews.length > 0) {
+    if (spot.Reviews.length > 0) {
         reviewsHeader = (
             <div className="spot-display-review-header">
                 <h2><img className="bottom-reviews-star" src={star} alt="" ></img> {avgStarRating} · {numReviews} Reviews</h2>
                 {!userOwnsSpot && showAddReview && sessionUser && <AddReviewModal user={sessionUser} spot={spot} />}
             </div>
         )
-    } else if (reviews.length === 0) {
+    } else if (spot.Reviews.length === 0) {
         reviewsHeader = (
-            <div className="spot-display-review-header">
+            <div className="">
                 <h2>No Reviews</h2>
                 {!userOwnsSpot && sessionUser && <AddReviewModal user={sessionUser} spot={spot} />}
             </div>
@@ -131,8 +135,6 @@ export default function SpotDisplay() {
         )
     }
     let test = new Array(4).fill(spot.previewImage)
-
-    // console.log(startDate, "START DATE", tomorrow, "END DATE")
 
     return (
         <>
@@ -149,7 +151,7 @@ export default function SpotDisplay() {
                                     <span className="flex items-center ">
                                         <div className="flex items-center mr-2">
                                             <img className="w-[14px] h-[14px]" src={star} alt="" ></img>
-                                        </div><span className="mr-1"> {avgStarRating} · </span><span className="underline underline-offset-2">{reviews.length > 0 ? numReviews + ' Reviews' : 'No Reviews'} </span>
+                                        </div><span className="mr-1"> {avgStarRating} · </span><span className="underline underline-offset-2">{spot.Reviews.length > 0 ? numReviews + ' Reviews' : 'No Reviews'} </span>
                                     </span>
                                     <span className="hidden sm:block mx-5">·</span>
                                     <span className="hidden sm:block underline underline-offset-2"> {spot.city}, {spot.state}, {spot.country}
@@ -157,7 +159,7 @@ export default function SpotDisplay() {
                                 </div>
 
                                 {/* Edit and Delete Buttons */}
-                                {sessionUser.id === spot.ownerId &&
+                                {sessionUser?.id === spot.ownerId &&
                                     <div className="child:ml-2 flex justify-evenly">
                                         <EditListingModal spot={spot} />
                                         <DeleteListingModal spot={spot} />
@@ -202,8 +204,8 @@ export default function SpotDisplay() {
                                     </div>
                                     <div className="flex items-center">
                                         <span><img alt="" className="mb-1 mr-1 w-[14px] h-[14px]" src={star}></img></span>
-                                        {reviews.length > 0 && <><span className="font-semibold">{avgStarRating}</span><span><span className="mx-2">·</span>{reviews.length} reviews</span></>}
-                                        {reviews.length === 0 && <><span className="font-semibold">New!</span><span><span className="mx-2">·</span>No reviews</span></>}
+                                        {spot.Reviews.length > 0 && <><span className="font-semibold">{avgStarRating}</span><span><span className="mx-2">·</span>{spot.Reviews.length} reviews</span></>}
+                                        {spot.Reviews.length === 0 && <><span className="font-semibold">New!</span><span><span className="mx-2">·</span>No reviews</span></>}
                                     </div>
                                 </div>
                                 {/* booking date inputs*/}
@@ -211,7 +213,12 @@ export default function SpotDisplay() {
                                     <div className="flex justify-start flex-col lg:w-2/4">
                                         <label className="w-full">Check-in</label>
                                         <input className="w-full rounded-lg" type="date" min={today} id="start" name="trip-start"
-                                            value={startDate} onChange={(e) => setStartDate(e.target.value)}
+                                            value={startDate} onChange={(e) => {
+                                                console.log(e)
+                                                console.log(e.target.value)
+                                                console.log(e.target)
+                                                setStartDate(e.target.value)
+                                            }}
                                         />
                                     </div>
                                     <div className="flex justify-start flex-col lg:w-2/4">
@@ -255,7 +262,9 @@ export default function SpotDisplay() {
                     <div className="w-full flex flex-col mt-12">
                         {reviewsHeader}
                         <div className="flex flex-col lg:flex-row">
-                            <ReviewCard review={spot.Reviews[0]} />
+                            {spot.Reviews && spot.Reviews.map(rev => (
+                                <ReviewCard review={rev} />
+                            ))}
                         </div>
                     </div>
                 </div>

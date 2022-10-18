@@ -54,13 +54,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'ownerId', onDelete: 'CASCADE', hooks: true
       })
 
-      // User.belongsToMany(models.Spot, {
-      //   through: models.Booking,
-      //   hooks: true
-      // onDelete: 'CASCADE',
-      // hooks: true
-      // })
-
       User.hasMany(models.Image, {
         foreignKey: 'userId'
       })
@@ -114,7 +107,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     scopes: {
       currentUser: {
-        exclude: ['hashedPassword']
+        exclude: ['hashedPassword'],
       },
       loginUser: {
         attributes: {}

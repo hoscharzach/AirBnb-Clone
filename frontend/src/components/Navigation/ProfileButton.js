@@ -48,7 +48,7 @@ function ProfileButton({ user }) {
     dropdownItems = (
       <>
         <div className=''>{user.email}</div>
-        <hr style={{ padding: 0 }} className='my-2'></hr>
+        <hr style={{ padding: 0 }} className='mx-2'></hr>
         <button className='flex items-start' onClick={() => history.push('/my-profile')} >My Listings</button>
         <button className='flex items-start' onClick={() => history.push('/trips')} >Upcoming Trips</button>
         <button className='flex items-start' onClick={() => history.push('/create-listing')} >Create Listing</button>

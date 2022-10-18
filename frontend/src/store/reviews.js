@@ -68,7 +68,8 @@ export const thunkCreateReview = (review) => async dispatch => {
 
     if (response.ok) {
         const data = await response.json()
-        return dispatch(createReview(data))
+        dispatch(createReview(data))
+        return data
     } else throw response
 
 }

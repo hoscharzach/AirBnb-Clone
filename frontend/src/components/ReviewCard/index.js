@@ -13,7 +13,7 @@ export default function ReviewCard({ review }) {
 
 
     let reviewButtons
-    if (sessionUser.id === review.userId)
+    if (sessionUser?.id === review.userId)
         reviewButtons = (
             <>
                 <EditReviewModal review={review} />
@@ -32,24 +32,5 @@ export default function ReviewCard({ review }) {
             </div>
             <div>{review.content}</div>
         </div>
-        // <div className="review-card">
-        //     <div className="review-card-header">
-        //         <div className="review-card-user-info-container">
-        //             <div className="review-card-user-icon"><img className="review-card-user-icon-image" src={icon} alt="" ></img></div>
-        //             <div className="review-card-username-rating">
-        //                 <div><h4>{review.User.firstName}</h4></div>
-        //                 <div className='review-card-stars-icon'>{review.stars} <img className="review-card-star" src={star} alt="" ></img></div>
-        //             </div>
-        //         </div>
-        //         <div className="review-card-buttons">
-        //             {reviewButtons}
-        //         </div>
-        //     </div>
-        //     <div className="review-card-body">
-        //         {review.content}
-        //     </div>
-        // </div>
-
-
     )
 }

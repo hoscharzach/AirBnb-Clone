@@ -70,6 +70,7 @@ export const thunkLogin = (credentials) => async dispatch => {
 export const sessionReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_USER:
+            console.log(action)
             return {
                 user: action.user
             }

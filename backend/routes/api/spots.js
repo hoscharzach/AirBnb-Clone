@@ -70,7 +70,8 @@ router.get('/', validateQuery, async (req, res) => {
     const result = {}
     result.spots = await Spot.findAll({
         include: ['Owner',
-            { model: Review, include: { model: User } }],
+            { model: Review, include: { model: User } },
+            { model: Booking, include: { model: User } }],
         where,
         limit: size,
         offset: (page - 1) * size
