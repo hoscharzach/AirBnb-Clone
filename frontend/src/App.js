@@ -10,7 +10,6 @@ import Navigation from './components/Navigation';
 import SpotDisplay from './components/SpotDisplay'
 import SpotIndex from './components/SpotIndex';
 import MangageListings from './components/Profile/ProfilePage';
-import * as reviewActions from './store/reviews'
 import HostForm from './components/NewSpotForm'
 import { UserReservations } from './components/Profile/UserReservations';
 

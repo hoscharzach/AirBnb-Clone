@@ -172,9 +172,11 @@ export default function SpotDisplay() {
 
                     {/* image container */}
                     <div className="mt-2 flex gap-1 max-h-[600px] h-auto">
+                        {/* main image */}
                         <div className="w-full max-h-[400px] lg:max-h-[600px] lg:h-full aspect-square lg:w-6/12  ">
-                            <img className="rounded-2xl w-full h-full md:rounded-l-2xl lg:rounded-r-none object-cover object-center " src={spot.previewImage} alt="" ></img>
+                            <img className="rounded-2xl w-full h-full md:rounded-l-2xl lg:rounded-r-none object-cover object-center  " src={spot.previewImage} alt="" ></img>
                         </div>
+                        {/* image grid */}
                         <div className="hidden lg:grid lg:grid-cols-image-grid lg:auto-rows-image-grid lg:w-6/12 lg:gap-1 aspect-square " >
                             {test.map((el, i) => (
                                 <img key={i} className="object-cover h-full rounded-md object-center aspect-square" src={el}></img>
@@ -259,7 +261,7 @@ export default function SpotDisplay() {
                     {/* reviews container */}
                     <div className="w-full flex flex-col mt-12">
                         {reviewsHeader}
-                        <div className="flex flex-col lg:flex-row">
+                        <div className="flex flex-col lg:flex-row gap-4">
                             {spot.Reviews && spot.Reviews.map(rev => (
                                 <ReviewCard key={rev.id} review={rev} />
                             ))}

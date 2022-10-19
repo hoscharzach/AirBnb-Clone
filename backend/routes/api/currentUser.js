@@ -35,7 +35,7 @@ router.delete('/reviews/:reviewId', [requireAuth], async (req, res, next) => {
   }
 
   await review.destroy()
-  return res.json({ Message: "Review successfully deleted" })
+  return res.status(200).json({ Message: "Review successfully deleted" })
 })
 
 router.post('/reviews/:reviewId/images', [requireAuth, validateImage], async (req, res, next) => {

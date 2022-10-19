@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux'
 import { useState } from 'react'
-import * as reviewActions from '../../store/reviews'
+import * as reviewActions from '../../store/spots'
 import x from '../../assets/images/icons/x-symbol-svgrepo-com.svg'
 
 export default function AddReview({ user, spot, setShowModal }) {

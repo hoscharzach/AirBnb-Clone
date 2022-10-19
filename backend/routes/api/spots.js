@@ -278,18 +278,12 @@ router.post('/:spotId/reviews', [requireAuth, validateReview], async (req, res, 
     })
 
     // find the review with the included data I need
-    const returnReview = await Review.findOne({
-        where: {
-            userId
-        },
+    const returnReview = await Review.findByPk(newReview.id, {
         include: {
             model: User
-        },
-        order: [
-            ['createdAt', 'DESC']
-        ]
+        }
     })
-    return res.json(returnReview)
+    return res.status(200).json(returnReview)
 })
 // reviews by spot id
 router.get('/:spotId/reviews', async (req, res, next) => {
