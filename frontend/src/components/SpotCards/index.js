@@ -7,14 +7,12 @@ import { useEffect, useState } from "react"
 
 export default function SpotCard({ spot }) {
 
-    const allReviews = useSelector(state => state.reviews.normalizedReviews)
-    const reviews = Object.values(allReviews).filter(review => spot.id === review.spotId)
     const [avgStarRating, setAvgStarRating] = useState(null)
 
     useEffect(() => {
-        if (reviews.length > 0) {
-            let numReviews = reviews.length
-            let sum = reviews.reduce((acc, review) => {
+        if (spot.Reviews.length > 0) {
+            let numReviews = spot.Reviews.length
+            let sum = spot.Reviews.reduce((acc, review) => {
                 return acc + review.stars
             }, 0)
             let rating = (sum / numReviews)
@@ -24,7 +22,7 @@ export default function SpotCard({ spot }) {
                 setAvgStarRating(rating.toFixed(2))
             }
         }
-    }, [reviews])
+    }, [spot.Reviews])
 
     return (
         <Link to={`/spots/${spot.id}`} >

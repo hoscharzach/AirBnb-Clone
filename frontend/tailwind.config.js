@@ -29,13 +29,17 @@ module.exports = {
       gridAutoRows: {
         'index': 'min-content',
         'image-grid': 'min-content',
-        'trip-cards': 'minmax(min-content, 300px)'
+        'trip-cards': 'minmax(min-content)'
       },
       translate: {
         'click': 'translate-x-0.5 translate-y-0.5'
       },
       aspectRatio: {
         'card': '3 / 4'
+      },
+      fontFamily: {
+        souls: 'souls',
+        soulsBold: 'soulsB'
       }
     },
   },

@@ -1,20 +1,20 @@
 const express = require('express')
 const { User, Spot, Review, Image, Booking } = require('../../db/models')
 const { requireAuth, restoreUser } = require('../../utils/auth')
-const {Op} = require('sequelize')
+const { Op } = require('sequelize')
 const { response } = require('express')
 const router = express.Router()
-const { validateSpot, validateQuery, validateBooking, validateReview, validateImage} = require('../../utils/validators')
+const { validateSpot, validateQuery, validateBooking, validateReview, validateImage } = require('../../utils/validators')
 
 router.delete('/images/:imageId', requireAuth, async (req, res, next) => {
   const image = await Image.findByPk(req.params.imageId)
-  if (!image) return res.json({message: "Image couldn't be found", statusCode: 404})
+  if (!image) return res.json({ message: "Image couldn't be found", statusCode: 404 })
 
   if (image.userId !== req.user.id)
-  return res.json({message: "You are not authorized to delete this image", statusCode: 401})
+    return res.json({ message: "You are not authorized to delete this image", statusCode: 401 })
 
   await image.destroy()
-  return res.json({message: "Successfully deleted", statusCode: 200})
+  return res.json({ message: "Successfully deleted", statusCode: 200 })
 })
 
 router.delete('/reviews/:reviewId', [requireAuth], async (req, res, next) => {
@@ -35,166 +35,166 @@ router.delete('/reviews/:reviewId', [requireAuth], async (req, res, next) => {
   }
 
   await review.destroy()
-  return res.json({Message: "Review successfully deleted"})
+  return res.json({ Message: "Review successfully deleted" })
 })
 
 router.post('/reviews/:reviewId/images', [requireAuth, validateImage], async (req, res, next) => {
   const review = await Review.findByPk(req.params.reviewId)
-  if (!review) return res.json({message: "Review could not be found", statusCode: 404})
+  if (!review) return res.json({ message: "Review could not be found", statusCode: 404 })
 
-  if(review.userId !== req.user.id)
-  return res.json({message: "Only the owner of this review may add images", statusCode: 401})
+  if (review.userId !== req.user.id)
+    return res.json({ message: "Only the owner of this review may add images", statusCode: 401 })
 
   const images = await review.getImages()
-  if (images.length >= 10) return res.json({message: "No more than 10 images allowed per review", statusCode: 400})
+  if (images.length >= 10) return res.json({ message: "No more than 10 images allowed per review", statusCode: 400 })
 
   const newImage = await Image.create({
     type: 'review',
     imageUrl: req.body.imageUrl,
     reviewId: req.params.reviewId,
-    userId: req.user.id})
+    userId: req.user.id
+  })
 
-    return res.json(newImage)
+  return res.json(newImage)
 })
 // edit a review
 router.put('/reviews/:reviewId', [requireAuth, validateReview], async (req, res, next) => {
-    const { content, stars } = req.body
-    const editReview = await Review.findByPk(req.params.reviewId)
+  const { content, stars } = req.body
+  const editReview = await Review.findByPk(req.params.reviewId)
 
-    if (editReview === null) {
-      const err = new Error("Review doesn't exist")
-      err.status = 404
-      err.errors = [err.message]
-      next(err)
-    }
+  if (editReview === null) {
+    const err = new Error("Review doesn't exist")
+    err.status = 404
+    err.errors = [err.message]
+    next(err)
+  }
 
-    if (editReview && editReview.userId !== req.user.id) {
-      const err = newError("You are not authorized to edit this review.")
-      err.status = 401
-      err.errors = [err.message]
-      next(err)
-    }
+  if (editReview && editReview.userId !== req.user.id) {
+    const err = newError("You are not authorized to edit this review.")
+    err.status = 401
+    err.errors = [err.message]
+    next(err)
+  }
 
-    editReview.content = content
-    editReview.stars = stars
-    await editReview.save()
+  editReview.content = content
+  editReview.stars = stars
+  await editReview.save()
 
-    const returnReview = await Review.findOne({
-      where: {
-        id: editReview.id
-      },
-      include: {
-        model: User
-      },
-    })
+  const returnReview = await Review.findOne({
+    where: {
+      id: editReview.id
+    },
+    include: {
+      model: User
+    },
+  })
 
-    return res.json(returnReview)
+  return res.json(returnReview)
 })
 // get all review for current user with associated images
 router.get('/reviews', requireAuth, async (req, res, next) => {
 
-    const id = req.user.id
-    const reviews = await Review.findAll({
-      include: [
-        {model: Image},
-        {model: Spot},
-        {model: User, attributes: ['id', 'firstName', 'lastName']}
-      ],
-      where: {
-        userId: id
-      }
-    })
-    return res.json(reviews)
-
+  const id = req.user.id
+  const reviews = await Review.findAll({
+    include: [
+      { model: Image },
+      { model: Spot },
+      { model: User, attributes: ['id', 'firstName', 'lastName'] }
+    ],
+    where: {
+      userId: id
+    }
+  })
+  return res.json(reviews)
 })
 
 // find all spots belonging to current user
 router.get('/spots', [requireAuth], async (req, res, next) => {
-    if (req.user) {
-        id = req.user.id
-        const spots = await Spot.findAll({
-            where: {
-                ownerId: id
-            },
-        })
+  if (req.user) {
+    id = req.user.id
+    const spots = await Spot.findAll({
+      where: {
+        ownerId: id
+      },
+    })
 
-        if (spots.length === 0) return res.json({message: "You have no spots."})
-        if (spots) return res.json(spots)
-        else return res.json({ message: "You have no spots."})
-    }
+    if (spots.length === 0) return res.json({ message: "You have no spots." })
+    if (spots) return res.json(spots)
+    else return res.json({ message: "You have no spots." })
+  }
 })
 
 router.delete('/bookings/:bookingId', requireAuth, async (req, res, next) => {
   const booking = await Booking.findByPk(req.params.bookingId)
 
   if (!booking)
-  return res.json({message: "Booking not found", statusCode: 404})
+    return res.json({ message: "Booking not found", statusCode: 404 })
 
   const spot = await Spot.findByPk(booking.spotId)
 
   if ((req.user.id !== booking.userId) && (spot.ownerId !== req.user.id))
-  return res.json({message: "You are not authorized to delete this"})
+    return res.json({ message: "You are not authorized to delete this" })
 
   const today = new Date().toISOString().slice(0, 10)
 
   if (booking.startDate < today)
-  return res.json({message: "Cannot delete bookings that are in progress or completed", statusCode: 400})
+    return res.json({ message: "Cannot delete bookings that are in progress or completed", statusCode: 400 })
 
   await booking.destroy()
-  return res.json({message: "Successfully deleted", statusCode: 200})
+  return res.json({ message: "Successfully deleted", statusCode: 200 })
 
 })
 // edit booking
 router.put('/bookings/:bookingId', [validateBooking, requireAuth], async (req, res, next) => {
-  const { startDate:start, endDate:end } = req.body
+  const { startDate: start, endDate: end } = req.body
   const userId = req.user.id
   const booking = await Booking.findByPk(req.params.bookingId)
 
   if (!booking)
-  return res.json({message: "Booking couldn't be found", statusCode:404})
+    return res.json({ message: "Booking couldn't be found", statusCode: 404 })
 
-  if(userId !== booking.userId)
-  return res.json({message: "You are not authorized to edit this booking"})
+  if (userId !== booking.userId)
+    return res.json({ message: "You are not authorized to edit this booking" })
 
-  if(booking.endDate < new Date().toISOString().slice(0, 10))
-  return res.json({message: "Past bookings can't be modified", statusCode: 400})
+  if (booking.endDate < new Date().toISOString().slice(0, 10))
+    return res.json({ message: "Past bookings can't be modified", statusCode: 400 })
 
-    const spotId = booking.spotId
-    const spot = await Spot.findByPk(spotId)
+  const spotId = booking.spotId
+  const spot = await Spot.findByPk(spotId)
 
-    const conflictCheck = await spot.getBookings({
-      where: {
-        id: {
-          [Op.notIn]: [req.params.bookingId]
-        }
-      }
-    })
-
-    const response = {message: "Sorry, this spot is already booked for the specified dates.", errors: {}}
-    for (reservation of conflictCheck) {
-
-      if (reservation.startDate === start && reservation.endDate === end)
-      return res.json({message: "Booking already exists for the specified dates."})
-
-      if (reservation.startDate <= start && reservation.endDate >= start) {
-          response.errors.startDate = "Start date conflicts with an existing booking."
-        }
-      if (reservation.startDate <= end && reservation.endDate >= end) {
-        response.errors.endDate = "End date conflicts with an existing booking."
-      }
-
-      if (start <= reservation.startDate && end >= reservation.endDate) {
-        response.errors.partial = "Part of your booking overlaps another."
+  const conflictCheck = await spot.getBookings({
+    where: {
+      id: {
+        [Op.notIn]: [req.params.bookingId]
       }
     }
-      if (response.errors.startDate || response.errors.endDate || response.errors.partial) {
-        return res.json(response)
-      } else {
-        booking.startDate = start
-        booking.endDate = end
-        await booking.save()
-        return res.json(booking)
-      }
+  })
+
+  const response = { message: "Sorry, this spot is already booked for the specified dates.", errors: {} }
+  for (reservation of conflictCheck) {
+
+    if (reservation.startDate === start && reservation.endDate === end)
+      return res.json({ message: "Booking already exists for the specified dates." })
+
+    if (reservation.startDate <= start && reservation.endDate >= start) {
+      response.errors.startDate = "Start date conflicts with an existing booking."
+    }
+    if (reservation.startDate <= end && reservation.endDate >= end) {
+      response.errors.endDate = "End date conflicts with an existing booking."
+    }
+
+    if (start <= reservation.startDate && end >= reservation.endDate) {
+      response.errors.partial = "Part of your booking overlaps another."
+    }
+  }
+  if (response.errors.startDate || response.errors.endDate || response.errors.partial) {
+    return res.json(response)
+  } else {
+    booking.startDate = start
+    booking.endDate = end
+    await booking.save()
+    return res.json(booking)
+  }
 })
 
 router.get('/bookings', requireAuth, async (req, res, next) => {
@@ -205,11 +205,11 @@ router.get('/bookings', requireAuth, async (req, res, next) => {
         userId: currUser
       },
       include: [
-        {model: Spot, attributes: {exclude: ['createdAt', 'updatedAt']}},
+        { model: Spot, attributes: { exclude: ['createdAt', 'updatedAt'] } },
       ],
 
     })
-    res.json({Bookings: bookings})
+    res.json({ Bookings: bookings })
   }
 
 
@@ -217,7 +217,7 @@ router.get('/bookings', requireAuth, async (req, res, next) => {
 
 router.post('/spots', [requireAuth, validateSpot], async (req, res, next) => {
 
-  const { address, city ,state, country, lat, lng, name, description, price, previewImage } = req.body
+  const { address, city, state, country, lat, lng, name, description, price, previewImage } = req.body
   const id = req.user.id
   const newSpot = await Spot.create({
     address,
@@ -255,7 +255,7 @@ router.delete('/spots/:spotId', requireAuth, async (req, res, next) => {
   }
 
   await spot.destroy()
-  return res.json({ message:"Spot successfully deleted."})
+  return res.json({ message: "Spot successfully deleted." })
 })
 
 router.put('/spots/:spotId', [requireAuth, validateSpot], async (req, res, next) => {
@@ -285,21 +285,21 @@ router.put('/spots/:spotId', [requireAuth, validateSpot], async (req, res, next)
     description,
     price,
     previewImage
-   } = req.body
+  } = req.body
 
-    editSpot.address = address
-    editSpot.city = city
-    editSpot.state = state
-    editSpot.country = country
-    // editSpot.lat = lat
-    // editSpot.lng = lng
-    editSpot.name = name
-    editSpot.description = description
-    editSpot.price = price
-    editSpot.previewImage = previewImage
+  editSpot.address = address
+  editSpot.city = city
+  editSpot.state = state
+  editSpot.country = country
+  // editSpot.lat = lat
+  // editSpot.lng = lng
+  editSpot.name = name
+  editSpot.description = description
+  editSpot.price = price
+  editSpot.previewImage = previewImage
 
-    await editSpot.save()
-    return res.json(editSpot)
+  await editSpot.save()
+  return res.json(editSpot)
 
 })
 

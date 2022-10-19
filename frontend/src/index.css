@@ -22,6 +22,16 @@
 }
 
 @font-face {
+    font-family: 'souls';
+    src: url(./fonts/souls.ttf) format('ttf');
+}
+
+@font-face {
+    font-family: 'soulsB';
+    src: url(./fonts/soulsB.ttf) format('ttf');
+}
+
+@font-face {
     font-family: 'cereal';
     src: local('cereal'), url(./fonts/cereal.woff2) format('woff');
 }
