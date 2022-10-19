@@ -4,15 +4,13 @@ import EditReviewModal from '../EditReviewModal'
 import './reviewcard.css'
 import { format } from 'date-fns'
 import icon from '../../assets/images/icons/svgexport-7.svg'
-import star from '../../assets/images/icons/svgexport-14.svg'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function ReviewCard({ review }) {
     const sessionUser = useSelector(state => state.session.user)
     const reviewDate = new Date(review.createdAt)
 
     const [showMore, setShowMore] = useState(false)
-    console.log("REVIEW", review)
     let reviewButtons
     if (sessionUser?.id === review?.userId) {
         reviewButtons = (
@@ -37,7 +35,7 @@ export default function ReviewCard({ review }) {
     return (
         <>
             {review &&
-                <div className='w-full flex flex-col border p-2 rounded-2xl'>
+                <div className='w-full flex flex-col border p-2 rounded-2xl hover:shadow-md'>
                     {/*  */}
                     <div className='flex mb-4 justify-between'>
                         <div className='flex'>

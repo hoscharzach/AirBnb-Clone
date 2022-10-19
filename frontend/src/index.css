@@ -138,14 +138,6 @@ textarea:required {
     cursor: pointer;
 }
 
-input,
 textarea {
-    height: 52px;
-    width: 27.083vw;
-    border: 1px solid grey;
-    padding-left: 15px;
-}
-
-textarea::placeholder {
-    padding-top: 16px;
+    resize: none;
 }

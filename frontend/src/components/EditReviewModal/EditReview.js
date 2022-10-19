@@ -12,18 +12,7 @@ export default function EditReview({ review, setShowModal }) {
     const [disableSubmit, setDisableSubmit] = useState(false)
     const [hasSubmitted, setHasSubmitted] = useState(false)
 
-    useEffect(() => {
-        const errors = []
-        const validStars = ['1', '2', '3', '4', '5']
-        if (content.length < 10) errors.push('Review must be at least 10 characters')
-        if (!validStars.includes(String(stars))) errors.push('Rating must be a whole number between 1 and 5')
-        setErrors(errors)
 
-        if (errors.length > 0 && hasSubmitted === true) {
-            setDisableSubmit(true)
-        } else setDisableSubmit(false)
-
-    }, [content, stars])
 
     const onSubmit = async (e) => {
         e.preventDefault()

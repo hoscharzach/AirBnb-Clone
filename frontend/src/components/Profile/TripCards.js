@@ -16,7 +16,7 @@ export default function TripCards({ trip, variant }) {
     return (
         <>
             {/* Card wrapper */}
-            <div className="w-full flex flex-row border p-2 rounded-xl max-w-[600px]">
+            <div className="w-full flex flex-row border p-2 rounded-xl max-w-[600px] shadow-md">
                 {/* Left section */}
                 <div className="flex flex-col w-2/4 justify-center items-center">
                     <div className="font-semibold text-md text-center whitespace-nowrap text-ellipsis overflow-hidden">{trip.Spot.name}</div>

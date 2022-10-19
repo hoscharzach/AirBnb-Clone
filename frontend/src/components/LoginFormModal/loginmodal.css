@@ -63,8 +63,3 @@ h3 {
     background-color: rgba(0, 0, 0, 0.15);
     cursor: pointer;
 }
-
-::placeholder {
-    padding-left: 15px;
-    font-weight: bold;
-}
