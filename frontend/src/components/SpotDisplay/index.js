@@ -8,7 +8,7 @@ import ReviewCard from "../ReviewCard"
 import './spot-display.css'
 import star from '../../assets/images/icons/svgexport-14.svg'
 import avatar from '../../assets/images/icons/svgexport-7.svg'
-import { thunkAddBooking } from "../../store/spots"
+import { thunkAddBooking } from "../../store/session"
 import { convertISODateToRange } from "../../utils/functions"
 
 
@@ -214,9 +214,6 @@ export default function SpotDisplay() {
                                         <label className="w-full">Check-in</label>
                                         <input className="w-full rounded-lg" type="date" min={today} id="start" name="trip-start"
                                             value={startDate} onChange={(e) => {
-                                                console.log(e)
-                                                console.log(e.target.value)
-                                                console.log(e.target)
                                                 setStartDate(e.target.value)
                                             }}
                                         />

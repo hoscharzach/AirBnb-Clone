@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { Redirect } from "react-router-dom"
+import { Link, Redirect } from "react-router-dom"
 import TripCards from "./TripCards"
 
 
@@ -8,10 +8,14 @@ export function UserReservations() {
     const sessionUser = useSelector(state => state.session.user)
     const today = new Date()
 
-
+    const futureTrips = sessionUser?.Bookings.filter(trip => new Date(trip.startDate) > today).map(trip => <TripCards key={trip.id} trip={trip} />)
 
 
     if (!sessionUser) return <Redirect to={'/'} />
+
+    if (futureTrips.length === 0) return (
+        <div>You have no upcoming trips, <Link className="underline text-fuchsia-700" to='/'>find a place to stay.</Link></div>
+    )
 
     return (
         <>
@@ -20,12 +24,9 @@ export function UserReservations() {
                 {/* Title */}
                 <div className="text-3xl my-4">Upcoming Trips</div>
                 {/* Trip-cards container */}
-                <div className="w-full flex flex-col items-center md:grid md:grid-cols-trips gap-3 auto-rows-index">
+                <div className="w-full flex flex-col items-center md:grid md:grid-cols-trips gap-3 auto-rows-trip-cards">
                     {/* Trip cards */}
-                    {sessionUser && sessionUser.Bookings.map(trip => (
-                        // only render trip cards if the trip is in the future
-                        new Date(trip.startDate) > today ? <TripCards key={trip.id} trip={trip} /> : null
-                    ))}
+                    {sessionUser && futureTrips}
                 </div>
             </div>
         </>

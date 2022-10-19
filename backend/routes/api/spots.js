@@ -202,11 +202,18 @@ router.post('/:spotId/bookings', [requireAuth, validateBooking], async (req, res
         })
     }
 
-    const newBooking = await Booking.create({
+    const booking = await Booking.create({
         startDate: start,
         endDate: end,
         userId: req.user.id,
         spotId: req.params.spotId
+    })
+
+    const newBooking = await Booking.findByPk(booking.id, {
+        include: [
+            { model: User },
+            { model: Spot }
+        ]
     })
     return res.status(200).json(newBooking)
 })

@@ -28,7 +28,8 @@ module.exports = {
       },
       gridAutoRows: {
         'index': 'min-content',
-        'image-grid': 'min-content'
+        'image-grid': 'min-content',
+        'trip-cards': 'minmax(min-content, 300px)'
       },
       translate: {
         'click': 'translate-x-0.5 translate-y-0.5'

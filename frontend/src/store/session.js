@@ -1,8 +1,14 @@
 import { csrfFetch } from "./csrf"
 
-const SET_USER = 'user/set'
-const DELETE_USER = 'user/delete'
-const REMOVE_BOOKING = 'user/remove_booking'
+const SET_USER = '/user/set'
+const DELETE_USER = '/user/delete'
+const REMOVE_BOOKING = '/user/remove_booking'
+const ADD_BOOKING = '/user/add_booking'
+
+const addBooking = (data) => ({
+    type: ADD_BOOKING,
+    data
+})
 
 export const setUser = (user) => {
     return {
@@ -84,6 +90,23 @@ export const thunkDeleteBooking = (id) => async dispatch => {
     }
 }
 
+export const thunkAddBooking = (payload) => async dispatch => {
+    const response = await csrfFetch(`/api/spots/${payload.spotId}/bookings`, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+
+    if (response.ok) {
+        const data = await response.json()
+        dispatch(addBooking(data))
+    } else {
+        return response
+    }
+}
+
 
 
 export const sessionReducer = (state = initialState, action) => {
@@ -96,6 +119,17 @@ export const sessionReducer = (state = initialState, action) => {
                     ...state.user,
                     Bookings: [
                         ...state.user.Bookings.filter(booking => booking.id !== action.id)
+                    ]
+                }
+            }
+        case ADD_BOOKING:
+            return {
+                ...state,
+                user: {
+                    ...state.user,
+                    Bookings: [
+                        action.data,
+                        ...state.user.Bookings
                     ]
                 }
             }
