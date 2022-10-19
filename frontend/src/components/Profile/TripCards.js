@@ -12,11 +12,12 @@ export default function TripCards({ trip, variant }) {
                     <div className="font-semibold text-xl text-center whitespace-nowrap text-ellipsis overflow-hidden">{trip.Spot.name}</div>
                     <div className="w-full text-sm text-center mt-1 max-h-4 whitespace-nowrap text-ellipsis overflow-hidden">{trip.Spot.description}</div>
                     <hr className="w-3/4 my-3"></hr>
-                    <div className="text-xs">{trip.Spot.city}, {trip.Spot.country}</div>
+                    <div className="text-xs">{trip.Spot.city}, {trip.Spot.state} </div>
+                    <div className="text-xs">{trip.Spot.country} </div>
+                    <hr className="my-3 w-1/2" ></hr>
                     <div className="text-xs">{`${convertISODateToRange(trip.startDate, trip.endDate)}`}</div>
-                    <div className="flex flex-row gap-2">
-                        <button className="">Edit</button>
-                        <button className="">Delete</button>
+                    <div className="flex flex-row gap-2 mt-5 w-full justify-center">
+                        <button className="bg-red-600 p-2 rounded-lg text-sm text-white">Cancel</button>
                     </div>
                 </div>
                 {/* Right section */}
