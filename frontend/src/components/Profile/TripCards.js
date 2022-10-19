@@ -1,7 +1,15 @@
+import { useDispatch } from "react-redux";
+import { thunkDeleteBooking } from "../../store/session";
 import { convertISODateToRange } from "../../utils/functions";
+
 
 export default function TripCards({ trip, variant }) {
 
+    const dispatch = useDispatch()
+
+    function cancelBooking() {
+        dispatch(thunkDeleteBooking(trip.id))
+    }
 
     return (
         <>
@@ -17,7 +25,7 @@ export default function TripCards({ trip, variant }) {
                     <hr className="my-3 w-1/2" ></hr>
                     <div className="text-xs">{`${convertISODateToRange(trip.startDate, trip.endDate)}`}</div>
                     <div className="flex flex-row gap-2 mt-5 w-full justify-center">
-                        <button className="bg-red-600 p-2 rounded-lg text-sm text-white">Cancel</button>
+                        <button onClick={cancelBooking} className="bg-red-600 p-2 rounded-lg text-sm text-white">Cancel</button>
                     </div>
                 </div>
                 {/* Right section */}

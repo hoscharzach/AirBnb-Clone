@@ -263,7 +263,7 @@ export default function SpotDisplay() {
                         {reviewsHeader}
                         <div className="flex flex-col lg:flex-row">
                             {spot.Reviews && spot.Reviews.map(rev => (
-                                <ReviewCard review={rev} />
+                                <ReviewCard key={rev.id} review={rev} />
                             ))}
                         </div>
                     </div>
