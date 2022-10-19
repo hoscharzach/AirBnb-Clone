@@ -5,7 +5,6 @@ import AddReviewModal from "../AddReviewModal"
 import DeleteListingModal from "../DeleteListingModal"
 import EditListingModal from "../EditSpotModal"
 import ReviewCard from "../ReviewCard"
-import './spot-display.css'
 import star from '../../assets/images/icons/svgexport-14.svg'
 import avatar from '../../assets/images/icons/svgexport-7.svg'
 import { thunkAddBooking } from "../../store/session"
@@ -221,18 +220,18 @@ export default function SpotDisplay() {
                                     </div>
                                 </div>
                                 {/* booking date inputs*/}
-                                <div className="w-full gap-2 l rounded-2xl flex flex-col lg:flex-row ">
-                                    <div className="flex justify-start flex-col lg:w-2/4">
-                                        <label className="w-full">Check-in</label>
-                                        <input className="w-full rounded-lg" type="date" min={today} id="start" name="trip-start"
+                                <div className="w-full flex flex-col lg:flex-row border rounded-lg p-1 ">
+                                    <div className="flex justify-start flex-col lg:w-2/4 border-b lg:border-none p-1">
+                                        <label className="w-full text-base">Check-in</label>
+                                        <input className="w-15/16 rounded-lg" type="date" min={today} id="start" name="trip-start"
                                             value={startDate} onChange={(e) => {
                                                 setStartDate(e.target.value)
                                             }}
                                         />
                                     </div>
-                                    <div className="flex justify-start flex-col lg:w-2/4">
-                                        <label className="w-full">Check-out</label>
-                                        <input className="w-full rounded-lg" type="date" min={startDate} id="end" name="trip-end"
+                                    <div className="flex justify-start flex-col lg:w-2/4 lg:border-l p-1">
+                                        <label className="w-full text-base">Check-out</label>
+                                        <input className="w-15/16 rounded-lg" type="date" min={startDate} id="end" name="trip-end"
                                             value={endDate} onChange={(e) => setEndDate(e.target.value)}
                                         />
                                     </div>
