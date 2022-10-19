@@ -45,9 +45,20 @@ router.post('/', validateLogin, async (req, res, next) => {
     }
 
     const token = await setTokenCookie(res, user)
-    const safeUser = user.toSafeObject()
+    const userData = await User.findOne({
+        where: {
+            id: Number(user.id),
+
+        },
+        include: [
+            { model: Booking, include: { model: Spot } }
+        ],
+        exclude: [
+            ['hashedPassword']
+        ]
+    })
     return res.json({
-        safeUser,
+        safeUser: userData,
         token
     })
 })

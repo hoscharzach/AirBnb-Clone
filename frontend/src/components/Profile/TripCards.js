@@ -16,11 +16,11 @@ export default function TripCards({ trip, variant }) {
     return (
         <>
             {/* Card wrapper */}
-            <div className="w-full flex flex-row border p-2 rounded-xl">
+            <div className="w-full flex flex-row border p-2 rounded-xl max-w-[600px]">
                 {/* Left section */}
                 <div className="flex flex-col w-2/4 justify-center items-center">
                     <div className="font-semibold text-md text-center whitespace-nowrap text-ellipsis overflow-hidden">{trip.Spot.name}</div>
-                    <div className="w-full text-sm text-center mt-1 max-h-4 whitespace-nowrap text-ellipsis overflow-hidden">{trip.Spot.description}</div>
+                    <div className="w-full text-sm text-center mt-1 whitespace-nowrap text-ellipsis overflow-hidden">{trip.Spot.description}</div>
                     <hr className="w-3/4 my-3"></hr>
                     <div className="text-xs">{trip.Spot.city}, {trip.Spot.state} </div>
                     <div className="text-xs">{trip.Spot.country} </div>

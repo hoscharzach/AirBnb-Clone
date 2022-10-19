@@ -117,8 +117,9 @@ export default function SpotDisplay() {
 
     if (spot.Reviews.length > 0) {
         reviewsHeader = (
-            <div className="spot-display-review-header">
-                <h2><img className="bottom-reviews-star" src={star} alt="" ></img> {avgStarRating} · {numReviews} Reviews</h2>
+            <div className="flex flex-row items-center child:mr-2 text-2xl font-bold mb-5">
+                <img className="bottom-reviews-star" src={star} alt="" ></img>
+                <h2> {avgStarRating} · {numReviews} Reviews</h2>
                 {!userOwnsSpot && showAddReview && sessionUser && <AddReviewModal user={sessionUser} spot={spot} />}
             </div>
         )

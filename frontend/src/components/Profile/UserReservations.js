@@ -8,13 +8,14 @@ export function UserReservations() {
     const sessionUser = useSelector(state => state.session.user)
     const today = new Date()
 
-    const futureTrips = sessionUser?.Bookings.filter(trip => new Date(trip.startDate) > today).map(trip => <TripCards key={trip.id} trip={trip} />)
+    const futureTrips = sessionUser?.Bookings.filter(trip => new Date(trip.startDate) > today)
+        .map(trip => <TripCards key={trip.id} trip={trip} />)
 
 
     if (!sessionUser) return <Redirect to={'/'} />
 
     if (futureTrips.length === 0) return (
-        <div>You have no upcoming trips, <Link className="underline text-fuchsia-700" to='/'>find a place to stay.</Link></div>
+        <div className="text-xl flex max-h-[80vh] items-center">You have no upcoming trips, <Link className="underline text-fuchsia-700" to='/'>find a place to stay.</Link></div>
     )
 
     return (
