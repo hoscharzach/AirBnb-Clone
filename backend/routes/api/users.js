@@ -1,33 +1,39 @@
 const express = require('express')
 
 const { setTokenCookie } = require('../../utils/auth')
-const { User } = require('../../db/models')
+const { User, Booking, Spot } = require('../../db/models')
 const { validateSignup } = require('../../utils/validators')
 
 const router = express.Router()
 
 router.post('/', validateSignup, async (req, res) => {
-      const { email, password, username, firstName, lastName } = req.body;
+  const { email, password, username, firstName, lastName } = req.body;
 
-      const user = await User.signup({ email, username, password, firstName, lastName });
+  const user = await User.signup({ email, username, password, firstName, lastName });
 
 
-      const token = await setTokenCookie(res, user);
+  const token = await setTokenCookie(res, user);
 
-      const returnUser = {
-        id: user.id,
-        username,
-        firstName,
-        lastName,
-        email,
-        token
-      }
+  const userData = await User.findOne({
+    where: {
+      id: Number(user.id),
 
-      return res.json({
-        returnUser,
-      });
-    }
-  );
+    },
+    include: [
+      { model: Booking, include: { model: Spot } }
+    ],
+    exclude: [
+      ['hashedPassword']
+    ]
+  })
+
+
+  return res.json({
+    userData,
+    token
+  });
+}
+);
 
 
 module.exports = router

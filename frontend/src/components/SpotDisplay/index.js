@@ -117,17 +117,26 @@ export default function SpotDisplay() {
 
     if (spot.Reviews.length > 0) {
         reviewsHeader = (
-            <div className="flex flex-row items-center child:mr-2 text-2xl font-bold mb-5">
-                <img className="bottom-reviews-star" src={star} alt="" ></img>
-                <h2> {avgStarRating} · {numReviews} Reviews</h2>
-                {!userOwnsSpot && showAddReview && sessionUser && <AddReviewModal user={sessionUser} spot={spot} />}
+            <div className="flex flex-col mb-5">
+
+                <div className="flex flex-row items-center child:mr-2 text-2xl font-bold mb-1">
+                    <img className="" src={star} alt="" ></img>
+                    <h2> {avgStarRating} · {numReviews} Reviews</h2>
+
+                </div>
+                <div>{!userOwnsSpot && showAddReview && sessionUser && <AddReviewModal user={sessionUser} spot={spot} />}</div>
             </div>
         )
     } else if (spot.Reviews.length === 0) {
         reviewsHeader = (
-            <div className="">
-                <h2>No Reviews</h2>
-                {!userOwnsSpot && sessionUser && <AddReviewModal user={sessionUser} spot={spot} />}
+            <div className="flex flex-col  mb-5">
+                <div className="flex flex-row items-center child:mr-2 text-2xl font-bold mb-1">
+                    <h2 className="">No Reviews</h2>
+                </div>
+                <div>
+
+                    {!userOwnsSpot && sessionUser && <AddReviewModal user={sessionUser} spot={spot} />}
+                </div>
             </div>
         )
     } else {
@@ -261,7 +270,7 @@ export default function SpotDisplay() {
                     {/* reviews container */}
                     <div className="w-full flex flex-col mt-12">
                         {reviewsHeader}
-                        <div className="flex flex-col lg:flex-row gap-4">
+                        <div className="flex flex-col lg:grid lg:grid-cols-2 lg:grid-flow-dense gap-4">
                             {spot.Reviews && spot.Reviews.map(rev => (
                                 <ReviewCard key={rev.id} review={rev} />
                             ))}
