@@ -5,6 +5,7 @@ const { Op } = require('sequelize')
 const { response } = require('express')
 const router = express.Router()
 const { validateSpot, validateQuery, validateBooking, validateReview, validateImage } = require('../../utils/validators')
+const { multipleMulterUpload } = require('../../awsS3')
 
 router.delete('/images/:imageId', requireAuth, async (req, res, next) => {
   const image = await Image.findByPk(req.params.imageId)
@@ -215,9 +216,11 @@ router.get('/bookings', requireAuth, async (req, res, next) => {
 
 })
 
-router.post('/spots', [requireAuth, validateSpot], async (req, res, next) => {
+router.post('/spots', [multipleMulterUpload("image"), requireAuth, validateSpot], async (req, res, next) => {
 
   const { address, city, state, country, lat, lng, name, description, price, previewImage } = req.body
+  const { images } = req.file
+
   const id = req.user.id
   const newSpot = await Spot.create({
     address,

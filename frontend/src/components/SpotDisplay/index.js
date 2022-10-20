@@ -140,7 +140,7 @@ export default function SpotDisplay() {
         <>
             {spot &&
 
-                <div className="w-4/5 flex flex-col justify-start max-w-[1200px] ">
+                <div className="w-4/5 flex flex-col justify-start max-w-[1200px] mt-12 ">
                     <div className="text-base font-semibold" >
                         <div className="w-full">
                             <div className="flex justify-start items-center spot-name-container">
@@ -258,7 +258,7 @@ export default function SpotDisplay() {
                     </div>
 
                     {/* reviews container */}
-                    <div className="w-full flex flex-col mt-12">
+                    <div className="w-full flex flex-col mt-12 mb-12">
                         {reviewsHeader}
                         <div className="flex flex-col lg:grid lg:grid-cols-2 lg:grid-flow-dense gap-4">
                             {spot.Reviews && spot.Reviews.map(rev => (

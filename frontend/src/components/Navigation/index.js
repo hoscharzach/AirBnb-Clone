@@ -21,9 +21,15 @@ function Navigation({ isLoaded }) {
   }
 
   let navStyles
+  let topBarStyles
+
   if (location.pathname === '/') {
     navStyles = {
       width: '92%',
+    }
+  } else if (location.pathname.includes('/create-listing')) {
+    topBarStyles = {
+      display: 'none'
     }
   } else {
     navStyles = {
@@ -35,7 +41,7 @@ function Navigation({ isLoaded }) {
   if (!isLoaded) return (null)
 
   return (
-    <div className="w-full h-24 flex justify-center align-middle border-b sticky top-0 bg-white ">
+    <div style={topBarStyles} className="w-full h-24 flex justify-center align-middle border-b sticky top-0 bg-white ">
       <div style={navStyles} className="w-4/5 flex justify-between items-center">
         <div className="">
           <NavLink exact to="/">

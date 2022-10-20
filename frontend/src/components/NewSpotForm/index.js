@@ -3,38 +3,63 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
 import * as spotActions from '../../store/spots'
 import { Redirect, useHistory } from 'react-router-dom'
+import './newspot.css'
 
 export default function HostForm() {
     const sessionUser = useSelector(state => state.session.user)
     const dispatch = useDispatch()
     const history = useHistory()
 
+
     const [errors, setErrors] = useState([])
 
+
     const [name, setName] = useState('')
-    const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('')
     const [state, setState] = useState('')
     const [country, setCountry] = useState('')
     const [imageUrl, setImageUrl] = useState('')
+    const [images, setImages] = useState([])
+    const [shortDescription, setShortDescription] = useState('')
+    const [longDescription, setLongDescription] = useState('')
+    const [previewImages, setPreviewImages] = useState([])
+    const [stage, setStage] = useState(0)
 
-    //     useEffect(() => {
-    //         const errors = []
-    //         if (name.length < 5) errors.push('Name must be at least 5 characters')
-    //         if (name.length > 20) errors.push('Name must be less than 20 characters')
-    //         if (description.length < 5) errors.push('Description must be at least 5 characters')
-    //         if (address.length < 3) errors.push('Address must be at least 3 characters')
-    //         if (price > 100000) errors.push('Price must be less than $100,000')
-    //         if (imageUrl.length > 150) errors.push('Image url is too long')
 
-    //         setErrors(errors)
-    //         if (errors.length > 0 && hasSubmitted === true) {
-    //             setDisableSubmit(true)
-    //         } else setDisableSubmit(false)
+    // code for the different parts of the form
+    let gradientText
+    const stages = ['nameShortDescription', 'longDescription', 'location', 'price', 'images']
+    const current = stages[stage]
+    if (current === 'nameShortDescription') gradientText = "Let's give your place a title and short description"
+    if (current === 'longDescription') gradientText = "Go into a little more detail on your place"
+    if (current === 'location') gradientText = "Where is this place located?"
+    if (current === 'price') gradientText = "How much per night?"
+    if (current === 'images') gradientText = "Next, let's add some photos of your place"
 
-    // }, [name, description, address, city, state, country, price, imageUrl])
+    useEffect(() => {
+        setErrors([])
+        const newErrors = []
+        if (name.length < 5) errors.push('Name must be at least 5 characters')
+        if (name.length > 20) errors.push('Name must be less than 20 characters')
+        if (description.length < 5) errors.push('Description must be at least 5 characters')
+        if (address.length < 3) errors.push('Address must be at least 3 characters')
+        if (price > 100000) errors.push('Price must be less than $100,000')
+        if (imageUrl.length > 150) errors.push('Image url is too long')
+
+        setErrors(newErrors)
+
+        // setErrors(errors)
+        // if (errors.length > 0 && hasSubmitted === true) {
+        //     setDisableSubmit(true)
+        // } else setDisableSubmit(false)
+
+    }, [name, description, address, city, state, country, price, imageUrl])
+
+    function next() {
+
+    }
 
     // const reset = () => {
     //     setErrors([])
@@ -54,15 +79,19 @@ export default function HostForm() {
         const payload = {
             userId: sessionUser.id,
             name,
-            description,
+            longDescription,
+            shortDescription,
             price: Math.floor(price),
             address,
             city,
             state,
             country,
+            bonfires,
+            bosses,
             lat: 1,
             lng: 1,
-            previewImage: imageUrl
+            previewImage: imageUrl,
+            images
         }
 
         dispatch(spotActions.thunkCreateSpot(payload))
@@ -83,35 +112,119 @@ export default function HostForm() {
         return (<Redirect to="/" />)
     }
 
-    const nameChange = (e) => setName(e.target.value)
-    const descriptionChange = (e) => setDescription(e.target.value)
-    const priceChange = (e) => setPrice(e.target.value)
-    const addressChange = (e) => setAddress(e.target.value)
-    const cityChange = (e) => setCity(e.target.value)
-    const stateChange = (e) => setState(e.target.value)
-    const countryChange = (e) => setCountry(e.target.value)
-    const imageUrlChange = (e) => setImageUrl(e.target.value)
+    // select an image or images, have them displayed in staging area
+    const verifyAndPreviewFile = (e) => {
+        const allowedTypes = ['image/png', 'image/jpeg', 'image/jpeg']
+
+        // grab the images
+        const files = e.target.files
+
+        // if image is invalid
+        Object.values(files).forEach(file => {
+            if (!allowedTypes.includes(file.type)) {
+                setErrors(prev => [...prev, `${file.name} is not jpg, jpeg or png`])
+            }
+        })
+
+        // for each image uploaded, verify them as valid images and then store them in preview images
+        Object.values(files).forEach(file => {
+            const img = document.createElement('img')
+            const reader = new FileReader()
+            reader.readAsDataURL(file)
+
+            reader.addEventListener('load', () => {
+                img.onerror = (err) => {
+                    setErrors([`${file.name} is an invalid image, please try a different one`])
+                }
+
+                img.onload = () => {
+                    setPreviewImages(prev => [...prev, reader.result])
+                }
+
+                img.src = reader.result
+            })
+            img.src = ''
+        })
+
+        e.target.value = null
+    }
+
+    let validationErrors = (
+        <ul className='flex flex-col items-center justify-center text-sm text-red-600'>
+            {errors.map((error, i) => (
+                <li key={i}>{error}</li>
+            ))}
+        </ul>
+    )
 
     return (
+        <>
+            <div className='w-full h-screen flex flex-col md:flex-row items-center'>
+                {/* gradient */}
+                <div className='w-full h-2/4 md:w-2/4 md:h-screen bg flex items-center justify-center p-12 font-bold pt-[5vh]'>
+                    <div className='text-white text-6xl'>{gradientText}</div>
+                </div>
+                {/* Form side */}
+                <div className='flex flex-col justify-center items-center w-screen h-2/4 md:h-screen md:w-2/4 relative'>
 
-        <div className='host-form-container'>
-            <ul className='host-form-errors'>
-                {errors.map((error, i) => (
-                    <li key={i}>{error}</li>
-                ))}
-            </ul>
-            <h1 className='host-form-title'>Create New Listing</h1>
-            <form className='create-listing-form' onSubmit={onSubmit}>
-                <input id='create-listing-top-input' required type="text" minLength="5" maxLength="20" placeholder="Name" value={name} onChange={nameChange} ></input>
-                <input type="text" minLength="5" maxLength="200" required className='description-field' placeholder="Description" value={description} onChange={descriptionChange} ></input>
-                <input type="number" required placeholder="Price" value={price} onChange={priceChange}></input>
-                <input required type="text" maxLength="150" placeholder="Address" minLength="3" value={address} onChange={addressChange}></input>
-                <input required type="text" maxLength="50" placeholder="City" value={city} onChange={cityChange}></input>
-                <input required type="text" maxLength="50" placeholder="State" value={state} onChange={stateChange} ></input>
-                <input required type="text" maxLength="40" placeholder="Country" value={country} onChange={countryChange} ></input>
-                <input id='create-listing-bottom-input' maxLength="150" required type="text" placeholder="https://image.url" value={imageUrl} onChange={imageUrlChange}></input>
-                <button type='submit' id='create-new-listing-button'>Create Listing</button>
-            </form>
-        </div>
+                    {current === 'nameShortDescription' &&
+                        <div className='flex flex-col h-2/4 w-full md:w-full md:h-screen items-center justify-center p-4'>
+                            <div className='w-4/5 h-full flex flex-col justify-center items-start'>
+                                <div className='flex flex-col justify-center w-full'>
+                                    {validationErrors}
+                                </div>
+                                <div className='text-2xl '>Title*</div>
+
+                                <input className='text-lg w-full border p-1 my-3' type="text" placeholder="Roundtable Hold" rows={2} value={name} onChange={(e) => setName(e.target.value)} ></input>
+                                <div className='text-2xl'>Short Description*</div>
+                                <div className='text-lg text-gray-500'>Your description should highlight what makes your place special.</div>
+                                <textarea className='text-lg w-full border p-1 my-3' rows={2} type="text" placeholder="Cozy castle with a blacksmith, tons of vendors, and a site of grace" value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} ></textarea>
+                            </div>
+                        </div>
+                    }
+                    {current === 'longDescription' &&
+                        <div>
+
+                        </div>
+                    }
+                    {/* sticky nav bar for next and back buttons */}
+                    <div className='flex sticky bottom-0 h-[100px] py-4 justify-center w-full'>
+                        <div className='w-4/5 flex justify-between items-center'>
+                            <button className='font-bold text-md underline' onClick={stage === 0 ? () => history.push('/') : () => setStage(prev => prev - 1)}>{stage === 0 ? 'Home' : 'Back'}</button>
+                            <button className='text-base font-semibold rounded-lg py-[14px] px-[24px] text-white bg-[#222222] hover:bg-black active:scale-95' onClick={() => setStage(prev => prev + 1)}>Next</button>
+
+                        </div>
+                    </div>
+                </div>
+                {/* <input type="text" className='description-field' placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} ></input>
+                        <input type="number" placeholder="Price" value={price} onChange={priceChange}></input>
+                        <input type="text" placeholder="Address" minLength="3" value={address} onChange={addressChange}></input>
+                        <input type="text" placeholder="City" value={city} onChange={cityChange}></input>
+                        <input type="text" placeholder="State" value={state} onChange={stateChange} ></input>
+                        <input type="text" placeholder="Country" value={country} onChange={countryChange} ></input> */}
+
+            </div>
+
+            {current === 'images' &&
+                <>
+                    <div className='flex flex-col items-center'>
+                        <ul className='text-red-600'>
+                            {errors.map((error, i) => (
+                                <li key={i}>{error}</li>
+                            ))}
+                        </ul>
+
+                        <input type="file" multiple onChange={verifyAndPreviewFile} accept="image/png, image/jpeg image/jpg" ></input>
+                        {previewImages.length > 0 &&
+                            <div className='w-2/4 grid grid-cols-2'> {previewImages.map(img => (
+                                <img className='w-full aspect-square' key={Math.random() * 1000} src={img}></img>
+                            ))}
+                            </div>}
+                        <button onClick={() => setStage(prev => prev - 1)}>Back</button>
+                        <button onClick={() => setStage(prev => prev + 1)}>Next</button>
+                    </div>
+                </>
+            }
+        </>
     )
 }

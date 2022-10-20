@@ -2,7 +2,7 @@ import LoginFormPage from './components/LoginFormPage';
 import * as sessionActions from './store/session'
 import * as spotActions from './store/spots'
 import { useDispatch, useSelector } from 'react-redux'
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import './index.css';
 import SignupForm from './components/SignupForm';
@@ -17,7 +17,7 @@ import { UserReservations } from './components/Profile/UserReservations';
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
-
+  const location = useLocation()
 
   useEffect(() => {
     dispatch(sessionActions.thunkRestoreSession())
@@ -28,7 +28,7 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      <div className='w-full min-h-[100vh] flex justify-center mt-6 '>
+      <div className='w-full min-h-[100vh] flex justify-center'>
         {isLoaded && (
           <Switch>
             <Route exact path="/">
@@ -58,7 +58,7 @@ function App() {
           </Switch>
         )}
       </div>
-      <div className='w-full h-20 sticky bottom-0 mt-7 border-y bg-white flex items-center justify-center gap-4'>
+      <div className={location.pathname.includes('/create-listing') ? 'hidden' : 'w-full h-20 sticky bottom-0 border-y bg-white flex items-center justify-center gap-4'}>
         <span>Made by Zach Hoschar:</span>
         <span className='underline  '><a className='text-blue-400' target="_blank" rel="noreferrer" href='https://github.com/hoscharzach/AirBnb-Clone'>Github Repo</a></span>
         <span className='underline '><a className='text-blue-400' target="_blank" rel="noreferrer" href='https://zachhoschar.com/'>Portfolio</a></span>
