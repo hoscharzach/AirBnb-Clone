@@ -14,13 +14,12 @@ export default function AddReview({ spot, setShowModal, review }) {
 
 
     const [errors, setErrors] = useState([])
-    const [content, setContent] = useState(review.content || '')
-    const [rating, setRating] = useState(review.stars || 1)
+    const [content, setContent] = useState(review?.content || '')
+    const [rating, setRating] = useState(review?.stars || 1)
     const [starsArray, setStarsArray] = useState(initialStars)
     const [hasSubmitted, setHasSubmitted] = useState(false)
     const [disableSubmit, setDisableSubmit] = useState(false)
 
-    console.log(rating)
     const clickX = (e) => {
         setShowModal(false)
     }
@@ -87,7 +86,7 @@ export default function AddReview({ spot, setShowModal, review }) {
                     <div className='flex justify-center w-full'>
 
                         <h2 className='text-lg relative right-4'>
-                            Add Review
+                            {review ? 'Edit Review' : 'Add Review'}
                         </h2>
                     </div>
                 </div>
@@ -103,7 +102,7 @@ export default function AddReview({ spot, setShowModal, review }) {
                             <div className='text-lg font-bold text-left mb-3'>Let others know about your experience</div>
                             <textarea rows={4} className='p-2 w-4/5 border rounded-lg' placeholder="Leave your review here..." value={content} onChange={contentChange} ></textarea>
                             <div className='flex gap-1 my-4 items-center'> {starsArray && starsArray.map((star, i) => <img className='hover:fill-slate-500' key={i} onClick={() => setRating(i + 1)} src={rating >= i + 1 ? filledStar : star}></img>)}</div>
-                            <button disabled={errors.length > 0} className='airbnb-button text-white p-3 rounded-xl my-2 disabled:opacity-75' type="submit" onClick={review ? onEditSubmit : onSubmit} >Leave Review</button>
+                            <button disabled={errors.length > 0} className='airbnb-button text-white p-3 rounded-xl my-2 disabled:opacity-75' type="submit" onClick={review ? onEditSubmit : onSubmit} >{review ? 'Submit Changes' : 'Leave Review'}</button>
                         </form>
 
                     </div>
