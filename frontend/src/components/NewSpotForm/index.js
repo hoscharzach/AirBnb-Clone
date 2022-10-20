@@ -25,6 +25,8 @@ export default function HostForm() {
     const [shortDescription, setShortDescription] = useState('')
     const [longDescription, setLongDescription] = useState('')
     const [previewImages, setPreviewImages] = useState([])
+    const [bosses, setBosses] = useState(0)
+    const [bonfires, setBonfires] = useState(0)
     const [stage, setStage] = useState(0)
 
 
@@ -36,41 +38,49 @@ export default function HostForm() {
     if (current === 'longDescription') gradientText = "Go into a little more detail on your place"
     if (current === 'location') gradientText = "Where is this place located?"
     if (current === 'price') gradientText = "How much per night?"
-    if (current === 'images') gradientText = "Next, let's add some photos of your place"
+    if (current === 'images') gradientText = "Let's add some photos of your place"
 
     useEffect(() => {
         setErrors([])
-        const newErrors = []
-        if (name.length < 5) errors.push('Name must be at least 5 characters')
-        if (name.length > 20) errors.push('Name must be less than 20 characters')
-        if (description.length < 5) errors.push('Description must be at least 5 characters')
-        if (address.length < 3) errors.push('Address must be at least 3 characters')
-        if (price > 100000) errors.push('Price must be less than $100,000')
-        if (imageUrl.length > 150) errors.push('Image url is too long')
+        const a = []
 
-        setErrors(newErrors)
+        if (stage === 0) {
+            if (name.length < 5 || name.length > 15) a.push('Title must be between 5-20 characters')
+            if (shortDescription.length < 5) a.push('Description must be at least 5 characters')
+        } else if (stage === 1) {
+            if (longDescription.length > 500) a.push('Description must be less than 500 characters.')
+        }
+
+        // if (address.length < 3) a.push('Address must be at least 3 characters')
+        // if (price > 100000) a.push('Price must be less than $100,000')
+        // if (imageUrl.length > 150) a.push('Image url is too long')
+
+        setErrors(a)
+        if (errors.length === 0) {
+            onSubmit()
+            reset()
+        }
 
         // setErrors(errors)
         // if (errors.length > 0 && hasSubmitted === true) {
         //     setDisableSubmit(true)
         // } else setDisableSubmit(false)
 
-    }, [name, description, address, city, state, country, price, imageUrl])
+    }, [name, shortDescription, longDescription, address, city, state, country, price, imageUrl])
 
-    function next() {
-
+    const reset = () => {
+        setErrors([])
+        setName('')
+        setShortDescription('')
+        setLongDescription('')
+        setPrice('')
+        setBonfires(0)
+        setBosses(0)
+        setAddress('')
+        setCity('')
+        setCountry('')
+        setImageUrl('')
     }
-
-    // const reset = () => {
-    //     setErrors([])
-    //     setName('')
-    //     setDescription('')
-    //     setPrice('')
-    //     setAddress('')
-    //     setCity('')
-    //     setCountry('')
-    //     setImageUrl('')
-    // }
 
     const onSubmit = async (e) => {
         e.preventDefault()
@@ -165,10 +175,10 @@ export default function HostForm() {
                     <div className='text-white text-6xl'>{gradientText}</div>
                 </div>
                 {/* Form side */}
-                <div className='flex flex-col justify-center items-center w-screen h-2/4 md:h-screen md:w-2/4 relative'>
+                <div className='flex flex-col justify-center items-center w-screen h-2/4 md:h-screen md:w-2/4 relative min-h-[400px]'>
 
                     {current === 'nameShortDescription' &&
-                        <div className='flex flex-col h-2/4 w-full md:w-full md:h-screen items-center justify-center p-4'>
+                        <div className='flex flex-col h-full w-full md:w-full md:h-screen items-center justify-center p-4'>
                             <div className='w-4/5 h-full flex flex-col justify-center items-start'>
                                 <div className='flex flex-col justify-center w-full'>
                                     {validationErrors}
@@ -188,7 +198,7 @@ export default function HostForm() {
                         </div>
                     }
                     {/* sticky nav bar for next and back buttons */}
-                    <div className='flex sticky bottom-0 h-[100px] py-4 justify-center w-full'>
+                    <div className='flex sticky bottom-0 h-[100px] py-4 justify-center w-full bg-white rounded-t-lg border-t'>
                         <div className='w-4/5 flex justify-between items-center'>
                             <button className='font-bold text-md underline' onClick={stage === 0 ? () => history.push('/') : () => setStage(prev => prev - 1)}>{stage === 0 ? 'Home' : 'Back'}</button>
                             <button className='text-base font-semibold rounded-lg py-[14px] px-[24px] text-white bg-[#222222] hover:bg-black active:scale-95' onClick={() => setStage(prev => prev + 1)}>Next</button>
