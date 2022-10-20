@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { useHistory, useParams } from "react-router-dom"
+import { Redirect, useHistory, useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import AddReviewModal from "../AddReviewModal"
 import DeleteListingModal from "../DeleteListingModal"
@@ -33,10 +33,6 @@ export default function SpotDisplay() {
 
     useEffect(() => {
 
-    }, [spot.Reviews])
-
-    useEffect(() => {
-
         if (startDate > endDate) {
             setEndDate(startDate)
         }
@@ -59,8 +55,8 @@ export default function SpotDisplay() {
     // check for reviews that exist by user
     useEffect(() => {
         // if we find a review, don't show add review button
-        setShowAddReview(!spot.Reviews.find(rev => sessionUser?.id === rev.userId))
-    }, [sessionUser, spot.Reviews])
+        setShowAddReview(!spot?.Reviews.find(rev => sessionUser?.id === rev.userId))
+    }, [sessionUser, spot?.Reviews])
 
     const submitBooking = async () => {
 
@@ -92,7 +88,7 @@ export default function SpotDisplay() {
     let avgStarRating
     let numReviews
 
-    if (spot.Reviews && spot.Reviews.length > 0) {
+    if (spot && spot.Reviews && spot.Reviews.length > 0) {
         numReviews = spot.Reviews.length
         let sum = spot.Reviews.reduce((acc, review) => {
             return acc + review.stars
@@ -105,12 +101,7 @@ export default function SpotDisplay() {
     }
 
 
-    if (!spot) return (
-        <div style={{ display: 'flex', justifyContent: 'center', height: '500px', alignItems: 'center' }}>
-            <h1>Spot doesn't exist</h1>
-        </div>
-    )
-
+    if (!spot) return <Redirect to='/' />
     //determine what reviews header will look like, depending on if user owns spot or has already left a review
     let reviewsHeader
 
