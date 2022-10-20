@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Modal } from '../../context/Modal';
 import AddReview from '../AddReviewModal/AddReview';
-import EditReview from './EditReview'
 
 export default function EditReviewModal({ review }) {
   const [showModal, setShowModal] = useState(false);
