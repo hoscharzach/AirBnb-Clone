@@ -19,6 +19,9 @@ app.use(morgan('dev'))
 
 // parses cookies
 app.use(cookieParser())
+
+// for aws uploads
+app.use(express.urlencoded({ extended: false }))
 // parses json bodies that contain the "application/json" header
 app.use(express.json())
 

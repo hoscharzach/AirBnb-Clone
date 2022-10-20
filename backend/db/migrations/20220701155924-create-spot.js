@@ -12,8 +12,12 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      description: {
-        type: Sequelize.STRING,
+      shortDescription: {
+        type: Sequelize.STRING(50),
+        allowNull: false
+      },
+      longDescription: {
+        type: Sequelize.STRING(500),
         allowNull: false
       },
       price: {
@@ -44,6 +48,14 @@ module.exports = {
         type: Sequelize.FLOAT,
         allowNull: false
       },
+      bosses: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      bonfires: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
       ownerId: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -54,6 +66,7 @@ module.exports = {
       },
       previewImage: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

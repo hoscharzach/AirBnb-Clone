@@ -54,9 +54,6 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'ownerId', onDelete: 'CASCADE', hooks: true
       })
 
-      User.hasMany(models.Image, {
-        foreignKey: 'userId'
-      })
     }
   }
   User.init({
@@ -89,6 +86,10 @@ module.exports = (sequelize, DataTypes) => {
         len: [3, 256],
         isEmail: true
       }
+    },
+    profilePic: {
+      type: DataTypes.STRING(255),
+      allowNull: true,
     },
     hashedPassword: {
       type: DataTypes.STRING.BINARY,

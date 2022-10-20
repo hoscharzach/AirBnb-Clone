@@ -1,10 +1,9 @@
 import { useSelector } from 'react-redux'
 import DeleteReviewModal from '../DeleteReviewModal'
 import EditReviewModal from '../EditReviewModal'
-import './reviewcard.css'
 import { format } from 'date-fns'
 import icon from '../../assets/images/icons/svgexport-7.svg'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 export default function ReviewCard({ review }) {
     const sessionUser = useSelector(state => state.session.user)
@@ -31,11 +30,10 @@ export default function ReviewCard({ review }) {
         }
     }
 
-
     return (
         <>
             {review &&
-                <div className='w-full flex flex-col border p-2 rounded-2xl hover:shadow-md'>
+                <div className='w-full flex flex-col  p-4 rounded-2xl border hover:shadow-lg'>
                     {/*  */}
                     <div className='flex mb-4 justify-between'>
                         <div className='flex'>

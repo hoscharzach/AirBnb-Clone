@@ -188,12 +188,12 @@ export default function SpotDisplay() {
                     <div className="w-full mt-12 flex flex-col md:flex-row text-lg">
                         {/* information container */}
                         <div className="w-full md:w-3/5 md:pr-10">
-                            <h2 className="text-2xl font-semibold">Entire guest suite hosted by Brad</h2>
+                            <h2 className="text-2xl font-semibold">{spot.shortDescription} hosted by {spot.Owner.firstName}</h2>
                             <div className="my-5">
-                                <span>4 guests<span className="mx-2">·</span>1 bedroom<span className="mx-2">·</span>2 beds<span className="mx-2">·</span>1 bath</span>
+                                <span>{spot.bosses} Bosses<span className="mx-2">·</span>{spot.bonfires} Bonfire/Sites of Grace</span>
                             </div>
                             <hr className="my-5"></hr>
-                            <div className="break-words">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quisnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrudnostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+                            <div className="break-words">{spot.longDescription}</div>
                         </div>
                         {/* bookings container */}
                         <div className="w-full mt-12 md:mt-0 md:w-2/5 flex justify-center md:justify-end">

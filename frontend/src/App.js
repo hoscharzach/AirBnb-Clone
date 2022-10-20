@@ -60,8 +60,8 @@ function App() {
       </div>
       <div className='w-full h-20 sticky bottom-0 mt-7 border-y bg-white flex items-center justify-center gap-4'>
         <span>Made by Zach Hoschar:</span>
-        <span className='underline  '><a className='text-blue-400' target="_blank" href='https://github.com/hoscharzach/AirBnb-Clone'>Github Repo</a></span>
-        <span className='underline '><a className='text-blue-400' target="_blank" href='https://zachhoschar.com/'>Portfolio</a></span>
+        <span className='underline  '><a className='text-blue-400' target="_blank" rel="noreferrer" href='https://github.com/hoscharzach/AirBnb-Clone'>Github Repo</a></span>
+        <span className='underline '><a className='text-blue-400' target="_blank" rel="noreferrer" href='https://zachhoschar.com/'>Portfolio</a></span>
       </div>
     </>
   );

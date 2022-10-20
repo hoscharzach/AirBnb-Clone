@@ -8,24 +8,27 @@ const router = express.Router()
 router.get("/", restoreUser, async (req, res) => {
     const { user } = req;
     const token = req.cookies.token;
-    const userData = await User.findOne({
-        where: {
-            id: Number(user.id),
 
-        },
-        include: [
-            { model: Booking, include: { model: Spot } }
-        ],
-        exclude: [
-            ['hashedPassword']
-        ]
-    })
+    if (user) {
+        const userData = await User.findOne({
+            where: {
+                id: Number(user.id),
 
-    if (userData) {
+            },
+            include: [
+                { model: Booking, include: { model: Spot } }
+            ],
+            exclude: [
+                ['hashedPassword']
+            ]
+        })
+
+
         return res.json({
             user: userData,
             token,
         });
+
     }
 
     return res.json({});

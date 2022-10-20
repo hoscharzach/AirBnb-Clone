@@ -29,7 +29,6 @@ module.exports = (sequelize, DataTypes) => {
 
       Spot.hasMany(models.Image, {
         foreignKey: 'spotId',
-        as: 'Pics',
         onDelete: 'CASCADE',
         hooks: true
       })
@@ -40,7 +39,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    description: {
+
+    shortDescription: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    longDescription: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -62,6 +66,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     country: {
       type: DataTypes.STRING,
+      allowNull: false
+    },
+    bosses: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    bonfires: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
     lat: {
