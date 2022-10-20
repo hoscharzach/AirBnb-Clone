@@ -160,7 +160,7 @@ export default function HostForm() {
     }
 
     let validationErrors = (
-        <ul className='flex flex-col items-center justify-center text-sm text-red-600'>
+        <ul className='flex flex-col items-center justify-center text-sm text-red-600 mb-2'>
             {errors.map((error, i) => (
                 <li key={i}>{error}</li>
             ))}
@@ -200,7 +200,7 @@ export default function HostForm() {
                     {/* sticky nav bar for next and back buttons */}
                     <div className='flex sticky bottom-0 h-[100px] py-4 justify-center w-full bg-white rounded-t-lg border-t'>
                         <div className='w-4/5 flex justify-between items-center'>
-                            <button className='font-bold text-md underline' onClick={stage === 0 ? () => history.push('/') : () => setStage(prev => prev - 1)}>{stage === 0 ? 'Home' : 'Back'}</button>
+                            <button className='font-bold text-md underline hover:bg-slate-100 p-2 rounded-lg' onClick={stage === 0 ? () => history.push('/') : () => setStage(prev => prev - 1)}>{stage === 0 ? 'Home' : 'Back'}</button>
                             <button className='text-base font-semibold rounded-lg py-[14px] px-[24px] text-white bg-[#222222] hover:bg-black active:scale-95' onClick={() => setStage(prev => prev + 1)}>Next</button>
 
                         </div>
