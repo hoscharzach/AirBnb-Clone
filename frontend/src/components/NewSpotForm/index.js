@@ -56,10 +56,6 @@ export default function HostForm() {
         // if (imageUrl.length > 150) a.push('Image url is too long')
 
         setErrors(a)
-        if (errors.length === 0) {
-            onSubmit()
-            reset()
-        }
 
         // setErrors(errors)
         // if (errors.length > 0 && hasSubmitted === true) {
