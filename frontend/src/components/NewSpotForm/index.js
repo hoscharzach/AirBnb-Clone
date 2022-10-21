@@ -1,11 +1,10 @@
 
 import { useDispatch, useSelector } from 'react-redux'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import * as spotActions from '../../store/spots'
 import { Redirect, useHistory } from 'react-router-dom'
 import imageSvg from '../../assets/images/icons/imagesvg.svg'
 import './newspot.css'
-import ImagePlaceholder from './ImagePlaceholder'
 
 export default function HostForm() {
     const sessionUser = useSelector(state => state.session.user)
@@ -53,7 +52,7 @@ export default function HostForm() {
         setErrors([])
         const a = []
 
-
+        console.log(Number(price))
         // validate first stage, name and short description
         if (stage === 0) {
             if (name.length < 5 || name.length > 15) a.push('Title must be between 5-20 characters')
@@ -74,7 +73,7 @@ export default function HostForm() {
         }
         // validate fourth page, price
         else if (stage === 3) {
-            if (Number(price < 1) || Number(price) > 100000) a.push('Please pick a price between $1 and $100,000')
+            if (Number(price) < 1 || Number(price) > 100000) a.push('Please pick a price between $1 and $100,000')
         }
         // validate last page, images
         else if (stage === 4) {
@@ -310,9 +309,9 @@ export default function HostForm() {
                                 </div>
                                 <div className='flex flex-col w-full gap-3 h-full'>
                                     {/* main image */}
-                                    <ImagePlaceholder handleFileClick={handleFileClick} primary />
+                                    <div onClick={handleFileClick} className='min-h-[300px] flex justify-center items-center w-full aspect-video border border-dashed border-black active:border-solid'><img src={imageSvg}></img></div>
                                     <div className='flex flex-col md:grid md:grid-cols-2 gap-3 md:auto-rows-min'>
-                                        {new Array(4).fill(<ImagePlaceholder handleFileClick={handleFileClick} />)}
+                                        {new Array(4).fill(<div onClick={handleFileClick} className='min-h-[300px] flex justify-center items-center w-full aspect-video border border-dashed border-black active:border-solid'><img src={imageSvg}></img></div>)}
                                     </div>
                                 </div>
                                 {/* {previewImages.length > 0 &&
