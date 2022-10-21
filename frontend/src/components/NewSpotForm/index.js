@@ -21,10 +21,9 @@ export default function HostForm() {
 
     const [name, setName] = useState('')
     const [price, setPrice] = useState(10)
-    const [address, setAddress] = useState('')
-    const [city, setCity] = useState('')
-    const [state, setState] = useState('')
+    const [directions, setDirections] = useState('')
     const [country, setCountry] = useState('')
+    const [realm, setRealm] = useState('')
     const [imageUrl, setImageUrl] = useState('')
     const [imageFiles, setImageFiles] = useState([])
     const [shortDescription, setShortDescription] = useState('')
@@ -79,10 +78,10 @@ export default function HostForm() {
         // validate third page, location
         else if (stage === 2) {
             const regex = /^[\w\-\s]+$/;
-            if (address.length > 25 || address.length < 3) a.push('Address must be between 3 and 25 characters')
-            if (city.length > 25 || city.length < 3) a.push('Country must be between 3 and 25 characters')
-            if (country.length > 15 || country.length < 3) a.push('Realm must be between 3 and 15 characters')
-            if (!regex.test(address)) a.push('Only alphanumeric characters are allowed for the address')
+            if (directions.length > 25 || directions.length < 3) a.push('Address must be between 3 and 25 characters')
+            if (country.length > 25 || country.length < 3) a.push('Country must be between 3 and 25 characters')
+            if (realm.length > 15 || realm.length < 3) a.push('Realm must be between 3 and 15 characters')
+            if (!regex.test(directions)) a.push('Only alphanumeric characters are allowed for the address')
         }
         // validate fourth page, bosses/bonfires
         else if (stage === 3) {
@@ -110,10 +109,10 @@ export default function HostForm() {
         setPrice('')
         setBonfires(0)
         setBosses(0)
-        setAddress('')
-        setCity('')
+        setDirections('')
+        setRealm('')
         setCountry('')
-        setImageUrl('')
+
     }
 
     const onSubmit = async (e) => {
@@ -126,14 +125,11 @@ export default function HostForm() {
             longDescription,
             shortDescription,
             price: Math.floor(Number((price))),
-            address,
-            city,
-            state,
+            directions,
             country,
+            realm,
             bonfires,
             bosses,
-            lat: 1,
-            lng: 1,
             images: tempFiles
         }
 
@@ -256,15 +252,15 @@ export default function HostForm() {
                                 <div className='flex flex-col justify-center w-full'>
                                     {validationErrors}
                                 </div>
-                                <div className='text-2xl'>Address*</div>
+                                <div className='text-2xl'>Directions*</div>
                                 <div className='text-lg text-gray-500'>Give your guests a general idea of where your place is located.</div>
-                                <input className='text-xl w-full border border-black p-3 rounded-lg my-3' rows={6} type="text" placeholder="5 clicks northeast of Stormveil Castle" value={address} onChange={(e) => setAddress(e.target.value)} ></input>
+                                <input className='text-xl w-full border border-black p-3 rounded-lg my-3' rows={6} type="text" placeholder="5 clicks northeast of Stormveil Castle" value={directions} onChange={(e) => setDirections(e.target.value)} ></input>
                                 <div className='text-2xl'>Country*</div>
                                 <div className='text-lg text-gray-500'>What country does your place reside in?</div>
-                                <input className='text-xl w-full border border-black p-3 rounded-lg my-3' rows={6} type="text" placeholder="Liurnia of the Lakes" value={city} onChange={(e) => setCity(e.target.value)} ></input>
+                                <input className='text-xl w-full border border-black p-3 rounded-lg my-3' rows={6} type="text" placeholder="Liurnia of the Lakes" value={country} onChange={(e) => setCountry(e.target.value)} ></input>
                                 <div className='text-2xl'>Realm*</div>
                                 <div className='text-lg text-gray-500'>What realm?</div>
-                                <input className='text-xl w-full border border-black p-3 rounded-lg my-3' rows={6} type="text" placeholder="The Lands Between" value={country} onChange={(e) => setCountry(e.target.value)} ></input>
+                                <input className='text-xl w-full border border-black p-3 rounded-lg my-3' rows={6} type="text" placeholder="The Lands Between" value={realm} onChange={(e) => setRealm(e.target.value)} ></input>
 
                             </div>
                         </div>

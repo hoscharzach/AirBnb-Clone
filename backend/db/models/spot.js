@@ -39,7 +39,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-
     shortDescription: {
       type: DataTypes.STRING,
       allowNull: false
@@ -52,19 +51,15 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT,
       allowNull: false
     },
-    address: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    city: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    state: {
+    directions: {
       type: DataTypes.STRING,
       allowNull: false
     },
     country: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    realm: {
       type: DataTypes.STRING,
       allowNull: false
     },
@@ -75,17 +70,6 @@ module.exports = (sequelize, DataTypes) => {
     bonfires: {
       type: DataTypes.INTEGER,
       allowNull: false
-    },
-    lat: {
-      type: DataTypes.FLOAT,
-      allowNull: false
-    },
-    lng: {
-      type: DataTypes.FLOAT,
-      allowNull: false
-    },
-    previewImage: {
-      type: DataTypes.STRING,
     },
     ownerId: {
       type: DataTypes.INTEGER,

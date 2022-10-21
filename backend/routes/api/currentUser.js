@@ -218,22 +218,18 @@ router.get('/bookings', requireAuth, async (req, res, next) => {
 
 router.post('/spots', [multipleMulterUpload("images"), requireAuth, validateSpot], async (req, res, next) => {
 
-  const { address, bonfires, bosses, city, state, country, lat, lng, name, shortDescription, longDescription, price } = req.body
+  const { bonfires, bosses, directions, country, realm, name, shortDescription, longDescription, price } = req.body
   const imageLinks = await multiplePublicFileUpload(req.files)
-  console.log(imageLinks)
+
 
   const id = req.user.id
   const newSpot = await Spot.create({
-    address,
-    city,
-    state: 'test',
+    directions,
     country,
-    lat,
-    lng,
+    realm,
     name,
     shortDescription,
     longDescription,
-    previewImage: 'test2',
     price,
     bonfires,
     bosses,
@@ -301,22 +297,22 @@ router.put('/spots/:spotId', [requireAuth, validateSpot], async (req, res, next)
   }
 
   const {
-    address,
-    city,
-    state,
+    directions,
     country,
+    realm,
     name,
-    description,
+    shortDescription,
+    longDescription,
     price,
-    previewImage
+    bonfires,
+    bosses
   } = req.body
 
-  editSpot.address = address
-  editSpot.city = city
-  editSpot.state = state
+  editSpot.directions = directions
   editSpot.country = country
-  // editSpot.lat = lat
-  // editSpot.lng = lng
+  editSpot.realm = realm
+  editSpot.bonfires = bonfires
+  editSpot.bosses = bosses
   editSpot.name = name
   editSpot.description = description
   editSpot.price = price

@@ -24,15 +24,7 @@ module.exports = {
         type: Sequelize.FLOAT,
         allowNull: false
       },
-      address: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      city: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      state: {
+      directions: {
         type: Sequelize.STRING,
         allowNull: false
       },
@@ -40,12 +32,8 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      lat: {
-        type: Sequelize.FLOAT,
-        allowNull: false
-      },
-      lng: {
-        type: Sequelize.FLOAT,
+      realm: {
+        type: Sequelize.STRING,
         allowNull: false
       },
       bosses: {
@@ -63,10 +51,6 @@ module.exports = {
           model: 'Users',
           key: 'id'
         },
-      },
-      previewImage: {
-        type: Sequelize.STRING,
-        allowNull: false,
       },
       createdAt: {
         allowNull: false,

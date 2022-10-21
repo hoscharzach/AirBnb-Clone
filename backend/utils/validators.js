@@ -2,25 +2,20 @@ const { check, query } = require('express-validator')
 const { handleValidationErrors } = require('../utils/validation')
 
 exports.validateSpot = [
-  check('address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'description', 'price')
+  check('directions', 'country', 'realm', 'name', 'shortDescription', 'longDescription', 'price')
     .exists({ checkFalsy: true })
     .withMessage('All values are required.'),
-  check('address')
-    .isAlphanumeric('en-US', { ignore: ' ' })
+  check('directions')
+    .isAlphanumeric('en-US', { ignore: ' -,' })
     .withMessage('Address must be letters or numbers')
     .isLength({ min: 3, max: 25 })
-    .withMessage('Address must be between 3 and 15 characters'),
-  check('city')
-    .isAlpha()
-    .withMessage('City must only contain letters')
+    .withMessage('Address must be between 3 and 25 characters'),
+  check('country')
     .isLength({ min: 3, max: 25 })
-    .withMessage('City must be between 3 and 15 characters'),
-  // check('lat')
-  //   .isFloat()
-  //   .withMessage('Latitude is not valid'),
-  // check('lng')
-  //   .isFloat()
-  //   .withMessage('Longitude is not valid'),
+    .withMessage('Country must be between 3 and 25 characters'),
+  check('realm')
+    .isLength({ min: 3, max: 25 })
+    .withMessage('Country must be between 3 and 25 characters'),
   check('name')
     .isLength({ min: 5, max: 20 })
     .withMessage('Name must be between 5 and 20 characters.')

@@ -30,12 +30,12 @@ export default function SpotCard({ spot }) {
             <div className="h-full w-full aspect-square">
                 {/* card image */}
                 <div className="rounded-xl h-[85%]">
-                    <img className="object-cover w-full h-full rounded-xl flex flex-col shadow-lg " src={spot.previewImage} alt="" />
+                    <img className="object-cover w-full h-full rounded-xl flex flex-col shadow-lg " src={spot.Images[0].imageUrl} alt="" />
                 </div>
                 <div className="flex flex-col pt-2 grow">
                     <div className="flex items-center justify-between">
 
-                        <div className="font-bold">{spot.city}, {spot.state}</div>
+                        <div className="font-bold">{spot.country}, {spot.realm}</div>
                         {avgStarRating && <div className="flex items-center"><img className="h-[12px] w-[12px] mr-1" src={star} alt="" /> {avgStarRating} </div>}
                         {!avgStarRating && <span>New!</span>}
                     </div>
