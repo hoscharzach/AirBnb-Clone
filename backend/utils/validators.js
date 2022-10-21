@@ -8,26 +8,26 @@ exports.validateSpot = [
   check('address')
     .isAlphanumeric('en-US', { ignore: ' ' })
     .withMessage('Address must be letters or numbers')
-    .isLength({ min: 3, max: 15 })
+    .isLength({ min: 3, max: 25 })
     .withMessage('Address must be between 3 and 15 characters'),
   check('city')
     .isAlpha()
     .withMessage('City must only contain letters')
-    .isLength({ min: 3, max: 15 })
+    .isLength({ min: 3, max: 25 })
     .withMessage('City must be between 3 and 15 characters'),
-  check('lat')
-    .isFloat()
-    .withMessage('Latitude is not valid'),
-  check('lng')
-    .isFloat()
-    .withMessage('Longitude is not valid'),
+  // check('lat')
+  //   .isFloat()
+  //   .withMessage('Latitude is not valid'),
+  // check('lng')
+  //   .isFloat()
+  //   .withMessage('Longitude is not valid'),
   check('name')
     .isLength({ min: 5, max: 20 })
     .withMessage('Name must be between 5 and 20 characters.')
     .isAlphanumeric()
     .withMessage('Name cannot contain symbols'),
-  check('description')
-    .isLength({ min: 10, max: 200 })
+  check('longDescription')
+    .isLength({ min: 10, max: 500 })
     .withMessage('Description must be between 10 and 200 characters.'),
   check('price')
     .isFloat({ min: 1 })

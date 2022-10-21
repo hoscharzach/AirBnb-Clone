@@ -28,7 +28,7 @@ function App() {
   return (
     <>
       <Navigation isLoaded={isLoaded} />
-      <div className='w-full min-h-[100vh] flex justify-center'>
+      <div className='w-full min-h-screen h-full flex justify-center'>
         {isLoaded && (
           <Switch>
             <Route exact path="/">
