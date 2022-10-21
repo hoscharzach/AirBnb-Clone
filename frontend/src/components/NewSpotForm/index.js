@@ -11,6 +11,11 @@ export default function HostForm() {
     const dispatch = useDispatch()
     const history = useHistory()
 
+    const initial = []
+    for (let i = 0; i < 5; i++) {
+        initial.push(<div key={nanoid()} onClick={handleFileClick} className=' flex justify-center items-center w-full aspect-video md:aspect-square border border-dashed border-black active:border-solid'><img src={imageSvg}></img></div>)
+    }
+
     const [errors, setErrors] = useState([])
 
     const [name, setName] = useState('')
@@ -20,16 +25,21 @@ export default function HostForm() {
     const [state, setState] = useState('')
     const [country, setCountry] = useState('')
     const [imageUrl, setImageUrl] = useState('')
-    const [images, setImages] = useState([])
+    const [imageFiles, setImageFiles] = useState([])
     const [shortDescription, setShortDescription] = useState('')
     const [longDescription, setLongDescription] = useState('')
+
     const [previewImages, setPreviewImages] = useState([])
+    const [defaultImages, setDefaultImages] = useState(initial)
+
     const [bosses, setBosses] = useState(0)
     const [bonfires, setBonfires] = useState(0)
     const [stage, setStage] = useState(0)
+
+    // const [imagesMap, setImagesMap] = useState(displayImages)
+
     const [imageCount, setImageCount] = useState(0)
 
-    console.log(previewImages)
 
     // code for the different parts of the form
     let gradientText
@@ -43,52 +53,58 @@ export default function HostForm() {
     if (current === 'price') gradientText = "Now, set your price"
     if (current === 'images') gradientText = "Let's add some photos of your place"
 
-    useEffect(() => {
-        for (let i = 0; i < 5; i++) {
-            setPreviewImages(prev => [...prev, <div key={nanoid()} onClick={handleFileClick} className=' flex justify-center items-center w-full aspect-video md:aspect-square border border-dashed border-black active:border-solid'><img src={imageSvg}></img></div>])
-        }
-    }, [])
+    // useEffect(() => {
+    //     for (let i = 0; i < 5; i++) {
+    //         setPreviewImages(prev => [...prev, <button disabled={imageCount === 5} key={nanoid()} onClick={handleFileClick} className=' flex justify-center items-center w-full aspect-video md:aspect-square border border-dashed border-black active:border-solid'><img src={imageSvg}></img></button>])
+    //     }
+    // }, [])
+
     function handleFileClick(e) {
         const fileInput = document.getElementById("file-upload")
         fileInput.click()
     }
 
+
+    // only go to next page if the form will validate with current values
     const next = () => {
         setErrors([])
         const a = []
 
-        console.log(Number(price))
         // validate first stage, name and short description
-        if (stage === 0) {
-            if (name.length < 5 || name.length > 15) a.push('Title must be between 5-20 characters')
-            if (shortDescription.length < 5) a.push('Description must be at least 5 characters')
-        }
-        // validate second page, long description
-        else if (stage === 1) {
-            if (longDescription.length > 500) a.push('Description must be less than 500 characters.')
-            if (longDescription.length < 10) a.push('Description must be at least 10 characters.')
-        }
-        // validate third page, location
-        else if (stage === 2) {
-            const regex = /^[\w\-\s]+$/;
-            if (address.length > 25 || address.length < 3) a.push('Address must be between 3 and 25 characters')
-            if (city.length > 25 || city.length < 3) a.push('City must be between 3 and 25 characters')
-            if (country.length > 15 || country.length < 3) a.push('Country must be between 3 and 15 characters')
-            if (!regex.test(address)) a.push('Only alphanumeric characters are allowed for the address')
-        }
-        // validate fourth page, price
-        else if (stage === 3) {
-            if (Number(price) < 1 || Number(price) > 100000) a.push('Please pick a price between $1 and $100,000')
-        }
-        // validate last page, images
-        else if (stage === 4) {
+        // if (stage === 0) {
+        //     if (name.length < 5 || name.length > 15) a.push('Title must be between 5-20 characters')
+        //     if (shortDescription.length < 5) a.push('Description must be at least 5 characters')
+        // }
+        // // validate second page, long description
+        // else if (stage === 1) {
+        //     if (longDescription.length > 500) a.push('Description must be less than 500 characters.')
+        //     if (longDescription.length < 10) a.push('Description must be at least 10 characters.')
+        // }
+        // // validate third page, location
+        // else if (stage === 2) {
+        //     const regex = /^[\w\-\s]+$/;
+        //     if (address.length > 25 || address.length < 3) a.push('Address must be between 3 and 25 characters')
+        //     if (city.length > 25 || city.length < 3) a.push('Country must be between 3 and 25 characters')
+        //     if (country.length > 15 || country.length < 3) a.push('Realm must be between 3 and 15 characters')
+        //     if (!regex.test(address)) a.push('Only alphanumeric characters are allowed for the address')
+        // }
+        // // validate fourth page, bosses/bonfires
+        // else if (stage === 3) {
 
-        }
+        // }
+        // // validate fifth page, price
+        // else if (stage === 4) {
+        //     if (Number(price) < 1 || Number(price) > 100000) a.push('Please pick a price between $1 and $100,000')
+        //     // validate last page, images
+        // } else if (stage === 5) {
 
-        if (a.length === 0) setStage(prev => prev + 1)
-        else {
-            setErrors(a)
-        }
+        // }
+
+        // if (a.length === 0) setStage(prev => prev + 1)
+        // else {
+        //     setErrors(a)
+        // }
+        setStage(prev => prev + 1)
     }
 
     const reset = () => {
@@ -124,7 +140,7 @@ export default function HostForm() {
             lat: 1,
             lng: 1,
             previewImage: imageUrl,
-            images
+            imageFiles
         }
 
         dispatch(spotActions.thunkCreateSpot(payload))
@@ -166,7 +182,6 @@ export default function HostForm() {
 
         // for each image uploaded, verify them as valid images and then store them in preview images
         Object.values(files).forEach(file => {
-            console.log(file)
             const img = document.createElement('img')
             const reader = new FileReader()
             reader.readAsDataURL(file)
@@ -177,9 +192,17 @@ export default function HostForm() {
                 }
 
                 img.onload = () => {
-                    const newImage = (<img className='aspect-video md:aspect-square object-cover' src={reader.result}></img>)
-                    setPreviewImages(prev => [newImage, ...prev.slice(0, 5)])
-                    setImageCount(prev => prev + 1)
+                    // const defaultImage = <button key={nanoid()} disabled={imageCount === 5} onClick={handleFileClick} className=' flex justify-center items-center w-full aspect-video md:aspect-square border border-dashed border-black active:border-solid'><img src={imageSvg}></img></button>
+                    const newImage = (<img key={nanoid()} data-index={imageCount} className='aspect-video md:aspect-square object-cover hover:opacity-90 hover:bg-red-500' src={reader.result}></img>)
+                    // if it's the first image, put it at the start
+                    if (imageCount === 0) {
+                        setPreviewImages([newImage])
+                        setImageCount(prev => prev + 1)
+                    } else {
+                        // if it's not the first image, replace placeholder images with the new image in order of imagecount
+                        setPreviewImages([...previewImages, newImage])
+                        setImageCount(prev => prev + 1)
+                    }
                 }
 
                 img.src = reader.result
@@ -190,7 +213,8 @@ export default function HostForm() {
         e.target.value = null
     }
 
-    console.log(previewImages)
+    console.log(defaultImages, "DEFAULT IMAGES")
+    console.log(previewImages, "PREVIEW IMAGES")
 
     let validationErrors = (
         <ul className='flex flex-col items-center justify-center text-sm text-red-600 mb-2'>
@@ -289,7 +313,7 @@ export default function HostForm() {
                                 <div className='text-2xl'>Price*</div>
                                 <div className='text-lg text-gray-500'>Keep in mind, if your guests get killed, they can't pay.</div>
                                 <div className='flex w-full items-center gap-2 mb-4 mt-4'>
-                                    <button onClick={() => setPrice(prev => Number(prev) >= 5 ? Number(prev) - 5 : 1)} disabled={Number(price) <= 1} className='disabled:hover:cursor-not-allowed enabled:hover:border-black border rounded-full text-lg flex justify-center items-center h-8 w-8 p-7 relative enabled:active:scale-95'>-</button>
+                                    <button onClick={() => setPrice(prev => Number(prev) > 5 ? Number(prev) - 5 : 1)} disabled={Number(price) <= 1} className='disabled:hover:cursor-not-allowed enabled:hover:border-black border rounded-full text-lg flex justify-center items-center h-8 w-8 p-7 relative enabled:active:scale-95'>-</button>
                                     <span className='text-2xl'>$</span><input type="text" onChange={(e) => setPrice(e.target.value)} value={price} className='text-xl w-32 p-4 h-14 flex placeholder:text-center justify-center items-center border border-gray-400 rounded-lg'></input>
                                     <button disabled={Number(price) >= 100000} onClick={() => setPrice(prev => Number(prev) < 100000 ? Number(prev) + 5 : prev)} className='disabled:hover:cursor-not-allowed enabled:hover:border-black border  rounded-full text-lg flex justify-center items-center h-8 w-8 p-7 enabled:active:scale-95 '>+</button>
                                 </div>
@@ -324,13 +348,13 @@ export default function HostForm() {
                                 <div className='flex flex-col w-full gap-3 h-full'>
                                     {/* main image */}
                                     <div className='aspect-video w-full'>
-                                        {previewImages[0]}
+                                        {imageCount > 0 ? previewImages[0] : defaultImages[0]}
 
                                     </div>
 
                                     <div className='flex flex-col md:grid md:grid-cols-2 gap-3 md:auto-rows-min'>
                                         {/* map rest of  */}
-                                        {previewImages.slice(1, 5)}
+                                        {defaultImages.slice(1).map((el, i) => previewImages[i + 1] ? previewImages[i + 1] : el)}
                                     </div>
                                 </div>
                                 {/* {previewImages.length > 0 &&
