@@ -107,19 +107,37 @@ export const thunkCreateReview = (review) => async dispatch => {
 }
 
 export const thunkCreateSpot = (payload) => async dispatch => {
+
+    const formData = new FormData()
+    for (let key in payload) {
+        if (key !== 'images') {
+            formData.append(key, payload[key])
+        } else {
+            for (let i = 0; i < payload.images.length; i++) {
+                formData.append("images", payload.images[i])
+            }
+        }
+    }
+
+    // for (let key of formData.entries()) {
+    //     console.log(key[0] + ', ' + key[1])
+    // }
     const response = await csrfFetch(`/api/currentUser/spots`, {
         method: 'POST',
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "multipart/form-data"
         },
-        body: JSON.stringify(payload)
+        body: formData
     })
 
     if (response.ok) {
         const data = await response.json()
         dispatch(createSpot(data))
         return data.id
-    } else throw response
+    } else {
+        const errors = await response.json()
+        return errors
+    }
 }
 
 export const thunkDeleteSpot = (id) => async dispatch => {

@@ -5,6 +5,7 @@ import * as spotActions from '../../store/spots'
 import { Redirect, useHistory } from 'react-router-dom'
 import imageSvg from '../../assets/images/icons/imagesvg.svg'
 import './newspot.css'
+import { dataURLtoFile } from '../../utils/functions'
 
 export default function HostForm() {
     const sessionUser = useSelector(state => state.session.user)
@@ -41,8 +42,6 @@ export default function HostForm() {
     const [stage, setStage] = useState(0)
 
 
-    // const [imageCount, setImageCount] = useState(0)
-
 
     // code for the different parts of the form
     let gradientText
@@ -61,9 +60,7 @@ export default function HostForm() {
         fileInput.click()
     }
 
-    console.log(previewImages, "PREVIEW IMAGES")
-    console.log(defaultImages, "DEFAULT IMAGES")
-    console.log(previewImages.length, "IMAGE COUNT")
+
     // only go to next page if the form will validate with current values
     const next = () => {
         setErrors([])
@@ -103,7 +100,6 @@ export default function HostForm() {
         else {
             setErrors(a)
         }
-        setStage(prev => prev + 1)
     }
 
     const reset = () => {
@@ -122,14 +118,14 @@ export default function HostForm() {
 
     const onSubmit = async (e) => {
         e.preventDefault()
-
+        const tempFiles = previewImages.map(el => dataURLtoFile(el.blob, `${nanoid()}.png`))
         setErrors([])
         const payload = {
             userId: sessionUser.id,
             name,
             longDescription,
             shortDescription,
-            price: Math.floor(price),
+            price: Math.floor(Number((price))),
             address,
             city,
             state,
@@ -138,8 +134,7 @@ export default function HostForm() {
             bosses,
             lat: 1,
             lng: 1,
-            previewImage: imageUrl,
-            imageFiles
+            images: tempFiles
         }
 
         dispatch(spotActions.thunkCreateSpot(payload))
@@ -194,6 +189,7 @@ export default function HostForm() {
                 img.onload = () => {
                     const newId = nanoid()
                     const newImage = ({
+                        blob: reader.result,
                         id: newId, element: <img key={nanoid()} onClick={(e) => {
                             setPreviewImages(prev => prev.filter(el => el.id !== newId))
                         }} className='aspect-video md:aspect-square object-cover hover:opacity-90 hover:bg-red-500' src={reader.result}></img>
@@ -334,7 +330,7 @@ export default function HostForm() {
                                     </div>
                                     <div className='flex items-start justify-end'>
                                         <button disabled={previewImages.length === 5} onClick={handleFileClick} className='disabled:text-gray-500 disabled:border-gray-500 disabled:hover:cursor-not-allowed p-4 flex justify-center items-center rounded-lg enabled:hover:bg-gray-100 bg-white border w-24 h-9 border-black font-bold'>Upload</button>
-                                        <input style={{ display: 'none' }} id='file-upload' type="file" multiple onChange={verifyAndPreviewFile} accept="image/png, image/jpeg image/jpg" ></input>
+                                        <input style={{ display: 'none' }} id='file-upload' type="file" multiple onChange={verifyAndPreviewFile} accept=".png, .jpg, .jpeg" ></input>
 
                                     </div>
                                 </div>

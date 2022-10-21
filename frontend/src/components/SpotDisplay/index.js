@@ -134,7 +134,6 @@ export default function SpotDisplay() {
             null
         )
     }
-    let test = new Array(4).fill(spot.previewImage)
 
     return (
         <>
@@ -154,7 +153,7 @@ export default function SpotDisplay() {
                                         </div><span className="mr-1"> {avgStarRating} · </span><span className="underline underline-offset-2">{spot.Reviews.length > 0 ? numReviews + ' Reviews' : 'No Reviews'} </span>
                                     </span>
                                     <span className="hidden sm:block mx-5">·</span>
-                                    <span className="hidden sm:block underline underline-offset-2"> {spot.city}, {spot.state}, {spot.country}
+                                    <span className="hidden sm:block underline underline-offset-2"> {spot.address}, {spot.city}, {spot.country}
                                     </span>
                                 </div>
 
@@ -173,12 +172,12 @@ export default function SpotDisplay() {
                     <div className="mt-2 flex gap-1 max-h-[600px] h-auto">
                         {/* main image */}
                         <div className="w-full max-h-[400px] lg:max-h-[600px] lg:h-full aspect-square lg:w-6/12  ">
-                            <img className="rounded-2xl w-full h-full md:rounded-l-2xl lg:rounded-r-none object-cover object-center  " src={spot.previewImage} alt="" ></img>
+                            <img className="rounded-2xl w-full h-full md:rounded-l-2xl lg:rounded-r-none object-cover object-center  " src={spot.Images[0].imageUrl} alt="" ></img>
                         </div>
                         {/* image grid */}
-                        <div className="hidden lg:grid lg:grid-cols-image-grid lg:auto-rows-image-grid lg:w-6/12 lg:gap-1 aspect-square " >
-                            {test.map((el, i) => (
-                                <img key={i} className="object-cover h-full rounded-md object-center aspect-square" src={el}></img>
+                        <div className="hidden lg:grid lg:grid-cols-image-grid lg:grid-rows-image-grid lg:w-6/12 lg:gap-1 aspect-square " >
+                            {spot.Images.slice(1).map((el) => (
+                                <img key={el.id} className="w-full rounded-md object-cover aspect-square" src={el.imageUrl}></img>
 
                             ))}
                         </div>

@@ -5,7 +5,7 @@ const { Op } = require('sequelize')
 const { response } = require('express')
 const router = express.Router()
 const { validateSpot, validateQuery, validateBooking, validateReview, validateImage } = require('../../utils/validators')
-const { multipleMulterUpload } = require('../../awsS3')
+const { multipleMulterUpload, multiplePublicFileUpload } = require('../../awsS3')
 
 router.delete('/images/:imageId', requireAuth, async (req, res, next) => {
   const image = await Image.findByPk(req.params.imageId)
@@ -216,27 +216,48 @@ router.get('/bookings', requireAuth, async (req, res, next) => {
 
 })
 
-router.post('/spots', [multipleMulterUpload("image"), requireAuth, validateSpot], async (req, res, next) => {
+router.post('/spots', [multipleMulterUpload("images"), requireAuth, validateSpot], async (req, res, next) => {
 
-  const { address, city, state, country, lat, lng, name, description, price, previewImage } = req.body
-  const { images } = req.file
+  const { address, bonfires, bosses, city, state, country, lat, lng, name, shortDescription, longDescription, price } = req.body
+  const imageLinks = await multiplePublicFileUpload(req.files)
+  console.log(imageLinks)
 
   const id = req.user.id
   const newSpot = await Spot.create({
     address,
     city,
-    state,
+    state: 'test',
     country,
     lat,
     lng,
     name,
-    description,
+    shortDescription,
+    longDescription,
+    previewImage: 'test2',
     price,
-    previewImage,
+    bonfires,
+    bosses,
     ownerId: id
   })
 
-  return res.json(newSpot)
+  imageLinks.forEach(async img => {
+    const newImg = await Image.create({
+      spotId: newSpot.id,
+      imageUrl: img
+    })
+    await newSpot.addImage(newImg)
+  })
+
+  const spot = await Spot.findByPk(newSpot.id, {
+    include: [
+      { model: Image },
+      { model: Review },
+      { model: Booking },
+      'Owner'
+    ]
+  })
+
+  return res.json(spot)
 
 })
 
