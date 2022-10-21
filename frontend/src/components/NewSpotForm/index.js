@@ -70,39 +70,39 @@ export default function HostForm() {
         const a = []
 
         // validate first stage, name and short description
-        // if (stage === 0) {
-        //     if (name.length < 5 || name.length > 15) a.push('Title must be between 5-20 characters')
-        //     if (shortDescription.length < 5) a.push('Description must be at least 5 characters')
-        // }
-        // // validate second page, long description
-        // else if (stage === 1) {
-        //     if (longDescription.length > 500) a.push('Description must be less than 500 characters.')
-        //     if (longDescription.length < 10) a.push('Description must be at least 10 characters.')
-        // }
-        // // validate third page, location
-        // else if (stage === 2) {
-        //     const regex = /^[\w\-\s]+$/;
-        //     if (address.length > 25 || address.length < 3) a.push('Address must be between 3 and 25 characters')
-        //     if (city.length > 25 || city.length < 3) a.push('Country must be between 3 and 25 characters')
-        //     if (country.length > 15 || country.length < 3) a.push('Realm must be between 3 and 15 characters')
-        //     if (!regex.test(address)) a.push('Only alphanumeric characters are allowed for the address')
-        // }
-        // // validate fourth page, bosses/bonfires
-        // else if (stage === 3) {
+        if (stage === 0) {
+            if (name.length < 5 || name.length > 15) a.push('Title must be between 5-20 characters')
+            if (shortDescription.length < 5) a.push('Description must be at least 5 characters')
+        }
+        // validate second page, long description
+        else if (stage === 1) {
+            if (longDescription.length > 500) a.push('Description must be less than 500 characters.')
+            if (longDescription.length < 10) a.push('Description must be at least 10 characters.')
+        }
+        // validate third page, location
+        else if (stage === 2) {
+            const regex = /^[\w\-\s]+$/;
+            if (address.length > 25 || address.length < 3) a.push('Address must be between 3 and 25 characters')
+            if (city.length > 25 || city.length < 3) a.push('Country must be between 3 and 25 characters')
+            if (country.length > 15 || country.length < 3) a.push('Realm must be between 3 and 15 characters')
+            if (!regex.test(address)) a.push('Only alphanumeric characters are allowed for the address')
+        }
+        // validate fourth page, bosses/bonfires
+        else if (stage === 3) {
 
-        // }
-        // // validate fifth page, price
-        // else if (stage === 4) {
-        //     if (Number(price) < 1 || Number(price) > 100000) a.push('Please pick a price between $1 and $100,000')
-        //     // validate last page, images
-        // } else if (stage === 5) {
+        }
+        // validate fifth page, price
+        else if (stage === 4) {
+            if (Number(price) < 1 || Number(price) > 100000) a.push('Please pick a price between $1 and $100,000')
+            // validate last page, images
+        } else if (stage === 5) {
 
-        // }
+        }
 
-        // if (a.length === 0) setStage(prev => prev + 1)
-        // else {
-        //     setErrors(a)
-        // }
+        if (a.length === 0) setStage(prev => prev + 1)
+        else {
+            setErrors(a)
+        }
         setStage(prev => prev + 1)
     }
 
