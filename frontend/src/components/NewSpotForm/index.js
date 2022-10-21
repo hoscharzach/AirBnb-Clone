@@ -15,7 +15,7 @@ export default function HostForm() {
 
 
     const [name, setName] = useState('')
-    const [price, setPrice] = useState('')
+    const [price, setPrice] = useState(10)
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('')
     const [state, setState] = useState('')
@@ -266,18 +266,29 @@ export default function HostForm() {
                                     {validationErrors}
                                 </div>
                                 <div className='text-2xl'>Price*</div>
-                                <div className='text-lg text-gray-500'>How many safe places can your guests rest at?</div>
-                                <div className='flex w-full items-center gap-2 mb-4'>
-                                    <button onClick={() => setBonfires(prev => prev > 0 ? prev - 1 : prev)} className='border border-slate-500 rounded-full text-lg flex justify-center items-center h-8 w-8 p-3 relative active:scale-95'>-</button>
-                                    <div className='text-xl flex justify-center items-center'>{bonfires}</div>
-                                    <button onClick={() => setBonfires(prev => prev < 15 ? prev + 1 : prev)} className='border  rounded-full text-lg flex justify-center items-center h-8 w-8 p-3 active:scale-95 '>+</button>
+                                <div className='text-lg text-gray-500'>Keep in mind, if your guests get killed, they can't pay.</div>
+                                <div className='flex w-full items-center gap-2 mb-4 mt-4'>
+                                    <button onClick={() => setPrice(prev => Number(prev) >= 5 ? Number(prev) - 5 : 1)} disabled={Number(price) <= 1} className='disabled:hover:cursor-not-allowed enabled:hover:border-black border rounded-full text-lg flex justify-center items-center h-8 w-8 p-7 relative enabled:active:scale-95'>-</button>
+                                    <input type="text" onChange={(e) => setPrice(e.target.value)} value={price} className='text-xl w-32 p-4 h-14 flex placeholder:text-center justify-center items-center border border-gray-400 rounded-lg'></input>
+                                    <button disabled={Number(price) >= 100000} onClick={() => setPrice(prev => Number(prev) < 100000 ? Number(prev) + 5 : prev)} className='disabled:hover:cursor-not-allowed enabled:hover:border-black border  rounded-full text-lg flex justify-center items-center h-8 w-8 p-7 enabled:active:scale-95 '>+</button>
                                 </div>
-                                <div className='text-2xl'>Bosses/Minibosses*</div>
-                                <div className='text-lg text-gray-500'>What kind of action will your guests find?</div>
-                                <div className='flex w-full items-center gap-2 mb-4'>
-                                    <button onClick={() => setBosses(prev => prev > 0 ? prev - 1 : prev)} className='border  rounded-full text-lg flex justify-center items-center h-8 w-8 p-3 relative active:scale-95'>-</button>
-                                    <div className='text-xl flex justify-center items-center'>{bosses}</div>
-                                    <button onClick={() => setBosses(prev => prev < 15 ? prev + 1 : prev)} className='border  rounded-full text-lg flex justify-center items-center h-8 w-8 p-3 active:scale-95 '>+</button>
+
+                            </div>
+                        </div>
+                    }
+                    {
+                        current === 'images' &&
+                        <div className='flex flex-col h-full w-full md:w-full md:h-screen items-center justify-center p-4'>
+                            <div className='w-4/5 h-full flex flex-col justify-center items-start max-w-[576px]'>
+                                <div className='flex flex-col justify-center w-full'>
+                                    {validationErrors}
+                                </div>
+                                <div className='text-2xl'>Price*</div>
+                                <div className='text-lg text-gray-500'>Keep in mind, if your guests get killed, they can't pay.</div>
+                                <div className='flex w-full items-center gap-2 mb-4 mt-4'>
+                                    <button onClick={() => setPrice(prev => Number(prev) >= 5 ? Number(prev) - 5 : 1)} disabled={Number(price) <= 1} className='disabled:hover:cursor-not-allowed enabled:hover:border-black border rounded-full text-lg flex justify-center items-center h-8 w-8 p-7 relative enabled:active:scale-95'>-</button>
+                                    <span className='text-2xl'>$</span><input type="text" onChange={(e) => setPrice(e.target.value)} value={price} className='text-xl w-32 p-4 h-14 flex placeholder:text-center justify-center items-center border border-gray-400 rounded-lg'></input>
+                                    <button disabled={Number(price) >= 100000} onClick={() => setPrice(prev => Number(prev) < 100000 ? Number(prev) + 5 : prev)} className='disabled:hover:cursor-not-allowed enabled:hover:border-black border  rounded-full text-lg flex justify-center items-center h-8 w-8 p-7 enabled:active:scale-95 '>+</button>
                                 </div>
 
                             </div>
@@ -286,41 +297,16 @@ export default function HostForm() {
                     {/* sticky nav bar for next and back buttons */}
                     <div className='flex h-[80px] fixed bottom-0 py-4 md:relative justify-center w-full bg-white border-t'>
                         <div className='w-4/5 flex justify-between items-center'>
-                            <button className='font-bold text-md underline hover:bg-slate-100 p-2' onClick={stage === 0 ? () => history.push('/') : () => setStage(prev => prev - 1)}>{stage === 0 ? 'Home' : 'Back'}</button>
+                            <button className='font-bold text-md underline hover:bg-slate-100 p-2 rounded-lg' onClick={stage === 0 ? () => history.push('/') : () => setStage(prev => prev - 1)}>{stage === 0 ? 'Home' : 'Back'}</button>
                             <button className='text-base font-semibold rounded-lg py-[14px] px-[24px] text-white bg-[#222222] hover:bg-black active:scale-95' onClick={next}>Next</button>
 
                         </div>
                     </div>
                 </div>
-                {/* <input type="text" className='description-field' placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} ></input>
-                        <input type="number" placeholder="Price" value={price} onChange={priceChange}></input>
-                        <input type="text" placeholder="Address" minLength="3" value={address} onChange={addressChange}></input>
-                        <input type="text" placeholder="City" value={city} onChange={cityChange}></input>
-                        <input type="text" placeholder="State" value={state} onChange={stateChange} ></input>
-                        <input type="text" placeholder="Country" value={country} onChange={countryChange} ></input> */}
 
             </div>
 
-            {current === 'images' &&
-                <>
-                    <div className='flex flex-col items-center'>
-                        <ul className='text-red-600'>
-                            {errors.map((error, i) => (
-                                <li key={i}>{error}</li>
-                            ))}
-                        </ul>
 
-                        <input type="file" multiple onChange={verifyAndPreviewFile} accept="image/png, image/jpeg image/jpg" ></input>
-                        {previewImages.length > 0 &&
-                            <div className='w-2/4 grid grid-cols-2'> {previewImages.map(img => (
-                                <img className='w-full aspect-square' key={Math.random() * 1000} src={img}></img>
-                            ))}
-                            </div>}
-                        <button onClick={() => setStage(prev => prev - 1)}>Back</button>
-                        <button onClick={() => setStage(prev => prev + 1)}>Next</button>
-                    </div>
-                </>
-            }
         </>
     )
 }

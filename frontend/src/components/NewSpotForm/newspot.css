@@ -1,3 +1,11 @@
 .bg {
     background: linear-gradient(#e1005a, #d70069, #c90079, #b6008b, #9c009c, #7800ac, #3b07bb)
 }
+
+#price-input::-webkit-outer-spin-button,
+#price-input::-webkit-inner-spin-button {
+
+    -webkit-appearance: none;
+    margin: 0;
+
+}
