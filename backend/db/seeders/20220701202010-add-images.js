@@ -65,6 +65,46 @@ module.exports = {
         imageUrl: 'https://souls-bnb.s3.amazonaws.com/1666393175328.png',
         spotId: 3,
       },
+      {
+        imageUrl: 'https://souls-bnb.s3.amazonaws.com/1666394965097.png',
+        spotId: 4,
+      },
+      {
+        imageUrl: 'https://souls-bnb.s3.amazonaws.com/1666394965117.png',
+        spotId: 4,
+      },
+      {
+        imageUrl: 'https://souls-bnb.s3.amazonaws.com/1666394965121.png',
+        spotId: 4,
+      },
+      {
+        imageUrl: 'https://souls-bnb.s3.amazonaws.com/1666394965128.png',
+        spotId: 4,
+      },
+      {
+        imageUrl: 'https://souls-bnb.s3.amazonaws.com/1666394965124.png',
+        spotId: 4,
+      },
+      {
+        imageUrl: 'https://souls-bnb.s3.amazonaws.com/1666395631066.png',
+        spotId: 5,
+      },
+      {
+        imageUrl: 'https://souls-bnb.s3.amazonaws.com/1666395631084.png',
+        spotId: 5,
+      },
+      {
+        imageUrl: 'https://souls-bnb.s3.amazonaws.com/1666395631088.png',
+        spotId: 5,
+      },
+      {
+        imageUrl: 'https://souls-bnb.s3.amazonaws.com/1666395631091.png',
+        spotId: 5,
+      },
+      {
+        imageUrl: 'https://souls-bnb.s3.amazonaws.com/1666395631093.png',
+        spotId: 5,
+      },
 
     ])
   },

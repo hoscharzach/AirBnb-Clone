@@ -1,6 +1,6 @@
 const express = require('express')
 const { setTokenCookie, restoreUser } = require('../../utils/auth')
-const { User, Spot, Booking } = require('../../db/models')
+const { User, Spot, Booking, Image } = require('../../db/models')
 const { validateLogin } = require('../../utils/validators')
 
 const router = express.Router()
@@ -16,7 +16,7 @@ router.get("/", restoreUser, async (req, res) => {
 
             },
             include: [
-                { model: Booking, include: { model: Spot } }
+                { model: Booking, include: { model: Spot, include: { model: Image } } }
             ],
             exclude: [
                 ['hashedPassword']

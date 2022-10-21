@@ -89,6 +89,7 @@ export default function HostForm() {
         }
         // validate fifth page, price
         else if (stage === 4) {
+            if (isNaN(parseInt(price))) a.push('Please enter a valid number')
             if (Number(price) < 1 || Number(price) > 100000) a.push('Please pick a price between $1 and $100,000')
             // validate last page, images
         } else if (stage === 5) {

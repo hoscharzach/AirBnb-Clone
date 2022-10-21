@@ -18,9 +18,7 @@ exports.validateSpot = [
     .withMessage('Country must be between 3 and 25 characters'),
   check('name')
     .isLength({ min: 5, max: 20 })
-    .withMessage('Name must be between 5 and 20 characters.')
-    .isAlphanumeric()
-    .withMessage('Name cannot contain symbols'),
+    .withMessage('Name must be between 5 and 20 characters.'),
   check('longDescription')
     .isLength({ min: 10, max: 500 })
     .withMessage('Description must be between 10 and 200 characters.'),

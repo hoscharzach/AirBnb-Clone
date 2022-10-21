@@ -43,6 +43,14 @@ module.exports = {
         profilePic: 'https://eldenring.wiki.fextralife.com/file/Elden-Ring/mirel_pastor_of_vow.jpg',
         username: 'Miriel',
         hashedPassword: bcrypt.hashSync('password5')
+      },
+      {
+        email: 'user5@user.io',
+        firstName: 'Tanith',
+        lastName: 'Tanith',
+        profilePic: 'https://eldenring.wiki.fextralife.com/file/Elden-Ring/tanith_npc_elden_ring_wiki_guide_300x.jpg',
+        username: 'Tanith',
+        hashedPassword: bcrypt.hashSync('password6')
       }
     ]
     )

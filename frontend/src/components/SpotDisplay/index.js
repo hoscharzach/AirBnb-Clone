@@ -153,7 +153,7 @@ export default function SpotDisplay() {
                                         </div><span className="mr-1"> {avgStarRating} · </span><span className="underline underline-offset-2">{spot.Reviews.length > 0 ? numReviews + ' Reviews' : 'No Reviews'} </span>
                                     </span>
                                     <span className="hidden sm:block mx-5">·</span>
-                                    <span className="hidden sm:block underline underline-offset-2"> {spot.address}, {spot.city}, {spot.country}
+                                    <span className="hidden sm:block underline underline-offset-2"> {spot.directions}, {spot.country}, {spot.realm}
                                     </span>
                                 </div>
 

@@ -20,10 +20,10 @@ export default function TripCards({ trip, variant }) {
                 {/* Left section */}
                 <div className="flex flex-col w-2/4 justify-center items-center">
                     <div className="font-semibold text-md text-center whitespace-nowrap text-ellipsis overflow-hidden">{trip.Spot.name}</div>
-                    <div className="w-full text-sm text-center mt-1 whitespace-nowrap text-ellipsis overflow-hidden">{trip.Spot.description}</div>
+                    <div className="w-full text-sm text-center mt-1 whitespace-nowrap text-ellipsis overflow-hidden">{trip.Spot.shortDescription}</div>
                     <hr className="w-3/4 my-3"></hr>
-                    <div className="text-xs">{trip.Spot.city}, {trip.Spot.state} </div>
                     <div className="text-xs">{trip.Spot.country} </div>
+                    <div className="text-xs">{trip.Spot.realm} </div>
                     <hr className="my-3 w-1/2" ></hr>
                     <div className="text-xs">{`${convertISODateToRange(trip.startDate, trip.endDate)}`}</div>
                     <div className="flex flex-row gap-2 mt-5 w-full justify-center">
@@ -42,7 +42,7 @@ export default function TripCards({ trip, variant }) {
                 </div>
                 {/* Right section */}
                 <div className="w-2/4">
-                    <img className="object-cover aspect-square" src={trip.Spot.previewImage}></img>
+                    <img className="object-cover aspect-square" src={trip.Spot.Images[0].imageUrl}></img>
                 </div>
             </div>
         </>
