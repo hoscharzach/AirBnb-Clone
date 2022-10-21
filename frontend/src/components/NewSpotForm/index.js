@@ -13,7 +13,7 @@ export default function HostForm() {
 
     const initial = []
     for (let i = 0; i < 5; i++) {
-        initial.push(<div key={nanoid()} onClick={handleFileClick} className=' flex justify-center items-center w-full aspect-video md:aspect-square border border-dashed border-black active:border-solid'><img src={imageSvg}></img></div>)
+        initial.push({ id: nanoid(), element: <div key={nanoid()} onClick={handleFileClick} className=' flex justify-center items-center w-full aspect-video md:aspect-square border border-dashed border-black active:border-solid'><img src={imageSvg}></img></div> })
     }
 
     const [errors, setErrors] = useState([])
@@ -29,6 +29,10 @@ export default function HostForm() {
     const [shortDescription, setShortDescription] = useState('')
     const [longDescription, setLongDescription] = useState('')
 
+    // -fill preview images with user images
+    //  - map through default images
+    //  - if there is a real image at the same index in preview images, render that
+    //  - otherwise render the default image
     const [previewImages, setPreviewImages] = useState([])
     const [defaultImages, setDefaultImages] = useState(initial)
 
@@ -36,9 +40,8 @@ export default function HostForm() {
     const [bonfires, setBonfires] = useState(0)
     const [stage, setStage] = useState(0)
 
-    // const [imagesMap, setImagesMap] = useState(displayImages)
 
-    const [imageCount, setImageCount] = useState(0)
+    // const [imageCount, setImageCount] = useState(0)
 
 
     // code for the different parts of the form
@@ -53,18 +56,14 @@ export default function HostForm() {
     if (current === 'price') gradientText = "Now, set your price"
     if (current === 'images') gradientText = "Let's add some photos of your place"
 
-    // useEffect(() => {
-    //     for (let i = 0; i < 5; i++) {
-    //         setPreviewImages(prev => [...prev, <button disabled={imageCount === 5} key={nanoid()} onClick={handleFileClick} className=' flex justify-center items-center w-full aspect-video md:aspect-square border border-dashed border-black active:border-solid'><img src={imageSvg}></img></button>])
-    //     }
-    // }, [])
-
     function handleFileClick(e) {
         const fileInput = document.getElementById("file-upload")
         fileInput.click()
     }
 
-
+    console.log(previewImages, "PREVIEW IMAGES")
+    console.log(defaultImages, "DEFAULT IMAGES")
+    console.log(previewImages.length, "IMAGE COUNT")
     // only go to next page if the form will validate with current values
     const next = () => {
         setErrors([])
@@ -163,11 +162,12 @@ export default function HostForm() {
 
     // select an image or images, have them displayed in staging area
     const verifyAndPreviewFile = (e) => {
+        setErrors([])
         const allowedTypes = ['image/png', 'image/jpeg', 'image/jpeg']
 
         // grab the images
         const files = e.target.files
-        if (Object.keys(e.target.files).length > 5 - imageCount) {
+        if (Object.keys(e.target.files).length > 5 - previewImages.length) {
             setErrors(['Only 5 images are allowed'])
             e.target.value = null
             return
@@ -192,29 +192,22 @@ export default function HostForm() {
                 }
 
                 img.onload = () => {
-                    // const defaultImage = <button key={nanoid()} disabled={imageCount === 5} onClick={handleFileClick} className=' flex justify-center items-center w-full aspect-video md:aspect-square border border-dashed border-black active:border-solid'><img src={imageSvg}></img></button>
-                    const newImage = (<img key={nanoid()} data-index={imageCount} className='aspect-video md:aspect-square object-cover hover:opacity-90 hover:bg-red-500' src={reader.result}></img>)
-                    // if it's the first image, put it at the start
-                    if (imageCount === 0) {
-                        setPreviewImages([newImage])
-                        setImageCount(prev => prev + 1)
-                    } else {
-                        // if it's not the first image, replace placeholder images with the new image in order of imagecount
-                        setPreviewImages([...previewImages, newImage])
-                        setImageCount(prev => prev + 1)
-                    }
-                }
+                    const newId = nanoid()
+                    const newImage = ({
+                        id: newId, element: <img key={nanoid()} onClick={(e) => {
+                            setPreviewImages(prev => prev.filter(el => el.id !== newId))
+                        }} className='aspect-video md:aspect-square object-cover hover:opacity-90 hover:bg-red-500' src={reader.result}></img>
+                    })
 
+                    setPreviewImages(prev => [...prev, newImage])
+
+                }
                 img.src = reader.result
             })
-            img.src = ''
         })
 
         e.target.value = null
     }
-
-    console.log(defaultImages, "DEFAULT IMAGES")
-    console.log(previewImages, "PREVIEW IMAGES")
 
     let validationErrors = (
         <ul className='flex flex-col items-center justify-center text-sm text-red-600 mb-2'>
@@ -332,7 +325,7 @@ export default function HostForm() {
                                 <div className='flex justify-between mb-4 w-full'>
                                     <div className='flex flex-col'>
                                         {
-                                            imageCount === 5 ? <div className='text-xl font-bold'>Tada! Everything looks good.</div> :
+                                            previewImages.length === 5 ? <div className='text-xl font-bold'>Tada! Everything looks good.</div> :
                                                 <>
                                                     <div className='text-xl font-bold'>Please add 5 images*</div>
                                                     <div className='text-lg text-gray-500'>We want your place to look good.</div>
@@ -340,7 +333,7 @@ export default function HostForm() {
                                         }
                                     </div>
                                     <div className='flex items-start justify-end'>
-                                        <button disabled={imageCount === 5} onClick={handleFileClick} className='disabled:text-gray-500 disabled:border-gray-500 disabled:hover:cursor-not-allowed p-4 flex justify-center items-center rounded-lg enabled:hover:bg-gray-100 bg-white border w-24 h-9 border-black font-bold'>Upload</button>
+                                        <button disabled={previewImages.length === 5} onClick={handleFileClick} className='disabled:text-gray-500 disabled:border-gray-500 disabled:hover:cursor-not-allowed p-4 flex justify-center items-center rounded-lg enabled:hover:bg-gray-100 bg-white border w-24 h-9 border-black font-bold'>Upload</button>
                                         <input style={{ display: 'none' }} id='file-upload' type="file" multiple onChange={verifyAndPreviewFile} accept="image/png, image/jpeg image/jpg" ></input>
 
                                     </div>
@@ -348,13 +341,13 @@ export default function HostForm() {
                                 <div className='flex flex-col w-full gap-3 h-full'>
                                     {/* main image */}
                                     <div className='aspect-video w-full'>
-                                        {imageCount > 0 ? previewImages[0] : defaultImages[0]}
+                                        {previewImages.length > 0 ? previewImages[0].element : defaultImages[0].element}
 
                                     </div>
 
                                     <div className='flex flex-col md:grid md:grid-cols-2 gap-3 md:auto-rows-min'>
                                         {/* map rest of  */}
-                                        {defaultImages.slice(1).map((el, i) => previewImages[i + 1] ? previewImages[i + 1] : el)}
+                                        {defaultImages.slice(1).map((el, i) => previewImages[i + 1]?.element ? previewImages[i + 1].element : el.element)}
                                     </div>
                                 </div>
                                 {/* {previewImages.length > 0 &&
