@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
 import * as spotActions from '../../store/spots'
 import { Redirect, useHistory } from 'react-router-dom'
+import imageSvg from '../../assets/images/icons/imagesvg.svg'
 import './newspot.css'
+import ImagePlaceholder from './ImagePlaceholder'
 
 export default function HostForm() {
     const sessionUser = useSelector(state => state.session.user)
@@ -42,6 +44,11 @@ export default function HostForm() {
     if (current === 'price') gradientText = "Now, set your price"
     if (current === 'images') gradientText = "Let's add some photos of your place"
 
+    const handleFileClick = (e) => {
+        const fileInput = document.getElementById("file-upload")
+        fileInput.click()
+    }
+
     const next = () => {
         setErrors([])
         const a = []
@@ -67,7 +74,7 @@ export default function HostForm() {
         }
         // validate fourth page, price
         else if (stage === 3) {
-
+            if (Number(price < 1) || Number(price) > 100000) a.push('Please pick a price between $1 and $100,000')
         }
         // validate last page, images
         else if (stage === 4) {
@@ -140,6 +147,11 @@ export default function HostForm() {
 
         // grab the images
         const files = e.target.files
+        if (Object.keys(e.target.files).length > 5 - previewImages.length) {
+            setErrors(['Only 5 images are allowed'])
+            e.target.value = null
+            return
+        }
 
         // if image is invalid
         Object.values(files).forEach(file => {
@@ -269,24 +281,6 @@ export default function HostForm() {
                                 <div className='text-lg text-gray-500'>Keep in mind, if your guests get killed, they can't pay.</div>
                                 <div className='flex w-full items-center gap-2 mb-4 mt-4'>
                                     <button onClick={() => setPrice(prev => Number(prev) >= 5 ? Number(prev) - 5 : 1)} disabled={Number(price) <= 1} className='disabled:hover:cursor-not-allowed enabled:hover:border-black border rounded-full text-lg flex justify-center items-center h-8 w-8 p-7 relative enabled:active:scale-95'>-</button>
-                                    <input type="text" onChange={(e) => setPrice(e.target.value)} value={price} className='text-xl w-32 p-4 h-14 flex placeholder:text-center justify-center items-center border border-gray-400 rounded-lg'></input>
-                                    <button disabled={Number(price) >= 100000} onClick={() => setPrice(prev => Number(prev) < 100000 ? Number(prev) + 5 : prev)} className='disabled:hover:cursor-not-allowed enabled:hover:border-black border  rounded-full text-lg flex justify-center items-center h-8 w-8 p-7 enabled:active:scale-95 '>+</button>
-                                </div>
-
-                            </div>
-                        </div>
-                    }
-                    {
-                        current === 'images' &&
-                        <div className='flex flex-col h-full w-full md:w-full md:h-screen items-center justify-center p-4'>
-                            <div className='w-4/5 h-full flex flex-col justify-center items-start max-w-[576px]'>
-                                <div className='flex flex-col justify-center w-full'>
-                                    {validationErrors}
-                                </div>
-                                <div className='text-2xl'>Price*</div>
-                                <div className='text-lg text-gray-500'>Keep in mind, if your guests get killed, they can't pay.</div>
-                                <div className='flex w-full items-center gap-2 mb-4 mt-4'>
-                                    <button onClick={() => setPrice(prev => Number(prev) >= 5 ? Number(prev) - 5 : 1)} disabled={Number(price) <= 1} className='disabled:hover:cursor-not-allowed enabled:hover:border-black border rounded-full text-lg flex justify-center items-center h-8 w-8 p-7 relative enabled:active:scale-95'>-</button>
                                     <span className='text-2xl'>$</span><input type="text" onChange={(e) => setPrice(e.target.value)} value={price} className='text-xl w-32 p-4 h-14 flex placeholder:text-center justify-center items-center border border-gray-400 rounded-lg'></input>
                                     <button disabled={Number(price) >= 100000} onClick={() => setPrice(prev => Number(prev) < 100000 ? Number(prev) + 5 : prev)} className='disabled:hover:cursor-not-allowed enabled:hover:border-black border  rounded-full text-lg flex justify-center items-center h-8 w-8 p-7 enabled:active:scale-95 '>+</button>
                                 </div>
@@ -294,15 +288,64 @@ export default function HostForm() {
                             </div>
                         </div>
                     }
+                    {
+                        stage === 5 &&
+                        <div className='flex flex-col h-full w-full md:h-full md:overflow-y-auto items-center justify-center p-4'>
+                            <div className='w-4/5 h-full flex flex-col justify-center items-start max-w-[576px]'>
+                                <div className='flex flex-col justify-center w-full'>
+                                    {validationErrors}
+                                </div>
+                                {/* title and button div */}
+                                <div className='flex justify-between mb-4 w-full'>
+                                    <div className='flex flex-col'>
+
+                                        <div className='text-2xl'>Please add 5 images*</div>
+                                        <div className='text-lg text-gray-500'>We want your place to look good.</div>
+                                    </div>
+                                    <div className='flex items-start justify-end'>
+                                        <button onClick={handleFileClick} className='p-4 flex justify-center items-center rounded-lg enabled:hover:bg-gray-100 bg-white border w-24 h-9 border-black font-bold'>Upload</button>
+                                        <input style={{ display: 'none' }} id='file-upload' type="file" multiple onChange={verifyAndPreviewFile} accept="image/png, image/jpeg image/jpg" ></input>
+
+                                    </div>
+                                </div>
+                                <div className='flex flex-col w-full gap-3 h-full'>
+                                    {/* main image */}
+                                    <ImagePlaceholder handleFileClick={handleFileClick} primary />
+                                    <div className='flex flex-col md:grid md:grid-cols-2 gap-3 md:auto-rows-min'>
+                                        {new Array(4).fill(<ImagePlaceholder handleFileClick={handleFileClick} />)}
+                                    </div>
+                                </div>
+                                {/* {previewImages.length > 0 &&
+                                    <>
+                                        <div className='w-full'>
+                                            {previewImages[0] &&
+                                                <img className='aspect-card' src={previewImages[0]} ></img>}
+                                        </div>
+                                        <div className='w-full max-h-[90vh] grid grid-cols-2 gap-1 overflow-y-scroll'> {previewImages.slice(1).map(img => (
+                                            <img className='w-full aspect-square object-cover' key={Math.random() * 1000} src={img}></img>
+                                        ))}
+                                        </div>
+                                    </>
+                                } */}
+                            </div>
+                        </div>
+
+                    }
                     {/* sticky nav bar for next and back buttons */}
                     <div className='flex h-[80px] fixed bottom-0 py-4 md:relative justify-center w-full bg-white border-t'>
                         <div className='w-4/5 flex justify-between items-center'>
-                            <button className='font-bold text-md underline hover:bg-slate-100 p-2 rounded-lg' onClick={stage === 0 ? () => history.push('/') : () => setStage(prev => prev - 1)}>{stage === 0 ? 'Home' : 'Back'}</button>
-                            <button className='text-base font-semibold rounded-lg py-[14px] px-[24px] text-white bg-[#222222] hover:bg-black active:scale-95' onClick={next}>Next</button>
+                            <button className='font-bold text-md underline hover:bg-slate-100 p-2' onClick={stage === 0 ? () => history.push('/') : () => setStage(prev => prev - 1)}>{stage === 0 ? 'Home' : 'Back'}</button>
+                            <button className='disabled:bg-slate-200 text-base font-semibold rounded-lg py-[14px] px-[24px] text-white bg-[#222222] enabled:hover:bg-black enabled:active:scale-95' disabled={stage === 5 && previewImages.length < 5} onClick={next}>Next</button>
 
                         </div>
                     </div>
                 </div>
+                {/* <input type="text" className='description-field' placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} ></input>
+                        <input type="number" placeholder="Price" value={price} onChange={priceChange}></input>
+                        <input type="text" placeholder="Address" minLength="3" value={address} onChange={addressChange}></input>
+                        <input type="text" placeholder="City" value={city} onChange={cityChange}></input>
+                        <input type="text" placeholder="State" value={state} onChange={stateChange} ></input>
+                        <input type="text" placeholder="Country" value={country} onChange={countryChange} ></input> */}
 
             </div>
 
