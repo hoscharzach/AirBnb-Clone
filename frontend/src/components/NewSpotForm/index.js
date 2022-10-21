@@ -289,8 +289,8 @@ export default function HostForm() {
                     }
                     {
                         stage === 5 &&
-                        <div className='flex flex-col h-full w-full md:h-full md:overflow-y-auto items-center justify-center p-4'>
-                            <div className='w-4/5 h-full flex flex-col justify-center items-start max-w-[576px]'>
+                        <div className='flex flex-col h-full w-full md:h-full md:overflow-y-auto items-center justify-center p-4 mb-4'>
+                            <div className='w-4/5 h-3/4 flex flex-col  justify-center items-start max-w-[576px]'>
                                 <div className='flex flex-col justify-center w-full'>
                                     {validationErrors}
                                 </div>
@@ -311,7 +311,7 @@ export default function HostForm() {
                                     {/* main image */}
                                     <div onClick={handleFileClick} className='min-h-[300px] flex justify-center items-center w-full aspect-video border border-dashed border-black active:border-solid'><img src={imageSvg}></img></div>
                                     <div className='flex flex-col md:grid md:grid-cols-2 gap-3 md:auto-rows-min'>
-                                        {new Array(4).fill(<div onClick={handleFileClick} className='min-h-[300px] flex justify-center items-center w-full aspect-video border border-dashed border-black active:border-solid'><img src={imageSvg}></img></div>)}
+                                        {new Array(4).fill(<div onClick={handleFileClick} className=' flex justify-center items-center w-full aspect-video md:aspect-square border border-dashed border-black active:border-solid'><img src={imageSvg}></img></div>)}
                                     </div>
                                 </div>
                                 {/* {previewImages.length > 0 &&
