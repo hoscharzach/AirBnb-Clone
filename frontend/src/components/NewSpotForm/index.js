@@ -34,35 +34,45 @@ export default function HostForm() {
     let gradientText
     const stages = ['nameShortDescription', 'longDescription', 'location', 'price', 'images']
     const current = stages[stage]
+
     if (current === 'nameShortDescription') gradientText = "Let's give your place a title and short description"
     if (current === 'longDescription') gradientText = "Go into a little more detail on your place"
     if (current === 'location') gradientText = "Where is this place located?"
     if (current === 'price') gradientText = "How much per night?"
     if (current === 'images') gradientText = "Let's add some photos of your place"
 
-    useEffect(() => {
+    const next = () => {
         setErrors([])
         const a = []
 
+
+        // validate first stage, name and short description
         if (stage === 0) {
             if (name.length < 5 || name.length > 15) a.push('Title must be between 5-20 characters')
             if (shortDescription.length < 5) a.push('Description must be at least 5 characters')
-        } else if (stage === 1) {
+        }
+        // validate second page, long description
+        else if (stage === 1) {
             if (longDescription.length > 500) a.push('Description must be less than 500 characters.')
         }
+        // validate third page, location
+        else if (stage === 2) {
+            if (address.length)
+        }
+        // validate fourth page, price
+        else if (stage === 3) {
 
-        // if (address.length < 3) a.push('Address must be at least 3 characters')
-        // if (price > 100000) a.push('Price must be less than $100,000')
-        // if (imageUrl.length > 150) a.push('Image url is too long')
+        }
+        // validate last page, images
+        else if (stage === 4) {
 
-        setErrors(a)
+        }
 
-        // setErrors(errors)
-        // if (errors.length > 0 && hasSubmitted === true) {
-        //     setDisableSubmit(true)
-        // } else setDisableSubmit(false)
-
-    }, [name, shortDescription, longDescription, address, city, state, country, price, imageUrl])
+        if (a.length === 0) setStage(prev => prev + 1)
+        else {
+            setErrors(a)
+        }
+    }
 
     const reset = () => {
         setErrors([])
@@ -167,37 +177,64 @@ export default function HostForm() {
         <>
             <div className='w-full h-screen flex flex-col md:flex-row items-center'>
                 {/* gradient */}
-                <div className='w-full h-2/4 md:w-2/4 md:h-screen bg flex items-center justify-center p-12 font-bold pt-[5vh]'>
-                    <div className='text-white text-6xl'>{gradientText}</div>
+                <div className='w-full h-2/4 md:w-2/4 md:h-screen bg flex items-center justify-center p-12 font-bold pt-[5vh] min-h-[260px]'>
+                    <div className='text-white text-6xl '>{gradientText}</div>
                 </div>
                 {/* Form side */}
                 <div className='flex flex-col justify-center items-center w-screen h-2/4 md:h-screen md:w-2/4 relative min-h-[400px]'>
 
-                    {current === 'nameShortDescription' &&
-                        <div className='flex flex-col h-full w-full md:w-full md:h-screen items-center justify-center p-4'>
-                            <div className='w-4/5 h-full flex flex-col justify-center items-start'>
+                    {stage === 0 &&
+                        <div className=' flex flex-col h-full w-full md:w-full md:h-screen items-center justify-center p-4'>
+                            <div className='w-4/5 h-full flex flex-col justify-center items-start max-w-[576px]'>
                                 <div className='flex flex-col justify-center w-full'>
                                     {validationErrors}
                                 </div>
                                 <div className='text-2xl '>Title*</div>
 
-                                <input className='text-lg w-full border p-1 my-3' type="text" placeholder="Roundtable Hold" rows={2} value={name} onChange={(e) => setName(e.target.value)} ></input>
+                                <input className='text-xl w-full border border-black p-3 my-3 rounded-lg' type="text" placeholder="Roundtable Hold" rows={2} value={name} onChange={(e) => setName(e.target.value)} ></input>
                                 <div className='text-2xl'>Short Description*</div>
-                                <div className='text-lg text-gray-500'>Your description should highlight what makes your place special.</div>
-                                <textarea className='text-lg w-full border p-1 my-3' rows={2} type="text" placeholder="Cozy castle with a blacksmith, tons of vendors, and a site of grace" value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} ></textarea>
+                                <div className='text-lg text-gray-500'>Your description should be a short blurb that highlights what makes your place special.</div>
+                                <textarea className='text-xl w-full border border-black p-3 my-3 rounded-lg' rows={2} type="text" placeholder="Cozy castle with a blacksmith, tons of vendors, and a site of grace" value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} ></textarea>
                             </div>
                         </div>
                     }
-                    {current === 'longDescription' &&
-                        <div>
-
+                    {stage === 1 &&
+                        <div className='flex flex-col h-full w-full md:w-full md:h-screen items-center justify-center p-4'>
+                            <div className='w-4/5 h-full flex flex-col justify-center items-start max-w-[576px]'>
+                                <div className='flex flex-col justify-center w-full'>
+                                    {validationErrors}
+                                </div>
+                                <div className='text-2xl'>Long Description*</div>
+                                <div className='text-lg text-gray-500'>Feel free to talk about your place much more thoroughly here.</div>
+                                <textarea className='text-xl w-full border border-black p-3 rounded-lg my-3' rows={6} type="text" placeholder="The Roundtable Hold is a haven for all Tarnished to recover after battle, share knowledge, seek guidance from the Two Fingers, and improve their gear. As such, its main purpose is to preserve the Golden Order, which is only proven by the fact that it becomes derelict and abandoned after the burning of the Erdtree." value={longDescription} onChange={(e) => setLongDescription(e.target.value)} ></textarea>
+                            </div>
                         </div>
+                    }
+                    {stage === 2 &&
+                        <div className='flex flex-col h-full w-full md:w-full md:h-screen items-center justify-center p-4'>
+                            <div className='w-4/5 h-full flex flex-col justify-center items-start max-w-[576px]'>
+                                <div className='flex flex-col justify-center w-full'>
+                                    {validationErrors}
+                                </div>
+                                <div className='text-2xl'>Address*</div>
+                                <div className='text-lg text-gray-500'>Give your guests a general idea of where your place is located.</div>
+                                <input className='text-xl w-full border border-black p-3 rounded-lg my-3' rows={6} type="text" placeholder="5 clicks northeast of Stormveil Castle" value={address} onChange={(e) => setAddress(e.target.value)} ></input>
+                                <div className='text-2xl'>Country*</div>
+                                <div className='text-lg text-gray-500'>What country does your place reside in?</div>
+                                <input className='text-xl w-full border border-black p-3 rounded-lg my-3' rows={6} type="text" placeholder="Liurnia of the Lakes" value={state} onChange={(e) => setState(e.target.value)} ></input>
+                                <div className='text-2xl'>Realm*</div>
+                                <div className='text-lg text-gray-500'>What realm?</div>
+                                <input className='text-xl w-full border border-black p-3 rounded-lg my-3' rows={6} type="text" placeholder="The Lands Between" value={country} onChange={(e) => setCountry(e.target.value)} ></input>
+
+                            </div>
+                        </div>
+
                     }
                     {/* sticky nav bar for next and back buttons */}
                     <div className='flex sticky bottom-0 h-[100px] py-4 justify-center w-full bg-white rounded-t-lg border-t'>
                         <div className='w-4/5 flex justify-between items-center'>
-                            <button className='font-bold text-md underline hover:bg-slate-100 p-2 rounded-lg' onClick={stage === 0 ? () => history.push('/') : () => setStage(prev => prev - 1)}>{stage === 0 ? 'Home' : 'Back'}</button>
-                            <button className='text-base font-semibold rounded-lg py-[14px] px-[24px] text-white bg-[#222222] hover:bg-black active:scale-95' onClick={() => setStage(prev => prev + 1)}>Next</button>
+                            <button className='font-bold text-md underline hover:bg-slate-100 p-2' onClick={stage === 0 ? () => history.push('/') : () => setStage(prev => prev - 1)}>{stage === 0 ? 'Home' : 'Back'}</button>
+                            <button className='text-base font-semibold rounded-lg py-[14px] px-[24px] text-white bg-[#222222] hover:bg-black active:scale-95' onClick={next}>Next</button>
 
                         </div>
                     </div>
