@@ -85,28 +85,8 @@ textarea:required {
     resize: none;
 }
 
-
-#delete-listing-icon,
-#edit-listing-icon {
-    height: 17px;
-    padding-bottom: 3px;
-}
-
-#edit-listing-button,
-#delete-listing-button {
-    border: 0;
-    background-color: white;
-}
-
-.airbnb-button {
-    /* background-image: radial-gradient(circle at center,
-            #FF385C 0%,
-            #E61E4D 27.5%,
-            #E31C5F 40%,
-            #D70466 57.5%,
-            #BD1E59 75%,
-            #BD1E59 100%) !important;
-    background-size: 200% 200%; */
+.bg {
+    background: linear-gradient(#e1005a, #d70069, #c90079, #b6008b, #9c009c, #7800ac, #3b07bb)
 }
 
 .airbnb-button {
@@ -125,13 +105,6 @@ textarea:required {
 
 .airbnb-button:enabled:active {
     transform: scale(0.932);
-}
-
-#delete-listing-button:hover,
-#edit-listing-button:hover,
-#create-new-listing-button:hover,
-#signup-submit-button {
-    cursor: pointer;
 }
 
 textarea {

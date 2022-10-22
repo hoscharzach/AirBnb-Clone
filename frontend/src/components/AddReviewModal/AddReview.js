@@ -26,7 +26,7 @@ export default function AddReview({ spot, setShowModal, review }) {
 
     useEffect(() => {
         const errors = []
-        if (content.length < 10) errors.push('Review must be at least 10 characters')
+        if (content.length < 10) errors.push('Review must be between 10 and 500 characters')
         setErrors(errors)
 
     }, [content])

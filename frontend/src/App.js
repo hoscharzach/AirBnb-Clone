@@ -40,9 +40,6 @@ function App() {
             <Route path="/login">
               <LoginFormPage />
             </Route>
-            {/* <Route path="/signup">
-              <SignupForm />
-            </Route> */}
             <Route path="/my-profile">
               <MangageListings />
             </Route>
@@ -58,7 +55,7 @@ function App() {
           </Switch>
         )}
       </div>
-      <div className={location.pathname.includes('/create-listing') ? 'hidden' : 'w-full h-20 sticky bottom-0 border-y bg-white flex items-center justify-center gap-4'}>
+      <div className={location.pathname.includes('/create-listing') ? 'hidden' : 'w-full h-20 fixed bottom-0 border-y bg-white flex items-center justify-center gap-4'}>
         <span>Made by Zach Hoschar:</span>
         <span className='underline  '><a className='text-blue-400' target="_blank" rel="noreferrer" href='https://github.com/hoscharzach/AirBnb-Clone'>Github Repo</a></span>
         <span className='underline '><a className='text-blue-400' target="_blank" rel="noreferrer" href='https://zachhoschar.com/'>Portfolio</a></span>

@@ -9,6 +9,8 @@ import star from '../../assets/images/icons/svgexport-14.svg'
 import avatar from '../../assets/images/icons/svgexport-7.svg'
 import { thunkAddBooking } from "../../store/session"
 import { convertISODateToRange } from "../../utils/functions"
+import boss from '../../assets/images/icons/boss.svg'
+import bonfire from '../../assets/images/icons/bonfire.svg'
 
 
 export default function SpotDisplay() {
@@ -189,7 +191,7 @@ export default function SpotDisplay() {
                         <div className="w-full md:w-3/5 md:pr-10">
                             <h2 className="text-2xl font-semibold">{spot.shortDescription} hosted by {spot.Owner.firstName}</h2>
                             <div className="my-5">
-                                <span>{spot.bosses} Bosses<span className="mx-2">·</span>{spot.bonfires} Bonfire/Sites of Grace</span>
+                                <span className="flex items-center"><img className="w-5 h-5 inline mr-2" src={boss}></img> {spot.bosses} Bosses<span className="mx-2">·</span><img className="w-5 h-5 inline mr-2" src={bonfire}></img> {spot.bonfires} Bonfires/Sites of Grace</span>
                             </div>
                             <hr className="my-5"></hr>
                             <div className="break-words">{spot.longDescription}</div>
@@ -227,11 +229,11 @@ export default function SpotDisplay() {
                                     </div>
                                 </div>
                                 {errors &&
-                                    <span id="booking-errors" className="flex flex-col justify-center">{errors.map((err, i) => (
+                                    <span className="flex flex-col justify-center">{errors.map((err, i) => (
                                         <span className="text-base flex items-center justify-center text-red-600" key={i}>{err}</span>
                                     ))}</span>}
                                 {/* reserve button */}
-                                <button onClick={submitBooking} className="mt-0 button-text w-full airbnb-button text-white h-[48px] rounded-lg active:translate-x-0.5 active:translate-y-0.5">Reserve</button>
+                                <button onClick={submitBooking} disabled={sessionUser?.id === spot.ownerId} className="mt-0 button-text w-full airbnb-button text-white h-[48px] rounded-lg disabled:text-base disabled:opacity-75">{sessionUser?.id === spot.ownerId ? "Can't reserve own booking" : "Reserve"}</button>
                                 {/* various price divs */}
                                 <div className="flex justify-center">You won't be charged yet</div>
                                 <div className="flex justify-between">
@@ -257,7 +259,7 @@ export default function SpotDisplay() {
                     </div>
 
                     {/* reviews container */}
-                    <div className="w-full flex flex-col mt-12 mb-12">
+                    <div className="w-full flex flex-col mt-12 mb-24">
                         {reviewsHeader}
                         <div className="flex flex-col lg:grid lg:grid-cols-2 lg:grid-flow-dense gap-4">
                             {spot.Reviews && spot.Reviews.map(rev => (

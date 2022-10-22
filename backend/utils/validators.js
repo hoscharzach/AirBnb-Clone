@@ -6,21 +6,19 @@ exports.validateSpot = [
     .exists({ checkFalsy: true })
     .withMessage('All values are required.'),
   check('directions')
-    .isAlphanumeric('en-US', { ignore: ' -,' })
-    .withMessage('Address must be letters or numbers')
     .isLength({ min: 3, max: 25 })
     .withMessage('Address must be between 3 and 25 characters'),
   check('country')
     .isLength({ min: 3, max: 25 })
     .withMessage('Country must be between 3 and 25 characters'),
   check('realm')
-    .isLength({ min: 3, max: 25 })
+    .isLength({ min: 3, max: 30 })
     .withMessage('Country must be between 3 and 25 characters'),
   check('name')
     .isLength({ min: 5, max: 20 })
     .withMessage('Name must be between 5 and 20 characters.'),
   check('shortDescription')
-    .isLength({ min: 5, max: 30 })
+    .isLength({ min: 5, max: 50 })
     .withMessage('Short description must be between 5 and 20 characters.'),
   check('longDescription')
     .isLength({ min: 10, max: 500 })

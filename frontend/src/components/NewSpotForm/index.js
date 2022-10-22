@@ -67,8 +67,8 @@ export default function HostForm() {
 
         // validate first stage, name and short description
         if (stage === 0) {
-            if (name.length < 5 || name.length > 15) a.push('Title must be between 5-20 characters')
-            if (shortDescription.length < 5 || shortDescription.length > 30) a.push('Short description must be between 5-30 characters')
+            if (name.length < 5 || name.length > 20) a.push('Title must be between 5-20 characters')
+            if (shortDescription.length < 5 || shortDescription.length > 50) a.push('Short description must be between 5-30 characters')
         }
         // validate second page, long description
         else if (stage === 1) {
@@ -78,10 +78,10 @@ export default function HostForm() {
         // validate third page, location
         else if (stage === 2) {
             const regex = /^[\w\-\s]+$/;
-            if (directions.length > 25 || directions.length < 3) a.push('Address must be between 3 and 25 characters')
+            // if (directions.length > 25 || directions.length < 3) a.push('Address must be between 3 and 25 characters')
             if (country.length > 25 || country.length < 3) a.push('Country must be between 3 and 25 characters')
-            if (realm.length > 15 || realm.length < 3) a.push('Realm must be between 3 and 15 characters')
-            if (!regex.test(directions)) a.push('Only alphanumeric characters are allowed for the address')
+            if (realm.length > 15 || realm.length < 3) a.push('Realm must be between 5 and 30 characters')
+            // if (!regex.test(directions)) a.push('Only alphanumeric characters are allowed for the address')
         }
         // validate fourth page, bosses/bonfires
         else if (stage === 3) {
@@ -318,15 +318,20 @@ export default function HostForm() {
                                 <div className='flex justify-between mb-4 w-full'>
                                     <div className='flex flex-col'>
                                         {
-                                            previewImages.length === 5 ? <div className='text-xl font-bold'>Tada! Everything looks good.</div> :
+                                            previewImages.length === 5 ? <>
+                                                <div className='text-xl font-bold'>Tada! Everything looks good.</div>
+                                                <div className='text-lg text-gray-500'>If you agree, go ahead and click submit</div>
+                                            </>
+                                                :
                                                 <>
                                                     <div className='text-xl font-bold'>Please add 5 images*</div>
-                                                    <div className='text-lg text-gray-500'>We want your place to look good.</div>
+                                                    <div className='text-lg text-gray-500'>You can select up to 5 images at a time</div>
+                                                    <div className='text-lg text-gray-500'>Click or tap an image to remove it</div>
                                                 </>
                                         }
                                     </div>
                                     <div className='flex items-start justify-end'>
-                                        <button disabled={previewImages.length === 5} onClick={handleFileClick} className='disabled:text-gray-500 disabled:border-gray-500 disabled:hover:cursor-not-allowed p-4 flex justify-center items-center rounded-lg enabled:hover:bg-gray-100 bg-white border w-24 h-9 border-black font-bold'>Upload</button>
+                                        <button disabled={previewImages.length === 5} onClick={handleFileClick} className='disabled:text-gray-500 disabled:border-gray-500 disabled:hover:cursor-not-allowed p-4 flex justify-center items-center rounded-lg enabled:hover:bg-gray-100 bg-white border w-24 h-9 border-black font-bold mt-1'>Upload</button>
                                         <input style={{ display: 'none' }} id='file-upload' type="file" multiple onChange={verifyAndPreviewFile} accept=".png, .jpg, .jpeg" ></input>
 
                                     </div>
@@ -343,18 +348,6 @@ export default function HostForm() {
                                         {defaultImages.slice(1).map((el, i) => previewImages[i + 1]?.element ? previewImages[i + 1].element : el.element)}
                                     </div>
                                 </div>
-                                {/* {previewImages.length > 0 &&
-                                    <>
-                                        <div className='w-full'>
-                                            {previewImages[0] &&
-                                                <img className='aspect-card' src={previewImages[0]} ></img>}
-                                        </div>
-                                        <div className='w-full max-h-[90vh] grid grid-cols-2 gap-1 overflow-y-scroll'> {previewImages.slice(1).map(img => (
-                                            <img className='w-full aspect-square object-cover' key={Math.random() * 1000} src={img}></img>
-                                        ))}
-                                        </div>
-                                    </>
-                                } */}
                             </div>
                         </div>
 

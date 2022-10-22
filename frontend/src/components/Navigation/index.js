@@ -52,7 +52,7 @@ function Navigation({ isLoaded }) {
         </div>
 
         <div className="flex items-center ">
-          {sessionUser ? null : <button id="demo-user-button" onClick={demoLogin}>Demo User</button>}
+          {sessionUser ? null : <button className="airbnb-button p-2" onClick={demoLogin}>Demo User</button>}
           <ProfileButton user={sessionUser} />
         </div>
 
