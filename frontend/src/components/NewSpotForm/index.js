@@ -12,34 +12,42 @@ export default function HostForm() {
     const dispatch = useDispatch()
     const history = useHistory()
 
+    let editSpot
+    let editSpotImages = []
+    if (history?.location?.state?.spot) {
+        editSpot = history.location.state.spot
+        editSpotImages = editSpot.Images.map(img => ({
+            id: img.id, element: <img key={img.id} onClick={(e) => {
+                setPreviewImages(prev => prev.filter(el => el.id !== img.id))
+            }} className='aspect-video md:aspect-square object-cover hover:opacity-90 hover:bg-red-500' src={img.imageUrl}></img>
+        }))
+    }
+
     const initial = []
     for (let i = 0; i < 5; i++) {
         initial.push({ id: nanoid(), element: <div key={nanoid()} onClick={handleFileClick} className=' flex justify-center items-center w-full aspect-video md:aspect-square border border-dashed border-black active:border-solid'><img src={imageSvg}></img></div> })
     }
 
     const [errors, setErrors] = useState([])
+    const [edit, setEdit] = useState(false)
+    const [name, setName] = useState(editSpot?.name || '')
+    const [price, setPrice] = useState(editSpot?.price || 10)
+    const [directions, setDirections] = useState(editSpot?.directions || '')
+    const [country, setCountry] = useState(editSpot?.country || '')
+    const [realm, setRealm] = useState(editSpot?.realm || '')
+    const [shortDescription, setShortDescription] = useState(editSpot?.shortDescription || '')
+    const [longDescription, setLongDescription] = useState(editSpot?.longDescription || '')
+    const [bosses, setBosses] = useState(editSpot?.bosses || 0)
+    const [bonfires, setBonfires] = useState(editSpot?.bonfires || 0)
+    const [stage, setStage] = useState(0)
 
-    const [name, setName] = useState('')
-    const [price, setPrice] = useState(10)
-    const [directions, setDirections] = useState('')
-    const [country, setCountry] = useState('')
-    const [realm, setRealm] = useState('')
-    const [imageUrl, setImageUrl] = useState('')
-    const [imageFiles, setImageFiles] = useState([])
-    const [shortDescription, setShortDescription] = useState('')
-    const [longDescription, setLongDescription] = useState('')
 
     // -fill preview images with user images
     //  - map through default images
     //  - if there is a real image at the same index in preview images, render that
     //  - otherwise render the default image
-    const [previewImages, setPreviewImages] = useState([])
+    const [previewImages, setPreviewImages] = useState(editSpot ? editSpotImages : [])
     const [defaultImages, setDefaultImages] = useState(initial)
-
-    const [bosses, setBosses] = useState(0)
-    const [bonfires, setBonfires] = useState(0)
-    const [stage, setStage] = useState(0)
-
 
 
     // code for the different parts of the form
@@ -67,8 +75,8 @@ export default function HostForm() {
 
         // validate first stage, name and short description
         if (stage === 0) {
-            if (name.length < 5 || name.length > 20) a.push('Title must be between 5-20 characters')
-            if (shortDescription.length < 5 || shortDescription.length > 50) a.push('Short description must be between 5-30 characters')
+            if (name.length < 5 || name.length > 25) a.push('Title must be between 5-25 characters')
+            if (shortDescription.length < 5 || shortDescription.length > 50) a.push('Short description must be between 5-50 characters')
         }
         // validate second page, long description
         else if (stage === 1) {
@@ -80,7 +88,7 @@ export default function HostForm() {
             const regex = /^[\w\-\s]+$/;
             // if (directions.length > 25 || directions.length < 3) a.push('Address must be between 3 and 25 characters')
             if (country.length > 25 || country.length < 3) a.push('Country must be between 3 and 25 characters')
-            if (realm.length > 15 || realm.length < 3) a.push('Realm must be between 5 and 30 characters')
+            if (realm.length > 30 || realm.length < 3) a.push('Realm must be between 5 and 30 characters')
             // if (!regex.test(directions)) a.push('Only alphanumeric characters are allowed for the address')
         }
         // validate fourth page, bosses/bonfires
@@ -118,36 +126,45 @@ export default function HostForm() {
 
     const onSubmit = async (e) => {
         e.preventDefault()
-        const tempFiles = previewImages.map(el => dataURLtoFile(el.blob, `${nanoid()}.png`))
-        setErrors([])
-        const payload = {
-            userId: sessionUser.id,
-            name,
-            longDescription,
-            shortDescription,
-            price: Math.floor(Number((price))),
-            directions,
-            country,
-            realm,
-            bonfires,
-            bosses,
-            images: tempFiles
+
+
+        if (!editSpot) {
+            const tempFiles = previewImages.map(el => dataURLtoFile(el.blob, `${nanoid()}.png`))
+            setErrors([])
+            const payload = {
+                userId: sessionUser.id,
+                name,
+                longDescription,
+                shortDescription,
+                price: Math.floor(Number((price))),
+                directions,
+                country,
+                realm,
+                bonfires,
+                bosses,
+                images: tempFiles
+            }
+
+            dispatch(spotActions.thunkCreateSpot(payload))
+                .then(async (res) => {
+                    history.push(`/spots/${res}`)
+                })
+                .catch(
+                    async (res) => {
+                        const data = await res.json();
+                        if (data && data.errors) setErrors(data.errors)
+                    }
+                );
         }
 
-        dispatch(spotActions.thunkCreateSpot(payload))
-            .then(async (res) => {
-                history.push(`/spots/${res}`)
-            })
-            .catch(
-                async (res) => {
-                    const data = await res.json();
-                    if (data && data.errors) setErrors(data.errors)
-                }
-            );
+        else if (editSpot) {
+            alert('Replacing images currently in development')
+        }
 
 
     }
 
+    console.log(previewImages)
     if (!sessionUser) {
         return (<Redirect to="/" />)
     }

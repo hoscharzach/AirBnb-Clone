@@ -162,7 +162,13 @@ export default function SpotDisplay() {
                                 {/* Edit and Delete Buttons */}
                                 {sessionUser?.id === spot.ownerId &&
                                     <div className="child:ml-2 flex justify-evenly">
-                                        <EditListingModal spot={spot} />
+                                        {/* <EditListingModal spot={spot} /> */}
+                                        <button onClick={() => history.push({
+                                            pathname: '/create-listing',
+                                            state: {
+                                                spot
+                                            }
+                                        })} className="airbnb-button p-4">Edit</button>
                                         <DeleteListingModal spot={spot} />
                                     </div>}
 
