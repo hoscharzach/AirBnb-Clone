@@ -214,7 +214,7 @@ router.post('/:spotId/bookings', [requireAuth, validateBooking], async (req, res
     const newBooking = await Booking.findByPk(booking.id, {
         include: [
             { model: User },
-            { model: Spot }
+            { model: Spot, include: { model: Image } }
         ]
     })
     return res.status(200).json(newBooking)

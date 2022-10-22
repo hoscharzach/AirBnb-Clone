@@ -54,7 +54,7 @@ router.post('/', validateLogin, async (req, res, next) => {
 
         },
         include: [
-            { model: Booking, include: { model: Spot } }
+            { model: Booking, include: { model: Spot, include: { model: Image } } }
         ],
         exclude: [
             ['hashedPassword']
