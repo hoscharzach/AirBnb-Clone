@@ -4,7 +4,7 @@ import { thunkDeleteBooking } from "../../store/session";
 import { convertISODateToRange } from "../../utils/functions";
 
 
-export default function TripCards({ trip, variant }) {
+export default function TripCards({ trip }) {
 
     const dispatch = useDispatch()
     const [confirm, setConfirm] = useState(false)

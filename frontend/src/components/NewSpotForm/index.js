@@ -68,7 +68,7 @@ export default function HostForm() {
         // validate first stage, name and short description
         if (stage === 0) {
             if (name.length < 5 || name.length > 15) a.push('Title must be between 5-20 characters')
-            if (shortDescription.length < 5) a.push('Description must be at least 5 characters')
+            if (shortDescription.length < 5 || shortDescription.length > 30) a.push('Short description must be between 5-30 characters')
         }
         // validate second page, long description
         else if (stage === 1) {
@@ -231,7 +231,7 @@ export default function HostForm() {
                                 <input className='text-xl w-full border border-black p-3 my-3 rounded-lg' type="text" placeholder="Roundtable Hold" rows={2} value={name} onChange={(e) => setName(e.target.value)} ></input>
                                 <div className='text-2xl'>Short Description*</div>
                                 <div className='text-lg text-gray-500'>Your description should be a short blurb that highlights what makes your place special.</div>
-                                <textarea className='text-xl w-full border border-black p-3 my-3 rounded-lg' rows={2} type="text" placeholder="Cozy castle with a blacksmith, tons of vendors, and a site of grace" value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} ></textarea>
+                                <textarea className='text-2xl w-full border border-black p-3 my-3 rounded-lg' rows={3} type="text" placeholder="Cozy castle with a blacksmith, tons of vendors, and a site of grace" value={shortDescription} onChange={(e) => setShortDescription(e.target.value)} ></textarea>
                             </div>
                         </div>
                     }

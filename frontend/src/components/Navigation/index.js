@@ -4,6 +4,8 @@ import ProfileButton from "./ProfileButton"
 import './navigation.css'
 import * as sessionActions from '../../store/session'
 import mainLogo from '../../assets/images/icons/svgexport-1.svg'
+import eldenB from '../../assets/images/icons/eldenb.svg'
+import rings from '../../assets/images/icons/rings.svg'
 
 
 function Navigation({ isLoaded }) {

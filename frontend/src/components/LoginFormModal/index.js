@@ -7,7 +7,7 @@ function LoginFormModal() {
 
   return (
     <>
-      <div className='menu-item menu-item-hover' onClick={() => setShowModal(true)}>Log In</div>
+      <button className='flex justify-start' onClick={() => setShowModal(true)}>Log In</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <LoginForm setShowModal={setShowModal} showModal={showModal} />

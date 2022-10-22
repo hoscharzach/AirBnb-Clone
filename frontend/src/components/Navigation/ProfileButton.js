@@ -5,6 +5,7 @@ import * as sessionActions from '../../store/session'
 import userIcon from '../../assets/images/icons/svgexport-7.svg'
 import hamburgerIcon from '../../assets/images/icons/svgexport-6.svg'
 import LoginFormModal from '../LoginFormModal'
+import rings from '../../assets/images/icons/rings.svg'
 
 
 function ProfileButton({ user }) {
@@ -49,10 +50,10 @@ function ProfileButton({ user }) {
       <>
         <div className=''>{user.email}</div>
         <hr style={{ padding: 0 }} className='mx-2'></hr>
-        <button className='flex items-start' onClick={() => history.push('/my-profile')} >My Listings</button>
-        <button className='flex items-start' onClick={() => history.push('/trips')} >Upcoming Trips</button>
-        <button className='flex items-start' onClick={() => history.push('/create-listing')} >Create Listing</button>
-        <button className='flex items-start' onClick={logout}>Log out</button>
+        {/* <button className='flex items-start' onClick={() => history.push('/my-profile')} >My Listings</button> */}
+        <button className='flex justify-start' onClick={() => history.push('/trips')} >Upcoming Trips</button>
+        <button className='flex justify-start' onClick={() => history.push('/create-listing')} >Create Listing</button>
+        <button className='flex justify-start' onClick={logout}>Log out</button>
       </>
     )
   }
@@ -61,7 +62,7 @@ function ProfileButton({ user }) {
     dropdownItems = (
       <>
         <LoginFormModal />
-        <div className='menu-item menu-item-hover' onClick={() => history.push('/signup')} >Sign up</div>
+        <button className='flex justify-start' onClick={() => history.push('/signup')} >Sign up</button>
       </>
     )
   }

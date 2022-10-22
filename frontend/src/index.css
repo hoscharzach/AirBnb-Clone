@@ -99,37 +99,32 @@ textarea:required {
 }
 
 .airbnb-button {
-    background-image: radial-gradient(circle at center,
+    /* background-image: radial-gradient(circle at center,
             #FF385C 0%,
             #E61E4D 27.5%,
             #E31C5F 40%,
             #D70466 57.5%,
             #BD1E59 75%,
             #BD1E59 100%) !important;
-    background-size: 200% 200%;
+    background-size: 200% 200%; */
 }
 
-#login-button,
-#signup-submit-button,
-#create-new-listing-button,
-#submit-review-button {
-    margin-top: 15px;
-    width: 27.083vw;
-    height: 48px;
+.airbnb-button {
     border-radius: 8px;
     border: 0;
     background: linear-gradient(0.25turn, #E61E4D, #D70666);
     color: white;
     font-weight: 600;
     font-size: 16px;
-    transition: all 0.2s ease-in-out;
+    transition: all 0.1s ease-in-out;
 }
 
-#login-button:active,
-#signup-submit-button:active,
-#create-new-listing-button:active,
-#submit-review-button:active {
-    transform: scale(0.9);
+.airbnb-button:enabled:hover {
+    cursor: pointer;
+}
+
+.airbnb-button:enabled:active {
+    transform: scale(0.932);
 }
 
 #delete-listing-button:hover,

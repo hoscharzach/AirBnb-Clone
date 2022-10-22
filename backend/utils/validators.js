@@ -19,9 +19,12 @@ exports.validateSpot = [
   check('name')
     .isLength({ min: 5, max: 20 })
     .withMessage('Name must be between 5 and 20 characters.'),
+  check('shortDescription')
+    .isLength({ min: 5, max: 30 })
+    .withMessage('Short description must be between 5 and 20 characters.'),
   check('longDescription')
     .isLength({ min: 10, max: 500 })
-    .withMessage('Description must be between 10 and 200 characters.'),
+    .withMessage('Long description must be between 10 and 200 characters.'),
   check('price')
     .isFloat({ min: 1 })
     .withMessage('Price must be a number greater than 1.'),
