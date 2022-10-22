@@ -106,25 +106,19 @@ exports.validateImage = [
 
 exports.validateSignup = [
   check('email')
-    .exists({ checkFalsy: true })
     .isEmail()
     .withMessage('Please provide a valid email.'),
   check('username')
-    .exists({ checkFalsy: true })
     .isLength({ min: 4, max: 20 })
-    .withMessage('Please provide a username between 4 and 20 characters.'),
-  check('username')
-    .isAlphanumeric()
-    .withMessage("Username must consist of letters and numbers"),
+    .withMessage('Please provide a username between 4 and 20 characters'),
   check('firstName')
-    .exists({ checkFalsy: true })
-    .withMessage('First name is required.'),
+    .isLength({ min: 1, max: 40 })
+    .withMessage('Please provide a first name'),
   check('lastName')
-    .exists({ checkFalsy: true })
-    .withMessage('Last name is required.'),
+    .isLength({ min: 1, max: 40 })
+    .withMessage('Please provide a last name'),
   check('password')
-    .exists({ checkFalsy: true })
     .isLength({ min: 6 })
-    .withMessage('Password must be 6 characters or more.'),
+    .withMessage('Password must be 6 characters or more'),
   handleValidationErrors
 ];

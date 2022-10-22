@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Switch, Route, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react';
 import './index.css';
-import SignupForm from './components/SignupForm';
+// import SignupForm from './components/SignupForm';
 import Navigation from './components/Navigation';
 import SpotDisplay from './components/SpotDisplay'
 import SpotIndex from './components/SpotIndex';
@@ -40,9 +40,9 @@ function App() {
             <Route path="/login">
               <LoginFormPage />
             </Route>
-            <Route path="/signup">
+            {/* <Route path="/signup">
               <SignupForm />
-            </Route>
+            </Route> */}
             <Route path="/my-profile">
               <MangageListings />
             </Route>

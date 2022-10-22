@@ -61,8 +61,8 @@ function ProfileButton({ user }) {
   if (!user) {
     dropdownItems = (
       <>
-        <LoginFormModal />
-        <button className='flex justify-start' onClick={() => history.push('/signup')} >Sign up</button>
+        <LoginFormModal variant='LOGIN' />
+        <LoginFormModal variant='SIGNUP' />
       </>
     )
   }
