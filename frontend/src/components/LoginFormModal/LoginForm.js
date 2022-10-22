@@ -16,6 +16,18 @@ function LoginForm({ setShowModal, variant }) {
     setShowModal(false)
   }
 
+  useEffect(() => {
+
+    if (setShowModal) {
+      document.body.style.position = 'fixed'
+      document.body.style.paddingRight = '15px'
+    }
+    return () => {
+      document.body.style.position = 'static'
+      document.body.style.paddingRight = '0'
+    }
+  }, [])
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);

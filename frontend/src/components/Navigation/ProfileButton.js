@@ -61,8 +61,8 @@ function ProfileButton({ user }) {
   if (!user) {
     dropdownItems = (
       <>
-        <LoginFormModal variant='LOGIN' />
-        <LoginFormModal variant='SIGNUP' />
+        <LoginFormModal setShowMenu={setShowMenu} variant='LOGIN' />
+        <LoginFormModal setShowMenu={setShowMenu} variant='SIGNUP' />
       </>
     )
   }

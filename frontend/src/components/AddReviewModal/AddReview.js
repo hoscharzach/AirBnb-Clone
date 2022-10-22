@@ -98,7 +98,7 @@ export default function AddReview({ spot, setShowModal, review }) {
                                 <div key={i}>{error}</div>
                             ))}
                         </div>
-                        <form className='flex flex-col w-full'>
+                        <form className='flex flex-col w-full items-center'>
                             <div className='text-lg font-bold text-left mb-3'>Let others know about your experience</div>
                             <textarea rows={4} className='p-2 w-4/5 border rounded-lg' placeholder="Leave your review here..." value={content} onChange={contentChange} ></textarea>
                             <div className='flex gap-1 my-4 items-center'> {starsArray && starsArray.map((star, i) => <img className='hover:fill-slate-500' key={i} onClick={() => setRating(i + 1)} src={rating >= i + 1 ? filledStar : star}></img>)}</div>

@@ -7,7 +7,9 @@ function LoginFormModal({ variant }) {
 
   return (
     <>
-      <button className='flex justify-start' onClick={() => setShowModal(true)}>{variant === 'LOGIN' ? 'Log in' : 'Sign up'}</button>
+      <button className='flex justify-start' onClick={() => {
+        setShowModal(true)
+      }}>{variant === 'LOGIN' ? 'Log in' : 'Sign up'}</button>
       {showModal && (
         <Modal onClose={() => setShowModal(false)}>
           <LoginForm setShowModal={setShowModal} showModal={showModal} variant={variant} />
