@@ -45,7 +45,7 @@ module.exports = {
         country: "Liurnia, The Lakes",
         realm: "The Lands Between",
         name: "Academy of Raya Lucaria",
-        shortDescription: 'School full of wizards with a dragon just round the corner',
+        shortDescription: 'School full of wizards and a big orange wolf',
         longDescription: "This academy was founded by five brilliant minds who all shared the same goal of learning the secrets of strengthening magic. The queen of the region at the time, Rennala was a disciple of Lunar Magic, which explains why the academy was able to grow to such proportions: It had the backing of a queen at its disposal. The other four founders of the Academy were Master Lusat, Master Azur, and an unnamed set of twin sorcerers. Interestingly, each of these founders has their faces immortalized in one of the Glintstone Crowns scattered around the world. The Twinsage Glinstone Crown depicts the faces of the twin sages together. The Karolos Glintstone Crown depicts the face of Azur before his head grew into a crystal. By the same token, the Olivinius Glintstone Crown represents the face of Lusat before he succumbed to the same fate as Azur. Even Sorceress Sellen has her image carved into a crown showing that any who developed their own branch of magic would be recognized by the academy, whether they were a founding member or not.",
         price: 500,
         bosses: 3,
