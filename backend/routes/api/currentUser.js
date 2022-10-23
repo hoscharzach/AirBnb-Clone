@@ -278,9 +278,10 @@ router.delete('/spots/:spotId', requireAuth, async (req, res, next) => {
   return res.json({ message: "Spot successfully deleted." })
 })
 
-router.put('/spots/:spotId', [requireAuth, validateSpot], async (req, res, next) => {
+router.put('/spots/:spotId', [multipleMulterUpload("images"), requireAuth, validateSpot], async (req, res, next) => {
   const currUserId = req.user.id
   const editSpot = await Spot.findByPk(req.params.spotId)
+  const imageLinks = await multiplePublicFileUpload(req.files)
 
   if (!editSpot) {
     const err = new Error('Spot does not exist')
@@ -296,6 +297,26 @@ router.put('/spots/:spotId', [requireAuth, validateSpot], async (req, res, next)
     return next(err)
   }
 
+  await editSpot.setImages([])
+
+  const { imageUrls } = req.body
+  const newImages = []
+  imageUrls.split(',').forEach(async img => {
+    const existingImg = await Image.findOne({
+      where: {
+        imageUrl: img
+      }
+    })
+    await editSpot.addImage(existingImg)
+  })
+  imageLinks.forEach(async img => {
+    const newImg = await Image.create({
+      spotId: editSpot.id,
+      imageUrl: img
+    })
+    await editSpot.addImage(newImg)
+  })
+
   const {
     directions,
     country,
@@ -305,21 +326,31 @@ router.put('/spots/:spotId', [requireAuth, validateSpot], async (req, res, next)
     longDescription,
     price,
     bonfires,
-    bosses
+    bosses,
   } = req.body
+
+
 
   editSpot.directions = directions
   editSpot.country = country
+  editSpot.shortDescription = shortDescription
+  editSpot.longDescription = longDescription
   editSpot.realm = realm
   editSpot.bonfires = bonfires
   editSpot.bosses = bosses
   editSpot.name = name
-  editSpot.description = description
   editSpot.price = price
-  editSpot.previewImage = previewImage
 
   await editSpot.save()
-  return res.json(editSpot)
+  const returnSpot = await Spot.findByPk(editSpot.id, {
+    include: [
+      'Owner',
+      { model: Image },
+      { model: Review },
+      { model: Booking }
+    ]
+  })
+  return res.json(returnSpot)
 
 })
 

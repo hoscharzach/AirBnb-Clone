@@ -17,7 +17,7 @@ export default function HostForm() {
     if (history?.location?.state?.spot) {
         editSpot = history.location.state.spot
         editSpotImages = editSpot.Images.map(img => ({
-            id: img.id, element: <img key={img.id} onClick={(e) => {
+            id: img.id, url: img.imageUrl, element: <img key={img.id} onClick={(e) => {
                 setPreviewImages(prev => prev.filter(el => el.id !== img.id))
             }} className='aspect-video md:aspect-square object-cover hover:opacity-90 hover:bg-red-500' src={img.imageUrl}></img>
         }))
@@ -110,6 +110,8 @@ export default function HostForm() {
         }
     }
 
+    console.log(editSpot)
+
     const reset = () => {
         setErrors([])
         setName('')
@@ -158,13 +160,42 @@ export default function HostForm() {
         }
 
         else if (editSpot) {
-            alert('Replacing images currently in development')
+            const newFiles = []
+            const imageUrls = []
+            previewImages.forEach(el => {
+                el.blob ? newFiles.push(dataURLtoFile(el.blob, `${nanoid()}.png`)) : imageUrls.push(el.url)
+            })
+
+            const payload = {
+                id: editSpot.id,
+                userId: sessionUser.id,
+                name,
+                longDescription,
+                shortDescription,
+                price: Math.floor(Number((price))),
+                directions,
+                country,
+                realm,
+                bonfires,
+                bosses,
+                images: newFiles,
+                imageUrls
+
+            }
+
+            dispatch(spotActions.thunkUpdateSpot(payload))
+                .then(async (res) => {
+                    history.push(`/spots/${editSpot.id}`)
+                })
+                .catch(async (res) => {
+                    const data = await res.json()
+                    if (data && data.errors) setErrors(data.errors)
+                })
         }
 
 
     }
 
-    console.log(previewImages)
     if (!sessionUser) {
         return (<Redirect to="/" />)
     }

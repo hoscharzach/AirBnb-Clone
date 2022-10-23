@@ -180,11 +180,11 @@ export default function SpotDisplay() {
                     <div className="mt-2 flex gap-1 max-h-[600px] h-auto">
                         {/* main image */}
                         <div className="w-full max-h-[400px] lg:max-h-[600px] lg:h-full aspect-square lg:w-6/12  ">
-                            <img className="rounded-2xl w-full h-full md:rounded-l-2xl lg:rounded-r-none object-cover object-center  " src={spot.Images[0].imageUrl} alt="" ></img>
+                            <img className="rounded-2xl w-full h-full md:rounded-l-2xl lg:rounded-r-none object-cover object-center  " src={spot.Images[0]?.imageUrl} alt="" ></img>
                         </div>
                         {/* image grid */}
                         <div className="hidden lg:grid lg:grid-cols-image-grid lg:grid-rows-image-grid lg:w-6/12 lg:gap-1 aspect-square " >
-                            {spot.Images.slice(1).map((el) => (
+                            {spot.Images?.slice(1).map((el) => (
                                 <img key={el.id} className="w-full rounded-md object-cover aspect-square" src={el.imageUrl}></img>
 
                             ))}

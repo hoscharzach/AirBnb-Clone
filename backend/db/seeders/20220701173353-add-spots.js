@@ -46,7 +46,7 @@ module.exports = {
         realm: "The Lands Between",
         name: "Academy of Raya Lucaria",
         shortDescription: 'School full of wizards and a big orange wolf',
-        longDescription: "This academy was founded by five brilliant minds who all shared the same goal of learning the secrets of strengthening magic. The queen of the region at the time, Rennala was a disciple of Lunar Magic, which explains why the academy was able to grow to such proportions: It had the backing of a queen at its disposal. The other four founders of the Academy were Master Lusat, Master Azur, and an unnamed set of twin sorcerers. ",
+        longDescription: "This academy was founded by five brilliant minds who all shared the same goal of learning the secrets of strengthening magic. The queen of the region at the time, Rennala was a disciple of Lunar Magic, which explains why the academy was able to grow to such proportions: It had the backing of a queen at its disposal. ",
         price: 500,
         bosses: 3,
         bonfires: 6,

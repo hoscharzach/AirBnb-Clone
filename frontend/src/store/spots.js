@@ -153,16 +153,32 @@ export const thunkDeleteSpot = (id) => async dispatch => {
 }
 
 export const thunkUpdateSpot = (payload) => async dispatch => {
+    const formData = new FormData()
+    for (let key in payload) {
+        if (key !== 'images') {
+            formData.append(key, payload[key])
+        } else if (key === 'images') {
+            for (let i = 0; i < payload.images.length; i++) {
+                formData.append("images", payload.images[i])
+            }
+        } else {
+            for (let i = 0; i < payload.imageUrls.length; i++) {
+                formData.append("imageUrls", payload.imageUrls[i])
+            }
+        }
+    }
     const response = await csrfFetch(`/api/currentUser/spots/${payload.id}`, {
         method: 'PUT',
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "multipart/form-data"
         },
-        body: JSON.stringify(payload)
+        body: formData
     })
     if (response.ok) {
         const data = await response.json()
         return dispatch(updateSpot(data))
+    } else {
+        return response
     }
 }
 
