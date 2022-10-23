@@ -1,34 +1,4 @@
-/* .star-icon {
-    height: 12px;
-    width: 12px;
+#left-button:hover,
+#right-button:hover {
+    opacity: 1;
 }
-
-.text-link {
-    color: inherit;
-    text-decoration: inherit;
-}
-
-.city-state-text {
-    font-weight: 550;
-    font-size: 15px;
-}
-
-.price-text {
-    font-size: 15px;
-    font-weight: 600;
-}
-
-.star-rating-container {
-    width: 50px;
-    height: 20px;
-}
-
-
-
-.location-stars-container {
-    padding-right: 5px;
-    padding-bottom: 2px;
-    margin-top: 10px;
-    display: flex;
-    justify-content: space-between;
-} */

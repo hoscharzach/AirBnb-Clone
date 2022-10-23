@@ -142,10 +142,10 @@ export default function SpotDisplay() {
             {spot &&
 
                 <div className="w-4/5 flex flex-col justify-start max-w-[1200px] mt-12 ">
-                    <div className="text-base font-semibold" >
+                    <div className="text-base font-semibold w-full" >
                         <div className="w-full">
-                            <div className="flex justify-start items-center spot-name-container">
-                                <h1 className="font-bold text-4xl pb-2" >{spot.name}</h1>
+                            <div className="flex justify-start items-center spot-name-container w-full break-words">
+                                <h1 className="font-bold text-4xl pb-2 max-w-full" >{spot.name}</h1>
                             </div>
                             <div className="flex w-full items-center justify-between ">
                                 <div className="w-full flex items-center h-[24px] whitespace-nowrap overflow-hidden ">
@@ -162,7 +162,7 @@ export default function SpotDisplay() {
                                 {/* Edit and Delete Buttons */}
                                 {sessionUser?.id === spot.ownerId &&
                                     <div className="child:ml-2 flex justify-evenly">
-                                        {/* <EditListingModal spot={spot} /> */}
+                                        {/* add state to the redirect and fill the form with this spot's data */}
                                         <button onClick={() => history.push({
                                             pathname: '/create-listing',
                                             state: {
