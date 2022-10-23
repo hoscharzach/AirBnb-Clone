@@ -20,6 +20,10 @@ function App() {
   const location = useLocation()
 
   useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location.pathname])
+
+  useEffect(() => {
     dispatch(sessionActions.thunkRestoreSession())
       .then(a => dispatch(spotActions.thunkLoadAllSpots()))
       .then(() => setIsLoaded(true))

@@ -46,8 +46,8 @@ export default function SpotCard({ spot }) {
                 <div className="h-full w-full aspect-square hover:cursor-pointer group relative">
                     {/* card image */}
                     <div className="rounded-xl h-[85%] relative group">
-                        <button id="left-button" onClick={clickLeft} className="opacity-0 transition-all w-8 h-8 absolute bg-white group-hover:opacity-75 rounded-full right-4 top-1/2 flex justify-center items-center hover:scale-110 hover:opacity-100 z-10"><img className="w-3 h-3" src={rightArrow}></img></button>
-                        <button id="right-button" onClick={clickRight} className="opacity-0 transition-all w-8 h-8 absolute z-10 bg-white group-hover:opacity-75 rounded-full left-4 top-1/2 flex justify-center items-center hover:scale-110 hover:opacity-100 "><img className="w-3 h-3" src={leftArrow}></img></button>
+                        <button id="left-button" onClick={clickLeft} className="opacity-0 transition-all w-8 h-8 absolute bg-white group-hover:opacity-75 rounded-full right-4 top-1/2 flex justify-center items-center hover:scale-110 hover:opacity-100 z-10 active:scale-95 "><img className="w-3 h-3" src={rightArrow}></img></button>
+                        <button id="right-button" onClick={clickRight} className="opacity-0 transition-all w-8 h-8 absolute z-10 bg-white group-hover:opacity-75 rounded-full left-4 top-1/2 flex justify-center items-center hover:scale-110 hover:opacity-100 active:scale-95 "><img className="w-3 h-3" src={leftArrow}></img></button>
                         <img className="object-cover w-full h-full rounded-xl flex flex-col shadow-lg " src={spot.Images[index]?.imageUrl} alt="" />
                     </div>
                     <div className="flex flex-col pt-2 grow">

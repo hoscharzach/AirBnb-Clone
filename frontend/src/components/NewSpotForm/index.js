@@ -40,6 +40,7 @@ export default function HostForm() {
     const [bosses, setBosses] = useState(editSpot?.bosses || 0)
     const [bonfires, setBonfires] = useState(editSpot?.bonfires || 0)
     const [stage, setStage] = useState(0)
+    const [loading, setLoading] = useState(false)
 
 
     // -fill preview images with user images
@@ -131,6 +132,7 @@ export default function HostForm() {
 
 
         if (!editSpot) {
+            setLoading(true)
             const tempFiles = previewImages.map(el => dataURLtoFile(el.blob, `${nanoid()}.png`))
             setErrors([])
             const payload = {
@@ -149,17 +151,20 @@ export default function HostForm() {
 
             dispatch(spotActions.thunkCreateSpot(payload))
                 .then(async (res) => {
+                    setLoading(false)
                     history.push(`/spots/${res}`)
                 })
                 .catch(
                     async (res) => {
                         const data = await res.json();
                         if (data && data.errors) setErrors(data.errors)
+                        setLoading(false)
                     }
                 );
         }
 
         else if (editSpot) {
+            setLoading(true)
             const newFiles = []
             const imageUrls = []
             previewImages.forEach(el => {
@@ -185,11 +190,13 @@ export default function HostForm() {
 
             dispatch(spotActions.thunkUpdateSpot(payload))
                 .then(async (res) => {
+                    setLoading(false)
                     history.push(`/spots/${editSpot.id}`)
                 })
                 .catch(async (res) => {
                     const data = await res.json()
                     if (data && data.errors) setErrors(data.errors)
+                    setLoading(false)
                 })
         }
 
@@ -405,7 +412,7 @@ export default function HostForm() {
                     <div className='flex h-[80px] fixed bottom-0 py-4 md:relative justify-center w-full bg-white border-t'>
                         <div className='w-4/5 flex justify-between items-center'>
                             <button className='font-bold text-md underline hover:bg-slate-100 rounded-lg  p-3' onClick={stage === 0 ? () => history.push('/') : () => setStage(prev => prev - 1)}>{stage === 0 ? 'Home' : 'Back'}</button>
-                            <button className='disabled:bg-slate-200 text-base font-semibold rounded-lg py-[14px] px-[24px] text-white bg-[#222222] enabled:hover:bg-black enabled:active:scale-95' disabled={stage === 5 && previewImages.length < 5} onClick={stage === 5 ? onSubmit : next}>{stage === 5 ? 'Submit' : 'Next'}</button>
+                            <button className='disabled:bg-slate-200 text-base font-semibold rounded-lg py-[14px] px-[24px] text-white bg-[#222222] enabled:hover:bg-black enabled:active:scale-95' disabled={loading || (stage === 5 && previewImages.length < 5)} onClick={stage === 5 ? onSubmit : next}>{stage === 5 ? 'Submit' : 'Next'}</button>
 
                         </div>
                     </div>
