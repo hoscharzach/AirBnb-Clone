@@ -24,7 +24,7 @@ export function UserReservations() {
     return (
         <>
             {/* entire body wrapper */}
-            <div className="flex flex-col w-4/5 max-w-[1200px]">
+            <div className="flex flex-col w-4/5 max-w-[1200px] mb-24">
                 {/* Title */}
                 <div className="text-3xl my-4">Upcoming Trips</div>
                 {/* Trip-cards container */}

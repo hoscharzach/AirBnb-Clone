@@ -239,7 +239,10 @@ export default function SpotDisplay() {
                                         <span className="text-base flex items-center justify-center text-red-600" key={i}>{err}</span>
                                     ))}</span>}
                                 {/* reserve button */}
-                                <button onClick={submitBooking} disabled={sessionUser?.id === spot.ownerId} className="mt-0 button-text w-full airbnb-button text-white h-[48px] rounded-lg disabled:text-base disabled:opacity-75">{sessionUser?.id === spot.ownerId ? "Can't reserve own booking" : "Reserve"}</button>
+                                {!sessionUser && <button disabled className="mt-0 button-text w-full airbnb-button text-white h-[48px] rounded-lg disabled:text-base disabled:opacity-75">Please log in</button>}
+                                {sessionUser &&
+                                    <button onClick={submitBooking} disabled={sessionUser?.id === spot.ownerId} className="mt-0 button-text w-full airbnb-button text-white h-[48px] rounded-lg disabled:text-base disabled:opacity-75">{sessionUser?.id === spot.ownerId ? "Can't reserve own spot" : "Reserve"}</button>
+                                }
                                 {/* various price divs */}
                                 <div className="flex justify-center">You won't be charged yet</div>
                                 <div className="flex justify-between">
