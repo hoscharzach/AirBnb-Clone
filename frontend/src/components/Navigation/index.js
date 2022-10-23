@@ -43,15 +43,15 @@ function Navigation({ isLoaded }) {
   if (!isLoaded) return (null)
 
   return (
-    <div style={topBarStyles} className="w-full h-24 flex justify-center align-middle border-b sticky top-0 bg-white ">
-      <div style={navStyles} className="w-4/5 flex justify-between items-center">
+    <div style={topBarStyles} className="w-full h-24 flex justify-center align-middle border-b sticky top-0 bg-white z-10">
+      <div style={navStyles} className="w-4/5 flex justify-between items-center relative">
         <div className="">
           <NavLink exact to="/">
             <img className="header-icon" src={mainLogo} alt=" "></img>
           </NavLink>
         </div>
 
-        <div className="flex items-center ">
+        <div className="flex items-center relative ">
           {sessionUser ? null : <button className="airbnb-button p-2" onClick={demoLogin}>Demo User</button>}
           <ProfileButton user={sessionUser} />
         </div>
