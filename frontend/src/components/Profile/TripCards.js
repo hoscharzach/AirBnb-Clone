@@ -13,7 +13,7 @@ export default function TripCards({ trip }) {
         dispatch(thunkDeleteBooking(trip.id))
     }
 
-    console.log(trip)
+    // console.log(trip)
     return (
         <>
             {/* Card wrapper */}

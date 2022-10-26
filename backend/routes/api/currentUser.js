@@ -300,7 +300,6 @@ router.put('/spots/:spotId', [multipleMulterUpload("images"), requireAuth, valid
   await editSpot.setImages([])
 
   const { imageUrls } = req.body
-  const newImages = []
   imageUrls.split(',').forEach(async img => {
     const existingImg = await Image.findOne({
       where: {

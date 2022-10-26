@@ -86,8 +86,9 @@ export default function HostForm() {
         }
         // validate third page, location
         else if (stage === 2) {
-            const regex = /^[\w\-\s]+$/;
-            // if (directions.length > 25 || directions.length < 3) a.push('Address must be between 3 and 25 characters')
+            // const regex = /^[\w\-\s]+$/;
+
+            if (directions.length > 25 || directions.length < 3) a.push('Address must be between 3 and 25 characters')
             if (country.length > 25 || country.length < 3) a.push('Country must be between 3 and 25 characters')
             if (realm.length > 30 || realm.length < 3) a.push('Realm must be between 5 and 30 characters')
             // if (!regex.test(directions)) a.push('Only alphanumeric characters are allowed for the address')
@@ -98,8 +99,12 @@ export default function HostForm() {
         }
         // validate fifth page, price
         else if (stage === 4) {
-            if (isNaN(parseInt(price))) a.push('Please enter a valid number')
-            if (Number(price) < 1 || Number(price) > 100000) a.push('Please pick a price between $1 and $100,000')
+            const regExp = /\D+/
+            const priceTest = price.replace(regExp, '')
+            console.log(Number(priceTest))
+            if (priceTest.length !== price.length) a.push('Please enter a valid whole number')
+            else if (Number(priceTest) < 1 || Number(priceTest > 100000)) a.push('Please pick a price between 1 and 100,000')
+
             // validate last page, images
         } else if (stage === 5) {
 
@@ -110,8 +115,6 @@ export default function HostForm() {
             setErrors(a)
         }
     }
-
-    console.log(editSpot)
 
     const reset = () => {
         setErrors([])

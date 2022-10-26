@@ -13,7 +13,7 @@ export default function DeleteReview({ setShowModal, review }) {
         const res = await dispatch(reviewActions.thunkDeleteReview(review.id, review.spotId))
             .catch(
                 async (res) => {
-                    console.log(res)
+                    // console.log(res)
                     const data = await res.json();
                     if (data && data.errors) setErrors(data.errors);
                 }

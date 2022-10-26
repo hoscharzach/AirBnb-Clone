@@ -7,7 +7,7 @@ exports.validateSpot = [
     .withMessage('All values are required.'),
   check('directions')
     .isLength({ min: 3, max: 25 })
-    .withMessage('Address must be between 3 and 25 characters'),
+    .withMessage('Directions must be between 3 and 25 characters'),
   check('country')
     .isLength({ min: 3, max: 25 })
     .withMessage('Country must be between 3 and 25 characters'),

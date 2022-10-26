@@ -7,7 +7,6 @@ import { useState } from 'react'
 
 export default function ReviewCard({ review }) {
     const sessionUser = useSelector(state => state.session.user)
-    const reviewDate = new Date(review.createdAt)
 
     const [showMore, setShowMore] = useState(false)
     let reviewButtons
@@ -37,7 +36,7 @@ export default function ReviewCard({ review }) {
                     {/*  */}
                     <div className='flex mb-4 justify-between'>
                         <div className='flex'>
-                            <img className='w-[40px] h-[40px]' src={icon}></img>
+                            <img className='w-[40px] h-[40px] rounded-full' src={review.User.profilePic || icon}></img>
                             <div className='flex flex-col ml-3'>
                                 <div className='font-semibold'>{review.User.firstName}</div>
                                 <div className='text-slate-500'>{format(new Date(review.createdAt), 'MMMM yyyy')}</div>

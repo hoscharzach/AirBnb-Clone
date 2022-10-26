@@ -6,6 +6,7 @@ import * as sessionActions from '../../store/session'
 import mainLogo from '../../assets/images/icons/svgexport-1.svg'
 import eldenB from '../../assets/images/icons/eldenb.svg'
 import rings from '../../assets/images/icons/rings.svg'
+import EldenBLogo from "./EldenBLogo"
 
 
 function Navigation({ isLoaded }) {
@@ -47,6 +48,7 @@ function Navigation({ isLoaded }) {
       <div style={navStyles} className="w-4/5 flex justify-between items-center relative">
         <div className="">
           <NavLink exact to="/">
+            {/* <EldenBLogo /> */}
             <img className="header-icon" src={mainLogo} alt=" "></img>
           </NavLink>
         </div>

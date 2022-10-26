@@ -71,7 +71,7 @@ function ProfileButton({ user }) {
     <div className='flex relative z-30 ml-4'>
       <button className='rounded-3xl p-4 flex justify-between items-center w-[77px] h-[40px] border hover:shadow-lg' onClick={openMenu}>
         <img className='h-[16px] w-[16px]' src={hamburgerIcon} alt="" />
-        <img className='h-[30px] w-[30px] ml-1' src={userIcon} alt="" />
+        <img className='h-[30px] w-[30px] ml-1 rounded-full object-cover' src={sessionUser?.profilePic || userIcon} alt="" />
       </button>
 
       {showMenu && (
