@@ -127,7 +127,6 @@ export default function HostForm() {
         setDirections('')
         setRealm('')
         setCountry('')
-
     }
 
     const onSubmit = async (e) => {
@@ -155,6 +154,7 @@ export default function HostForm() {
             dispatch(spotActions.thunkCreateSpot(payload))
                 .then(async (res) => {
                     setLoading(false)
+                    reset()
                     history.push(`/spots/${res}`)
                 })
                 .catch(
@@ -194,6 +194,7 @@ export default function HostForm() {
             dispatch(spotActions.thunkUpdateSpot(payload))
                 .then(async (res) => {
                     setLoading(false)
+                    reset()
                     history.push(`/spots/${editSpot.id}`)
                 })
                 .catch(async (res) => {

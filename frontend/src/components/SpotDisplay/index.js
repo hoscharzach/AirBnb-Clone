@@ -81,12 +81,6 @@ export default function SpotDisplay() {
                 }
             })
     }
-
-
-    // useEffect(() => {
-    //     window.scrollTo(0, 0)
-    // }, [])
-
     let avgStarRating
     let numReviews
 
