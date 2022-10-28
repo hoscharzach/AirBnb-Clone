@@ -100,9 +100,9 @@ export default function HostForm() {
         // validate fifth page, price
         else if (stage === 4) {
             const regExp = /\D+/
-            const priceTest = price.replace(regExp, '')
+            const priceTest = price.toString().replace(regExp, '')
             console.log(Number(priceTest))
-            if (priceTest.length !== price.length) a.push('Please enter a valid whole number')
+            if (priceTest.length !== price.toString().length) a.push('Please enter a valid whole number')
             else if (Number(priceTest) < 1 || Number(priceTest > 100000)) a.push('Please pick a price between 1 and 100,000')
 
             // validate last page, images
