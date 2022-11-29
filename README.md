@@ -1,8 +1,6 @@
 # Tarnished BnB
 
-This is my full stack AirBnB clone project. Users can create listings for others to view and leave reviews. Created using node, express, sequelize, react and redux, it has a fully functioning API that you can interact with through the documentation provided here: [API Documentation](backend/API Documentation.md)
-
-You can read, create, update and delete data about all locations, users, reviews, images, and bookings (depending on authorization that is).
+This is my full stack AirBnB clone project. Users can create listings for others to view and leave reviews, as well as book stays at locations, as long as they don't own the location. API documentation can be found in the backend directory.
 
 Technologies used:
 
@@ -19,14 +17,15 @@ Technologies used:
 - Heroku
 
 
-## The Landing Page
+## Landing Page
+![landingpage](https://res.cloudinary.com/dpjpitop6/image/upload/v1669757700/frontpage_erihnd.png)
 
-![Home Page](https://i.imgur.com/26POWTW.png)
-
-Here, users can see all of the current listings or click on the profile icon in the top right to sign up or log in. After doing so they can check out their profile or create a listing of their own. Their profile contains a reference to all of their own listings and reviews for quick editing or deleting.
+Here, users can see all of the current listings or click on the profile icon in the top right to sign up or log in. After doing so they can check out their bookings or create a listing of their own.
 
 ## The more details page
 
-![More details page](https://i.imgur.com/f3PaRgF.png)
+![More details page](https://res.cloudinary.com/dpjpitop6/image/upload/v1669757779/moredetails_aoihqa.png)
 
-Here is where users can see all reviews and more details of a spot.
+Here, users can see all the details about a spot, such as description and how many bosses/bonfires. Users can scroll down to interact with the create booking section or scroll down further to see reviews for the spot.
+
+
